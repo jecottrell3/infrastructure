@@ -10,6 +10,13 @@ unless host = ARGV[0]
   exit 1
 end
 
+def install_mysql(ssh)
+  # WARNING: this will leave MySQL with an empty root password.
+  ssh.exec!("DEBIAN_FRONTEND=noninteractive apt-get -q -y install mysql-client mysql-server")
+  # Set the root password.
+  ssh.exec!("echo \"UPDATE mysql.user SET password = '*82A0C96BC9C820E3541661E2100D038C36A6D305' WHERE user = 'root'; FLUSH PRIVILEGES;\" | mysql -uroot")
+end
+
 def stop_mysql(ssh)
   ssh.exec!("service mysql stop")
   sleep 1
@@ -121,6 +128,9 @@ def write_local_mycnf(sftp, server_id)
 end
 
 Net::SSH.start(host, "root") do |ssh|
+  puts "Installing MySQL"
+  install_mysql(ssh)
+
   puts "Stopping MySQL"
   stop_mysql(ssh)
 
