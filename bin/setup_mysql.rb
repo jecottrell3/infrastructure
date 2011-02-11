@@ -118,6 +118,8 @@ def write_local_mycnf(sftp, server_id)
                   "default-storage-engine = InnoDB\n",
                   "character-set-server = utf8\n",
                   "sysdate-is-now\n",
+                  "innodb_flush_log_at_trx_commit = 1\n",
+                  "sync_binlog = 1\n",
                   "\n",
                   "[client]\n",
                   "default-character-set = utf8\n"
