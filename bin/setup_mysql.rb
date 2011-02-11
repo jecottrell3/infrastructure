@@ -120,6 +120,8 @@ def write_local_mycnf(sftp, server_id)
                   "sysdate-is-now\n",
                   "innodb_flush_log_at_trx_commit = 1\n",
                   "sync_binlog = 1\n",
+                  "relay-log = slave\n",
+                  "replicate-wild-ignore-table = mysql.%\n",
                   "\n",
                   "[client]\n",
                   "default-character-set = utf8\n"
