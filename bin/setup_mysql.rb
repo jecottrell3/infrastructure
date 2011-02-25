@@ -1,4 +1,4 @@
-# Run this with "ruby -rubygems setup_mysql.rb host_to_setup"
+# Run this with "ruby -rubygems $0 host_to_setup"
 #
 # Gary Gabriel <ggabriel@microstrategy.com>
 
@@ -6,7 +6,7 @@ require "net/ssh"
 require "net/sftp"
 
 unless host = ARGV[0]
-  puts "Usage: ruby -rubygems setup_mysql.rb host_to_setup"
+  puts "Usage: ruby -rubygems $0 host_to_setup"
   exit 1
 end
 
