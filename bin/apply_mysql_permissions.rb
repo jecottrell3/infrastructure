@@ -1,5 +1,5 @@
-# Run this with "ruby -rubygems apply_mysql_permissions.rb host_to_apply_to permissions_file.sql"
-#
+#!/usr/bin/ruby -rubygems
+
 # Gary Gabriel <ggabriel@microstrategy.com>
 
 require "highline/import"
@@ -7,7 +7,7 @@ require "net/ssh"
 require "mysql"
 
 unless host = ARGV[0] and permissions = ARGV[1]
-  puts "Usage: ruby -rubygems apply_mysql_permissions.rb host_to_apply_to permissions_file.sql"
+  puts "Usage: #{$0} host_to_apply_to permissions_file.sql"
   exit 1
 end
 
@@ -44,10 +44,10 @@ Net::SSH.start(host, "root") do |ssh|
     dbh = Mysql.real_connect("127.0.0.1", "root", root_pwd, "mysql", port)
 
     puts "Clearing old permissions"
-    [ "DELETE FROM mysql.user WHERE user NOT IN ('root', 'debian-sys-maint')",
-      "DELETE FROM mysql.db WHERE user NOT IN ('root', 'debian-sys-maint')",
-      "DELETE FROM mysql.tables_priv WHERE user NOT IN ('root', 'debian-sys-maint')",
-      "DELETE FROM mysql.columns_priv WHERE user NOT IN ('root', 'debian-sys-maint')",
+    [ "DELETE FROM mysql.user WHERE user <> 'root'",
+      "DELETE FROM mysql.db WHERE user <> 'root'",
+      "DELETE FROM mysql.tables_priv WHERE user <> 'root'",
+      "DELETE FROM mysql.columns_priv WHERE user <> 'root'",
       "FLUSH PRIVILEGES"
     ].each { |sql| dbh.query(sql) }
 
