@@ -8,7 +8,7 @@ require "net/sftp"
 MYSQL_DOWNLOAD = "mysql-5.5.9-linux2.6-x86_64"
 
 unless host = ARGV[0]
-  puts "Usage: $0 host_to_setup"
+  puts "Usage: #{$0} host_to_setup"
   exit 1
 end
 
