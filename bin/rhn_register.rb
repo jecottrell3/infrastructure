@@ -16,10 +16,6 @@ hosts = ARGV
 # Ask for RHN password without echo.
 rhn_pwd = ask("RHN password for #{RHN_USER}: ") { |q| q.echo = false }
 
-def start_mysql(ssh)
-  ssh.exec!("/databases/mysql/bin/mysql.start")
-end
-
 hosts.each do |host|
   Net::SSH.start(host, "root") do |ssh|
     puts "Unregistering host #{host} ..."
