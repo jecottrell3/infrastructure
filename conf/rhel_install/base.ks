@@ -68,6 +68,16 @@ mkdir /root/.ssh
 chmod 700 /root/.ssh
 wget -O /root/.ssh/authorized_keys http://10.22.9.100/~ggabriel/authorized_keys
 chmod 600 /root/.ssh/authorized_keys
-chkconfig --level 123456 iptables off
+chkconfig bluetooth off
+chkconfig firstboot off
+chkconfig gpm off
+chkconfig iptables off
+chkconfig ip6tables off
+chkconfig iscsi off
+chkconfig iscsid off
+chkconfig lvm2-monitor off
+chkconfig avahi-daemon off
+chkconfig xfs off
 chkconfig ntpd on
+chkconfig ipmi on
 
