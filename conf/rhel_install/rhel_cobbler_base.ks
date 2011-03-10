@@ -62,7 +62,17 @@ if [ -z "$MSTRHOSTNAME" ]; then
   echo -n "Enter hostname: " >/dev/tty1
   read MSTRHOSTNAME
 fi
-echo "network --bootproto=static --ip=192.168.131.129 --netmask=255.255.255.0 --gateway=192.168.131.2 --nameserver=10.15.70.11,10.15.70.12 --hostname='$MSTRHOSTNAME'" > /tmp/mstr_network_config
+# TODO set the correct domain on the machine.
+MSTRFQDN="$MSTRHOSTNAME".test.microstrategy.com
+MSTRIP=`nslookup "$MSTRFQDN" | grep -A1 "Name:.*$MSTRFQDN" | grep '^Address:[^0-9.]*[0-9.][0-9.]*' | sed 's/^Address:[^0-9.]*\([0-9.][0-9.]*\).*/\1/'`
+if [ -z "$MSTRIP" ]; then
+  echo >/dev/tty1
+  echo >/dev/tty1
+  echo "ERROR: Unable to look up host '$MSTRFQDN', please reinstall" >/dev/tty1
+  read DUMMY
+fi
+MSTRGATEWAY=`route -n | awk '/^0.0.0.0/ {print $2}'`
+echo "network --bootproto=static --ip='$MSTRIP' --netmask=255.255.255.0 --gateway='$MSTRGATEWAY' --nameserver=10.15.70.11,10.15.70.12 --hostname='$MSTRFQDN'" > /tmp/mstr_network_config
 # Enable installation monitoring
 $SNIPPET('pre_anamon')
 
