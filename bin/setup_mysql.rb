@@ -95,7 +95,7 @@ def install_mysql(ssh, server_id)
              "tmpdir = /databases/mysql/tmp",
              "skip-external-locking",
              "key_buffer_size = 384M",
-             "max_allowed_packet = 16M",
+             "max_allowed_packet = 250M",
              "thread_stack = 192K",
              "thread_cache_size = 8",
              "query_cache_size = 32M",
