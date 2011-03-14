@@ -23,7 +23,6 @@ part / --fstype=ext3 --size=5120 --asprimary
 part /MSTR --fstype=ext3 --size=1 --grow --asprimary
 
 #network --bootproto=static --ip=10.0.2.15 --netmask=255.255.240.0 --gateway=10.0.2.254 --nameserver=10.15.70.11,10.15.17.12 --hostname=tester123
-#network --bootproto=static --ip=10.15.73.58 --netmask=255.255.240.0 --gateway=10.15.64.1 --nameserver=10.15.70.11,10.15.70.12 --hostname=tester123
 network --bootproto=dhcp
 
 # Install rather than upgrade.
@@ -54,6 +53,11 @@ reboot
 @ Editors
 ruby
 ruby-libs
+koan
+sysstat
+pstack
+strace
+
 
 # Post installation script.
 # TODO: change the ntpdate ip address to our router.

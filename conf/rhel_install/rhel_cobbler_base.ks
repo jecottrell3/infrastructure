@@ -83,6 +83,9 @@ $SNIPPET('pre_anamon')
 ruby
 ruby-libs
 koan
+sysstat
+pstack
+strace
 
 %post
 $SNIPPET('log_ks_post')
