@@ -23,7 +23,7 @@ part / --fstype=ext3 --size=5120 --asprimary
 part /MSTR --fstype=ext3 --size=1 --grow --asprimary
 
 #network --bootproto=static --ip=10.0.2.15 --netmask=255.255.240.0 --gateway=10.0.2.254 --nameserver=10.15.70.11,10.15.17.12 --hostname=tester123
-network --bootproto=dhcp
+network --bootproto=static --ip=192.168.131.128 --netmask=255.255.255.0 --gateway=192.168.131.2 --nameserver=10.15.70.11,10.15.70.12 --hostname=testvm01
 
 # Install rather than upgrade.
 install
@@ -68,6 +68,7 @@ hwclock --systohc
 rm /root/.bash_logout
 rm /etc/skel/.bash_logout
 sed -i -e 's/^alias /#alias /' /root/.bashrc
+sed -i -e 's/^HISTORY=.*/HISTORY=30/' /etc/sysconfig/sysstat
 mkdir /root/.ssh
 chmod 700 /root/.ssh
 wget -O /root/.ssh/authorized_keys http://10.22.9.100/~ggabriel/authorized_keys

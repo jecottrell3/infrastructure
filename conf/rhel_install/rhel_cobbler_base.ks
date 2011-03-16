@@ -111,6 +111,7 @@ hwclock --systohc
 rm /root/.bash_logout
 rm /etc/skel/.bash_logout
 sed -i -e 's/^alias /#alias /' /root/.bashrc
+sed -i -e 's/^HISTORY=.*/HISTORY=30/' /etc/sysconfig/sysstat
 mkdir /root/.ssh
 chmod 700 /root/.ssh
 wget -O /root/.ssh/authorized_keys http://$http_server/install/authorized_keys
