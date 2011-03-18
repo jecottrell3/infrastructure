@@ -16,11 +16,11 @@ selinux --disabled
 bootloader --location=mbr
 
 # Partition the disk.
-clearpart --drives=sda --initlabel
-part /boot --fstype=ext3 --size=100 --asprimary
-part swap --size=10240 --asprimary
-part / --fstype=ext3 --size=5120 --asprimary
-part /MSTR --fstype=ext3 --size=1 --grow --asprimary
+clearpart --drives=sda,sdb --all --initlabel
+part /boot --ondisk=sda --fstype=ext3 --size=1 --grow --asprimary
+part swap --ondisk=sdb --size=10240 --asprimary
+part / --ondisk=sdb --fstype=ext3 --size=5120 --asprimary
+part /MSTR --ondisk=sdb --fstype=ext3 --size=1 --grow --asprimary
 
 #network --bootproto=static --ip=10.0.2.15 --netmask=255.255.240.0 --gateway=10.0.2.254 --nameserver=10.15.70.11,10.15.17.12 --hostname=tester123
 network --bootproto=static --ip=192.168.131.128 --netmask=255.255.255.0 --gateway=192.168.131.2 --nameserver=10.15.70.11,10.15.70.12 --hostname=testvm01

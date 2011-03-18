@@ -16,11 +16,11 @@ selinux --disabled
 bootloader --location=mbr
 
 # Partition the disk.
-clearpart --drives=sda --initlabel
-part /boot --fstype=ext3 --size=100 --asprimary
-part swap --size=10240 --asprimary
-part / --fstype=ext3 --size=5120 --asprimary
-part /MSTR --fstype=ext3 --size=1 --grow --asprimary
+clearpart --drives=sda,sdb --all --initlabel
+part /boot --ondisk=sda --fstype=ext3 --size=1 --grow --asprimary
+part swap --ondisk=sdb --size=10240 --asprimary
+part / --ondisk=sdb --fstype=ext3 --size=5120 --asprimary
+part /MSTR --ondisk=sdb --fstype=ext3 --size=1 --grow --asprimary
 
 # Network information.
 %include /tmp/mstr_network_config
