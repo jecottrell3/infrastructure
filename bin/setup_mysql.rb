@@ -21,78 +21,46 @@ def get_server_id(ssh)
   end
 end
 
-def make_dbfs(ssh)
-  ssh.exec!("yes | mkfs -t ext3 /dev/sdf")
-  ssh.exec!("mkdir -p /databases")
-end
-
-def backup_fstab(ssh)
-  ssh.exec!("cp /etc/fstab /etc/fstab.mstr_old")
-end
-
-def edit_fstab(ssh)
-  ssh.sftp.connect do |sftp|
-    # Add a /dev/sdf /databases entry
-    new_fstab = ""
-    sftp.file.open("/etc/fstab", "r") do |f|
-      while line = f.gets
-        if line.match(/^\s*\/dev\/sdf\s+/)
-          # /dev/sdf should not already be there, but we'll comment it out if it is
-          new_fstab += "##{line}"
-        else
-          new_fstab += line
-        end
-      end
-    end
-
-    new_fstab += "/dev/sdf\t/databases\text3\tdefaults\t0\t0\n"
-
-    sftp.file.open("/etc/fstab", "w") do |f|
-      f.write(new_fstab)
-    end
-  end
-end
-
-def mount_dbfs(ssh)
-  ssh.exec!("mount /databases")
+def make_dbdir(ssh)
+  ssh.exec!("mkdir -p /MSTR/databases")
 end
 
 def download_mysql(ssh)
-  ssh.exec!("wget -O '/databases/#{MYSQL_DOWNLOAD}.tar.gz' 'http://dev.mysql.com/get/Downloads/MySQL-5.5/#{MYSQL_DOWNLOAD}.tar.gz/from/http://mysql.mirrors.pair.com/'")
+  ssh.exec!("wget -O '/MSTR/databases/#{MYSQL_DOWNLOAD}.tar.gz' 'http://dev.mysql.com/get/Downloads/MySQL-5.5/#{MYSQL_DOWNLOAD}.tar.gz/from/http://mysql.mirrors.pair.com/'")
 end
 
 def install_mysql(ssh, server_id)
-  ssh.exec!("cd /databases; tar xzf #{MYSQL_DOWNLOAD}.tar.gz")
-  ssh.exec!("cd /databases; ln -s #{MYSQL_DOWNLOAD} mysql")
-  ssh.exec!("rm /databases/#{MYSQL_DOWNLOAD}.tar.gz")
+  ssh.exec!("cd /MSTR/databases; tar xzf #{MYSQL_DOWNLOAD}.tar.gz")
+  ssh.exec!("cd /MSTR/databases; ln -s #{MYSQL_DOWNLOAD} mysql")
+  ssh.exec!("rm /MSTR/databases/#{MYSQL_DOWNLOAD}.tar.gz")
   ssh.exec!("groupadd -g 1001 mstrmysql")
-  ssh.exec!("useradd -d /databases -M -g mstrmysql -u 1001 mstrmysql")
-  ssh.exec!("cd /databases/mysql; mkdir etc etc/conf.d log run tmp")
-  ssh.exec!("cd /databases/mysql; chown -R mstrmysql:mstrmysql .")
-  ssh.exec!("cd /databases/mysql; scripts/mysql_install_db --user=mstrmysql")
-  ssh.exec!("cd /databases/mysql; chown -R root .")
-  ssh.exec!("cd /databases/mysql; chown -R mstrmysql data log run tmp")
+  ssh.exec!("useradd -d /MSTR/databases -M -g mstrmysql -u 1001 mstrmysql")
+  ssh.exec!("cd /MSTR/databases/mysql; mkdir etc etc/conf.d log run tmp")
+  ssh.exec!("cd /MSTR/databases/mysql; chown -R mstrmysql:mstrmysql .")
+  ssh.exec!("cd /MSTR/databases/mysql; scripts/mysql_install_db --user=mstrmysql")
+  ssh.exec!("cd /MSTR/databases/mysql; chown -R root .")
+  ssh.exec!("cd /MSTR/databases/mysql; chown -R mstrmysql data log run tmp")
 
-  # Create /databases/mysql/etc/my.cnf and /databases/mysql/bin/mysql.start.
+  # Create /MSTR/databases/mysql/etc/my.cnf and /MSTR/databases/mysql/bin/mysql.start.
   my_cnf = [ "[client]",
              "port = 3306",
-             "socket = /databases/mysql/run/mysqld.sock",
+             "socket = /MSTR/databases/mysql/run/mysqld.sock",
              "default-character-set = utf8",
              "",
              "[mysqld-safe]",
-             "socket = /databases/mysql/run/mysqld.sock",
-             "pid-file = /databases/mysql/run/mysqld.pid",
+             "socket = /MSTR/databases/mysql/run/mysqld.sock",
+             "pid-file = /MSTR/databases/mysql/run/mysqld.pid",
              "nice = 0",
              "",
              "[mysqld]",
              "user = mstrmysql",
-             "socket = /databases/mysql/run/mysqld.sock",
-             "pid-file = /databases/mysql/run/mysqld.pid",
-             "log_error = /databases/mysql/log/error.log",
+             "socket = /MSTR/databases/mysql/run/mysqld.sock",
+             "pid-file = /MSTR/databases/mysql/run/mysqld.pid",
+             "log_error = /MSTR/databases/mysql/log/error.log",
              "port = 3306",
-             "basedir = /databases/mysql",
-             "datadir = /databases/mysql/data",
-             "tmpdir = /databases/mysql/tmp",
+             "basedir = /MSTR/databases/mysql",
+             "datadir = /MSTR/databases/mysql/data",
+             "tmpdir = /MSTR/databases/mysql/tmp",
              "skip-external-locking",
              "key_buffer_size = 384M",
              "max_allowed_packet = 250M",
@@ -114,25 +82,25 @@ def install_mysql(ssh, server_id)
              "innodb_buffer_pool_instances = 8",
              "server-id = #{server_id}",
              "",
-             "!includedir /databases/mysql/etc/conf.d"
+             "!includedir /MSTR/databases/mysql/etc/conf.d"
            ].map { |x| x + "\n" }.join
   mysql_start = [ "#!/bin/sh",
                   "",
-                  "MYSQL=/databases/mysql",
+                  "MYSQL=/MSTR/databases/mysql",
                   "cd $MYSQL",
                   "$MYSQL/bin/mysqld_safe --defaults-file=$MYSQL/etc/my.cnf --user=mstrmysql >/dev/null 2>&1 &",
                   "echo -n \"Starting MySQL \"",
                   "CNT=0",
                   "while [ $CNT -lt 120 ]; do",
                   "  CNT=`expr $CNT + 1`",
-                  "  if [ -s /databases/mysql/run/mysqld.pid ]; then",
+                  "  if [ -s /MSTR/databases/mysql/run/mysqld.pid ]; then",
                   "    break",
                   "  else",
                   "    echo -n \".\"",
                   "    sleep 1",
                   "  fi",
                   "done",
-                  "if [ -s /databases/mysql/run/mysqld.pid ]; then",
+                  "if [ -s /MSTR/databases/mysql/run/mysqld.pid ]; then",
                   "  echo \"started.\"",
                   "else",
                   "  echo \"still hasn't started, not waiting for it any more.\"",
@@ -141,7 +109,7 @@ def install_mysql(ssh, server_id)
                 ].map { |x| x + "\n" }.join
   mysql_stop = [ "#!/bin/sh",
                  "",
-                 "PID=`cat /databases/mysql/run/mysqld.pid 2>/dev/null`",
+                 "PID=`cat /MSTR/databases/mysql/run/mysqld.pid 2>/dev/null`",
                  "[ -z \"$PID\" ] && echo \"MySQL is not running or the PID file is missing.\" && exit 1",
                  "ps -p $PID >/dev/null 2>&1 || (echo \"Stale PID file\" && exit 1)",
                  "",
@@ -166,22 +134,22 @@ def install_mysql(ssh, server_id)
                  "fi"
                ].map { |x| x + "\n" }.join
   ssh.sftp.connect do |sftp|
-    sftp.file.open("/databases/mysql/etc/my.cnf", "w") do |f|
+    sftp.file.open("/MSTR/databases/mysql/etc/my.cnf", "w") do |f|
       f.write(my_cnf)
     end
-    sftp.file.open("/databases/mysql/bin/mysql.start", "w") do |f|
+    sftp.file.open("/MSTR/databases/mysql/bin/mysql.start", "w") do |f|
       f.write(mysql_start)
     end
-    sftp.file.open("/databases/mysql/bin/mysql.stop", "w") do |f|
+    sftp.file.open("/MSTR/databases/mysql/bin/mysql.stop", "w") do |f|
       f.write(mysql_stop)
     end
   end
-  ssh.exec!("chmod +x /databases/mysql/bin/mysql.start")
-  ssh.exec!("chmod +x /databases/mysql/bin/mysql.stop")
+  ssh.exec!("chmod +x /MSTR/databases/mysql/bin/mysql.start")
+  ssh.exec!("chmod +x /MSTR/databases/mysql/bin/mysql.stop")
 end
 
 def start_mysql(ssh)
-  ssh.exec!("/databases/mysql/bin/mysql.start")
+  ssh.exec!("/MSTR/databases/mysql/bin/mysql.start")
 end
 
 def fix_mysql_privileges(ssh)
@@ -190,7 +158,7 @@ def fix_mysql_privileges(ssh)
               "UPDATE mysql.user SET password = '*82A0C96BC9C820E3541661E2100D038C36A6D305' WHERE user = 'root'",
               "FLUSH PRIVILEGES"
             ].map { |x| x + ";"}.join(" ")
-  ssh.exec!("echo \"#{fix_sql}\" | /databases/mysql/bin/mysql -uroot -h127.0.0.1")
+  ssh.exec!("echo \"#{fix_sql}\" | /MSTR/databases/mysql/bin/mysql -uroot -h127.0.0.1")
 end
 
 
@@ -199,17 +167,8 @@ Net::SSH.start(host, "root") do |ssh|
   server_id = get_server_id(ssh)
   puts "    server id is #{server_id}"
 
-  puts "Creating a new filesystem"
-  make_dbfs(ssh)
-
-  puts "Backing up fstab"
-  backup_fstab(ssh)
-
-  puts "Modifying fstab"
-  edit_fstab(ssh)
-
-  puts "Mounting new filesystem"
-  mount_dbfs(ssh)
+  puts "Creating /MSTR/databases"
+  make_dbdir(ssh)
 
   puts "Downloading MySQL"
   download_mysql(ssh)
