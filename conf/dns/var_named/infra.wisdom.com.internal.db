@@ -11,8 +11,10 @@ $TTL 3600
 	IN	NS	ns3.wisdom.com.
 
 syslog1	IN	CNAME	adcag03.machine.wisdom.com.
-syslog2	IN	CNAME	adcac04.machine.wisdom.com.
+syslog2	IN	CNAME	adcae03.machine.wisdom.com.
 
 mon1	IN	CNAME	adcaa04.machine.wisdom.com.
 mon2	IN	CNAME	adcae04.machine.wisdom.com.
 mon3	IN	CNAME	adcag04.machine.wisdom.com.
+
+install1	IN	CNAME	adcac04.machine.wisdom.com.
