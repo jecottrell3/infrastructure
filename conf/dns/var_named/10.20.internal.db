@@ -1,0 +1,27 @@
+$TTL 3600
+@	IN	SOA	wisdom.com.	hostmaster.wisdom.com.	(
+	2011032201	; Serial
+	3600		; Refresh after 1 hour
+	900		; Retry after 15 minutes
+	604800		; Expire after 1 day
+	14400 )		; Minimum TTL of 4 hours
+
+	IN	NS	ns1.wisdom.com.
+	IN	NS	ns2.wisdom.com.
+	IN	NS	ns3.wisdom.com.
+
+$GENERATE 1-9 $.101 IN PTR adcaa0$.machine.wisdom.com.
+$GENERATE 10-50 $.101 IN PTR adcaa$.machine.wisdom.com.
+
+$GENERATE 1-9 $.103 IN PTR adcac0$.machine.wisdom.com.
+$GENERATE 10-50 $.103 IN PTR adcac$.machine.wisdom.com.
+
+$GENERATE 1-9 $.105 IN PTR adcae0$.machine.wisdom.com.
+$GENERATE 10-50 $.105 IN PTR adcae$.machine.wisdom.com.
+
+$GENERATE 1-9 $.107 IN PTR adcag0$.machine.wisdom.com.
+$GENERATE 10-50 $.107 IN PTR adcag$.machine.wisdom.com.
+
+$GENERATE 1-9 $.109 IN PTR adcaj0$.machine.wisdom.com.
+$GENERATE 10-50 $.109 IN PTR adcaj$.machine.wisdom.com.
+

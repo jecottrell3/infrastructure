@@ -1,0 +1,20 @@
+zone "wisdom.com" {
+	type master;
+	file "wisdom.com.internal.db";
+};
+
+zone "machine.wisdom.com" {
+	type master;
+	file "machine.wisdom.com.internal.db";
+};
+
+zone "infra.wisdom.com" {
+	type master;
+	file "infra.wisdom.com.internal.db";
+};
+
+zone "20.10.in-addr.arpa"{
+	type master;
+	file "10.20.internal.db";
+};
+
