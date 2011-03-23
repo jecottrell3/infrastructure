@@ -104,10 +104,10 @@ $kickstart_done
 
 # Post installation script.
 %post
-sed -i -e 's/^server 0.rhel.pool.ntp.org/server ntp1.infra.wisdom.com/' /etc/ntp.conf
-sed -i -e 's/^server 1.rhel.pool.ntp.org/server ntp2.infra.wisdom.com/' /etc/ntp.conf
+sed -i -e 's/^server 0.rhel.pool.ntp.org/server ntp.infra.wisdom.com/' /etc/ntp.conf
+sed -i -e '/^server 1.rhel.pool.ntp.org/d' /etc/ntp.conf
 sed -i -e '/^server 2.rhel.pool.ntp.org/d' /etc/ntp.conf
-ntpdate ntp1.infra.wisdom.com
+ntpdate ntp.infra.wisdom.com
 hwclock --systohc
 rm /root/.bash_logout
 rm /etc/skel/.bash_logout
