@@ -50,6 +50,6 @@ adcaj-pdu-b1	IN	A	10.20.109.203
 adcaj-pdu-b2	IN	A	10.20.109.204
 
 ; PDUs in network rack
-adcak-pdu-b1	IN	A	10.20.110.203
-adcak-pdu-b2	IN	A	10.20.110.204
+adcak-pdu-b1	IN	A	10.20.109.205
+adcak-pdu-b2	IN	A	10.20.109.206
 
