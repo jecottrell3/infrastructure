@@ -19,6 +19,9 @@ mon3	IN	CNAME	adcag04.machine.wisdom.com.
 
 install1	IN	CNAME	adcac04.machine.wisdom.com.
 
+ntp1	IN	A	10.20.4.1
+ntp2	IN	A	10.20.4.3
+
 ; PDUs
 adcaa-pdu-a1	IN	A	10.20.101.201
 adcaa-pdu-a2	IN	A	10.20.101.202
