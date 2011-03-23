@@ -1,6 +1,6 @@
 $TTL 3600
 @	IN	SOA	wisdom.com.	hostmaster.wisdom.com.	(
-	2011032201	; Serial
+	2011032301	; Serial
 	3600		; Refresh after 1 hour
 	900		; Retry after 15 minutes
 	604800		; Expire after 1 day
@@ -18,3 +18,35 @@ mon2	IN	CNAME	adcae04.machine.wisdom.com.
 mon3	IN	CNAME	adcag04.machine.wisdom.com.
 
 install1	IN	CNAME	adcac04.machine.wisdom.com.
+
+; PDUs
+adcaa-pdu-a1	IN	A	10.20.101.201
+adcaa-pdu-a2	IN	A	10.20.101.202
+adcaa-pdu-b1	IN	A	10.20.101.203
+adcaa-pdu-b2	IN	A	10.20.101.204
+
+adcac-pdu-a1	IN	A	10.20.103.201
+adcac-pdu-a2	IN	A	10.20.103.202
+adcac-pdu-b1	IN	A	10.20.103.203
+adcac-pdu-b2	IN	A	10.20.103.204
+
+adcae-pdu-a1	IN	A	10.20.105.201
+adcae-pdu-a2	IN	A	10.20.105.202
+adcae-pdu-b1	IN	A	10.20.105.203
+adcae-pdu-b2	IN	A	10.20.105.204
+
+adcag-pdu-a1	IN	A	10.20.107.201
+adcag-pdu-a2	IN	A	10.20.107.202
+adcag-pdu-b1	IN	A	10.20.107.203
+adcag-pdu-b2	IN	A	10.20.107.204
+
+; PDUs in network/server rack
+adcaj-pdu-a1	IN	A	10.20.109.201
+adcaj-pdu-a2	IN	A	10.20.109.202
+adcaj-pdu-b1	IN	A	10.20.109.203
+adcaj-pdu-b2	IN	A	10.20.109.204
+
+; PDUs in network rack
+adcak-pdu-b1	IN	A	10.20.110.201
+adcak-pdu-b2	IN	A	10.20.110.202
+
