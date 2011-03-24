@@ -121,6 +121,7 @@ echo "MASTER=bond0" >> /etc/sysconfig/network-scripts/ifcfg-eth1
 echo "SLAVE=yes" >> /etc/sysconfig/network-scripts/ifcfg-eth0
 echo "SLAVE=yes" >> /etc/sysconfig/network-scripts/ifcfg-eth1
 echo "alias bond0 bonding" >> /etc/modprobe.conf
+sed -i -e 's/^search.*/search machine.wisdom.com/' /etc/resolv.conf
 rm /root/.bash_logout
 rm /etc/skel/.bash_logout
 sed -i -e 's/^alias /#alias /' /root/.bashrc
