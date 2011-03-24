@@ -10,18 +10,28 @@ $TTL 3600
 	IN	NS	ns2.wisdom.com.
 	IN	NS	ns3.wisdom.com.
 
-$GENERATE 1-9 adcaa0$ IN A 10.20.101.$
-$GENERATE 10-50 adcaa$ IN A 10.20.101.$
+adcaa01	IN	A	10.20.101.1
+adcaa03	IN	A	10.20.101.3
+adcaa04	IN	A	10.20.101.4
+adcaa05	IN	A	10.20.101.5
 
-$GENERATE 1-9 adcac0$ IN A 10.20.103.$
-$GENERATE 10-50 adcac$ IN A 10.20.103.$
+adcac03	IN	A	10.20.103.3
+adcac04	IN	A	10.20.103.4
+adcac05	IN	A	10.20.103.5
+adcac06	IN	A	10.20.103.6
 
-$GENERATE 1-9 adcae0$ IN A 10.20.105.$
-$GENERATE 10-50 adcae$ IN A 10.20.105.$
+adcae03	IN	A	10.20.105.3
+adcae04	IN	A	10.20.105.4
+adcae05	IN	A	10.20.105.5
+adcae06	IN	A	10.20.105.6
 
-$GENERATE 1-9 adcag0$ IN A 10.20.107.$
-$GENERATE 10-50 adcag$ IN A 10.20.107.$
+adcag03	IN	A	10.20.107.3
+adcag04	IN	A	10.20.107.4
+adcag05	IN	A	10.20.107.5
+adcag06	IN	A	10.20.107.6
 
-$GENERATE 1-9 adcaj0$ IN A 10.20.109.$
-$GENERATE 10-50 adcaj$ IN A 10.20.109.$
+adcaj03	IN	A	10.20.109.3
+adcaj04	IN	A	10.20.109.4
+adcaj05	IN	A	10.20.109.5
+adcaj06	IN	A	10.20.109.6
 

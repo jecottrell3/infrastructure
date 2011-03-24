@@ -25,3 +25,28 @@ $GENERATE 10-50 $.107 IN PTR adcag$.machine.wisdom.com.
 $GENERATE 1-9 $.109 IN PTR adcaj0$.machine.wisdom.com.
 $GENERATE 10-50 $.109 IN PTR adcaj$.machine.wisdom.com.
 
+151.101	IN	PTR	adcaa01.drac.wisdom.com.
+153.101	IN	PTR	adcaa03.drac.wisdom.com.
+154.101	IN	PTR	adcaa04.drac.wisdom.com.
+155.101	IN	PTR	adcaa05.drac.wisdom.com.
+
+153.103	IN	PTR	adcac03.drac.wisdom.com.
+154.103	IN	PTR	adcac04.drac.wisdom.com.
+155.103	IN	PTR	adcac05.drac.wisdom.com.
+156.103	IN	PTR	adcac06.drac.wisdom.com.
+
+153.105	IN	PTR	adcae03.drac.wisdom.com.
+154.105	IN	PTR	adcae04.drac.wisdom.com.
+155.105	IN	PTR	adcae05.drac.wisdom.com.
+156.105	IN	PTR	adcae06.drac.wisdom.com.
+
+153.107	IN	PTR	adcag03.drac.wisdom.com.
+154.107	IN	PTR	adcag04.drac.wisdom.com.
+155.107	IN	PTR	adcag05.drac.wisdom.com.
+156.107	IN	PTR	adcag06.drac.wisdom.com.
+
+153.109	IN	PTR	adcaj03.drac.wisdom.com.
+154.109	IN	PTR	adcaj04.drac.wisdom.com.
+155.109	IN	PTR	adcaj05.drac.wisdom.com.
+156.109	IN	PTR	adcaj06.drac.wisdom.com.
+

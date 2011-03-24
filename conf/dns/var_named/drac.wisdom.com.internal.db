@@ -1,0 +1,36 @@
+$TTL 3600
+@	IN	SOA	wisdom.com.	hostmaster.wisdom.com.	(
+	2011032201	; Serial
+	3600		; Refresh after 1 hour
+	900		; Retry after 15 minutes
+	604800		; Expire after 1 day
+	14400 )		; Minimum TTL of 4 hours
+
+	IN	NS	ns1.wisdom.com.
+	IN	NS	ns2.wisdom.com.
+	IN	NS	ns3.wisdom.com.
+
+adcaa01	IN	A	10.20.101.151
+adcaa03	IN	A	10.20.101.153
+adcaa04	IN	A	10.20.101.154
+adcaa05	IN	A	10.20.101.155
+
+adcac03	IN	A	10.20.103.153
+adcac04	IN	A	10.20.103.154
+adcac05	IN	A	10.20.103.155
+adcac06	IN	A	10.20.103.156
+
+adcae03	IN	A	10.20.105.153
+adcae04	IN	A	10.20.105.154
+adcae05	IN	A	10.20.105.155
+adcae06	IN	A	10.20.105.156
+
+adcag03	IN	A	10.20.107.153
+adcag04	IN	A	10.20.107.154
+adcag05	IN	A	10.20.107.155
+adcag06	IN	A	10.20.107.156
+
+adcaj03	IN	A	10.20.109.153
+adcaj04	IN	A	10.20.109.154
+adcaj05	IN	A	10.20.109.155
+adcaj06	IN	A	10.20.109.156
