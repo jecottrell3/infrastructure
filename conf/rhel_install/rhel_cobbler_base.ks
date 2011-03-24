@@ -111,6 +111,7 @@ ntpdate ntp.infra.wisdom.com
 hwclock --systohc
 CONFIGURED_ETH=`grep -l IPADDR /etc/sysconfig/network-scripts/ifcfg-eth* | head -1`
 sed -e '/^#/d' -e 's/DEVICE=eth.*/DEVICE=bond0/' -e '/^HWADDR/d' $CONFIGURED_ETH > /etc/sysconfig/network-scripts/ifcfg-bond0
+sed -i -e '/^#\|DEVICE\|HWADDR/!d' $CONFIGURED_ETH
 sed -i -e '/^#\|DEVICE\|HWADDR/!d' /etc/sysconfig/network-scripts/ifcfg-eth0
 sed -i -e '/^#\|DEVICE\|HWADDR/!d' /etc/sysconfig/network-scripts/ifcfg-eth1
 echo "BOOTPROTO=none" >> /etc/sysconfig/network-scripts/ifcfg-eth0
