@@ -86,6 +86,7 @@ koan
 sysstat
 pstack
 strace
+net-snmp
 
 %post
 $SNIPPET('log_ks_post')
@@ -144,4 +145,5 @@ chkconfig avahi-daemon off
 chkconfig xfs off
 chkconfig ntpd on
 chkconfig ipmi on
+chkconfig snmpd on
 
