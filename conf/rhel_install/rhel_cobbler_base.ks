@@ -109,6 +109,18 @@ sed -i -e '/^server 1.rhel.pool.ntp.org/d' /etc/ntp.conf
 sed -i -e '/^server 2.rhel.pool.ntp.org/d' /etc/ntp.conf
 ntpdate ntp.infra.wisdom.com
 hwclock --systohc
+sed -e '/^#/d' -e 's/DEVICE=eth0/DEVICE=bond0/' -e '/^HWADDR/d' /etc/sysconfig/network-scripts/ifcfg-eth0 > /etc/sysconfig/network-scripts/ifcfg-bond0
+sed -i -e '/^#\|DEVICE\|HWADDR/!d' /etc/sysconfig/network-scripts/ifcfg-eth0
+sed -i -e '/^#\|DEVICE\|HWADDR/!d' /etc/sysconfig/network-scripts/ifcfg-eth1
+echo "BOOTPROTO=none" >> /etc/sysconfig/network-scripts/ifcfg-eth0
+echo "BOOTPROTO=none" >> /etc/sysconfig/network-scripts/ifcfg-eth1
+echo "ONBOOT=yes" >> /etc/sysconfig/network-scripts/ifcfg-eth0
+echo "ONBOOT=yes" >> /etc/sysconfig/network-scripts/ifcfg-eth1
+echo "MASTER=bond0" >> /etc/sysconfig/network-scripts/ifcfg-eth0
+echo "MASTER=bond0" >> /etc/sysconfig/network-scripts/ifcfg-eth1
+echo "SLAVE=yes" >> /etc/sysconfig/network-scripts/ifcfg-eth0
+echo "SLAVE=yes" >> /etc/sysconfig/network-scripts/ifcfg-eth1
+echo "alias bond0 bonding" >> /etc/modprobe.conf
 rm /root/.bash_logout
 rm /etc/skel/.bash_logout
 sed -i -e 's/^alias /#alias /' /root/.bashrc
