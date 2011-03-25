@@ -1,6 +1,6 @@
 $TTL 3600
 @	IN	SOA	wisdom.com.	hostmaster.wisdom.com.	(
-	2011032501	; Serial
+	2011032502	; Serial
 	3600		; Refresh after 1 hour
 	900		; Retry after 15 minutes
 	604800		; Expire after 1 day
@@ -11,7 +11,7 @@ $TTL 3600
 	IN	NS	ns3.wisdom.com.
 
 adcaa01	IN	A	10.20.101.1
-adcaa01	IN	A	10.20.101.2
+adcaa02	IN	A	10.20.101.2
 adcaa03	IN	A	10.20.101.3
 adcaa04	IN	A	10.20.101.4
 adcaa05	IN	A	10.20.101.5
