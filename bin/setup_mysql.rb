@@ -73,6 +73,7 @@ def install_mysql(ssh, mysql_root, port, server_id)
              "query_cache_size = 32M",
              "expire_logs_days = 10",
              "max_binlog_size = 100M",
+             "max_connections = 250",
              "innodb_file_format = Barracuda",
              "innodb_file_per_table",
              "default-storage-engine = InnoDB",
