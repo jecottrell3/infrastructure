@@ -1,0 +1,68 @@
+Based on: https://fedorahosted.org/cobbler/wiki/DownloadInstructions
+
+Create /etc/yum.repos.d/rhel-epel.repo :
+  [rhel-epel]
+  name=Red Hat Enterprise Linux $releasever - $basearch - EPEL
+  baseurl=http://download.fedora.redhat.com/pub/epel/$releasever/$basearch
+  enabled=1
+  gpgcheck=0
+
+  [rhel-epel-testing]
+  name=Red Hat Enterprise Linux $releasever - $basearch - EPEL Testing
+  baseurl=http://download.fedora.redhat.com/pub/epel/testing/$releasever/$basearch
+  enabled=1
+  gpgcheck=0
+
+yum -y install cobbler
+
+edit /etc/cobbler/settings:
+  change the server: and next_server: lines to the IP address of that machine
+
+chkconfig httpd on
+service httpd start
+
+chkconfig tftp on
+chkconfig rsync on
+
+mkdir /MSTR/cobbler
+mv /var/www/cobbler /MSTR/cobbler/www
+ln -s /MSTR/cobbler/www /var/www/cobbler
+mkdir /MSTR/cobbler/extrawww
+ln -s /MSTR/cobbler/extrawww /var/www/html/install
+copy authorized_keys to /MSTR/cobbler/extrawww/
+
+service cobblerd start
+
+cobbler get-loaders
+
+copy the RHEL56 DVD contents to /MSTR/RHEL56/
+copy Infrastructure/trunk/conf/rhel_install/rhel_cobbler_base.ks to /var/lib/cobbler/kickstarts/
+
+cobbler import --arch=x86_64 --name=RHEL56 --breed=redhat --kickstart=/var/lib/cobbler/kickstarts/rhel_cobbler_base.ks --path=/MSTR/RHEL56
+
+rm -Rf /MSTR/RHEL56
+
+(if there's already an install server, it'll be faster to copy the /MSTR/cobbler/extrawww/RHEL56-updates directory
+ from it here first, before doing the yum command below.)
+mkdir /MSTR/cobbler/extrawww/RHEL56-updates
+yum --disablerepo='*' --enablerepo=rhel-x86_64-server-5 list all | grep -v '^Loaded plugins:' | grep -v '^Installed Packages' | grep -v '^Available Packages' | awk '/^[A-Za-z0-9]/ {print $1}' | xargs -n100 yumdownloader --destdir=/MSTR/cobbler/extrawww/RHEL56-updates
+createrepo /MSTR/cobbler/extrawww/RHEL56-updates
+
+(To update packages on a regular basis, repeat:
+  yum --disablerepo='*' --enablerepo=rhel-x86_64-server-5 list all | grep -v '^Loaded plugins:' | grep -v '^Installed Packages' | grep -v '^Available Packages' | awk '/^[A-Za-z0-9]/ {print $1}' | xargs -n100 yumdownloader --destdir=/MSTR/cobbler/extrawww/RHEL56-updates
+  createrepo /MSTR/cobbler/extrawww/RHEL56-updates
+)
+
+cobbler repo add --mirror=http://download.fedora.redhat.com/pub/epel/5/x86_64 --name=rhel-epel --mirror-locally=N
+cobbler repo add --mirror=http://download.fedora.redhat.com/pub/epel/testing/5/x86_64 --name=rhel-epel-testing --mirror-locally=N
+cobbler repo add --mirror=http://install.infra.wisdom.com/install/RHEL56-updates --name=rhel-updates --mirror-locally=N
+cobbler reposync
+
+cobbler profile edit --name=RHEL56-x86_64 --repos="rhel-updates rhel-epel rhel-epel-testing"
+
+cobbler sync
+
+On the client, to reinstall later:
+koan --replace-self --profile=RHEL56-x86_64 --kopts="mstrhostname=`hostname --short`"
+shutdown -r now
+
