@@ -18,6 +18,11 @@ zone "drac.wisdom.com" {
 	file "drac.wisdom.com.internal.db";
 };
 
+zone "prod.wisdom.com" {
+	type master;
+	file "prod.wisdom.com.internal.db";
+};
+
 zone "20.10.in-addr.arpa"{
 	type master;
 	file "10.20.internal.db";
