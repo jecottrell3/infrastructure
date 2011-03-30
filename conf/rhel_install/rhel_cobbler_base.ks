@@ -124,6 +124,10 @@ echo "MASTER=bond0" >> /etc/sysconfig/network-scripts/ifcfg-eth1
 echo "SLAVE=yes" >> /etc/sysconfig/network-scripts/ifcfg-eth0
 echo "SLAVE=yes" >> /etc/sysconfig/network-scripts/ifcfg-eth1
 echo "alias bond0 bonding" >> /etc/modprobe.conf
+mv /etc/snmp/snmpd.conf /etc/snmp/snmpd.conf.mstr_orig
+echo "rocommunity machine nms1.infra.wisdom.com" > /etc/snmp/snmpd.conf
+echo "rocommunity machine nms2.infra.wisdom.com" >> /etc/snmp/snmpd.conf
+echo "rocommunity machine nms3.infra.wisdom.com" >> /etc/snmp/snmpd.conf
 sed -i -e 's/^search.*/search machine.wisdom.com/' /etc/resolv.conf
 rm /root/.bash_logout
 rm /etc/skel/.bash_logout
