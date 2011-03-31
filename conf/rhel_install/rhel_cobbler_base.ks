@@ -130,6 +130,8 @@ echo "rocommunity machine nms1.infra.wisdom.com" > /etc/snmp/snmpd.conf
 echo "rocommunity machine nms2.infra.wisdom.com" >> /etc/snmp/snmpd.conf
 echo "rocommunity machine nms3.infra.wisdom.com" >> /etc/snmp/snmpd.conf
 sed -i -e 's/^search.*/search machine.wisdom.com/' /etc/resolv.conf
+sed -i -e 's/^defscrollback.*/defscrollback 8192/' /etc/screenrc
+echo "bind s" >> /etc/screenrc
 rm /root/.bash_logout
 rm /etc/skel/.bash_logout
 sed -i -e 's/^alias /#alias /' /root/.bashrc
