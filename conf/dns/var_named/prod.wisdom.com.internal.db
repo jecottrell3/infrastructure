@@ -1,6 +1,6 @@
 $TTL 3600
 @	IN	SOA	wisdom.com.	hostmaster.wisdom.com.	(
-	2011032902	; Serial
+	2011033101	; Serial
 	3600		; Refresh after 1 hour
 	900		; Retry after 15 minutes
 	604800		; Expire after 1 day
@@ -10,7 +10,7 @@ $TTL 3600
 	IN	NS	ns2.wisdom.com.
 	IN	NS	ns3.wisdom.com.
 
-s1www1	IN	CNAME	adcac05.machine.wisdom.com.
-s1www2	IN	CNAME	adcae06.machine.wisdom.com.
+s1www1-adc	IN	CNAME	adcac05.machine.wisdom.com.
+s1www2-adc	IN	CNAME	adcae06.machine.wisdom.com.
 s1mstr1	IN	CNAME	adcaa01.machine.wisdom.com.
 s1mstr2	IN	CNAME	adcaa02.machine.wisdom.com.
