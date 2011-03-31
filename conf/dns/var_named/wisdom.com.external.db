@@ -1,12 +1,18 @@
 $TTL 3600
 @	IN	SOA	wisdom.com.	hostmaster.wisdom.com.	(
-	2011032201	; Serial
+	2011033001	; Serial
 	3600		; Refresh after 1 hour
 	900		; Retry after 15 minutes
 	604800		; Expire after 1 day
 	14400 )		; Minimum TTL of 4 hours
 
-	IN	NS	ns1.wisdom.com.
+	IN	NS	pdns1.ultradns.net.
+	IN	NS	pdns2.ultradns.net.
+	IN	NS	pdns3.ultradns.org.
+	IN	NS	pdns4.ultradns.org.
+	IN	NS	pdns5.ultradns.info.
+	IN	NS	pdns6.ultradns.co.uk.
 
-ns1	IN	A	1.2.3.4 ; TODO: need external IP for our DNS
+	IN	MX	10	mailgate3.microstrategy.com.
+	IN	MX	10	mailgate4.microstrategy.com.
 
