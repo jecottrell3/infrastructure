@@ -87,6 +87,7 @@ sysstat
 pstack
 strace
 net-snmp
+screen
 
 %post
 $SNIPPET('log_ks_post')
