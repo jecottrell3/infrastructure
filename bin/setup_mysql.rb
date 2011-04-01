@@ -30,7 +30,7 @@ def make_dbdir(ssh, mysql_root)
 end
 
 def download_mysql(ssh, mysql_root)
-  ssh.exec!("wget -O '#{mysql_root}/#{MYSQL_DOWNLOAD}.tar.gz' 'http://dev.mysql.com/get/Downloads/MySQL-5.5/#{MYSQL_DOWNLOAD}.tar.gz/from/http://mysql.mirrors.pair.com/'")
+  ssh.exec!("wget -O '#{mysql_root}/#{MYSQL_DOWNLOAD}.tar.gz' 'http://install.infra.wisdom.com/install/MySQL/#{MYSQL_DOWNLOAD}.tar.gz'")
 end
 
 def install_mysql(ssh, mysql_root, port, server_id)
@@ -74,6 +74,7 @@ def install_mysql(ssh, mysql_root, port, server_id)
              "expire_logs_days = 10",
              "max_binlog_size = 100M",
              "max_connections = 250",
+             "open_files_limit = 32768",
              "innodb_file_format = Barracuda",
              "innodb_file_per_table",
              "default-storage-engine = InnoDB",
