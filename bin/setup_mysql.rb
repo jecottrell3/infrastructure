@@ -162,7 +162,8 @@ def fix_mysql_privileges(ssh, mysql_root, port)
   # Set the root password.
   fix_sql = [ "DELETE FROM mysql.user WHERE user = ''",
               "UPDATE mysql.user SET password = '*F344FBB28F4FCBC5715D2B436296803647FFA474' WHERE user = 'root'",
-              "FLUSH PRIVILEGES"
+              "FLUSH PRIVILEGES",
+              "GRANT PROCESS, REPLICATION CLIENT ON *.* TO 'mon'@'%'"
             ].map { |x| x + ";"}.join(" ")
   ssh.exec!("echo \"#{fix_sql}\" | #{mysql_root}/mysql/bin/mysql -uroot -h127.0.0.1 -P#{port}")
 end
