@@ -33,6 +33,8 @@ hosts.each do |host|
         message = "MySQL down"
       else
         status = output2status(output)
+        master_host = status["Master_Host"]
+        master_port = status["Master_Port"]
         file = status["Relay_Master_Log_File"]
         pos = status["Exec_Master_Log_Pos"]
         slave_io = status["Slave_IO_Running"]
@@ -45,7 +47,7 @@ hosts.each do |host|
         else
           error_message = "ERROR:#{last_error}"
         end
-        message = "IO/SQL:#{slave_io}/#{slave_sql} #{file}:#{pos} delay:#{delay} state:#{io_state} #{error_message}"
+        message = "master:#{master_host}:#{master_port} #{file}:#{pos} IO/SQL:#{slave_io}/#{slave_sql} delay:#{delay} state:#{io_state} #{error_message}"
       end
     else
       # Returned nil, so it's not a slave.  See if it's a master.
