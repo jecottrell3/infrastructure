@@ -2,7 +2,6 @@
 
 # Gary Gabriel <ggabriel@microstrategy.com>
 
-require "highline/import"
 require "net/ssh"
 
 if ARGV.size < 2
@@ -22,17 +21,14 @@ def output2status(output)
   status
 end
 
-# Ask for mysql root password without echo.
-my_pwd = ask("MySQL root password: ") { |q| q.echo = false }
-
 hosts.each do |host|
   Net::SSH.start(host, "root") do |ssh|
-    output = ssh.exec!("/MSTR/mysql#{port}/mysql/bin/mysql -uroot -p'#{my_pwd}' -h127.0.0.1 -P#{port} -e 'show slave status'")
+    output = ssh.exec!("/MSTR/mysql#{port}/mysql/bin/mysql -umon -h127.0.0.1 -P#{port} -e 'show slave status'")
     if output
       if output.include? "such file"
         message = "MySQL not installed"
       elsif output.include? "denied"
-        message = "Incorrect password"
+        message = "mon user broken"
       elsif output.include? "Can't connect"
         message = "MySQL down"
       else
@@ -53,7 +49,7 @@ hosts.each do |host|
       end
     else
       # Returned nil, so it's not a slave.  See if it's a master.
-      output = ssh.exec!("/MSTR/mysql#{port}/mysql/bin/mysql -uroot -p'#{my_pwd}' -h127.0.0.1 -P#{port} -e 'show master status'")
+      output = ssh.exec!("/MSTR/mysql#{port}/mysql/bin/mysql -umon -h127.0.0.1 -P#{port} -e 'show master status'")
       if output.nil?
         message = "not a replica or a master"
       else
