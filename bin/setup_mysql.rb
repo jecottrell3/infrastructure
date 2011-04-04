@@ -71,6 +71,7 @@ def install_mysql(ssh, mysql_root, port, server_id)
              "thread_stack = 192K",
              "thread_cache_size = 8",
              "query_cache_size = 32M",
+             "event-scheduler = on",
              "expire_logs_days = 10",
              "max_binlog_size = 100M",
              "max_connections = 250",
