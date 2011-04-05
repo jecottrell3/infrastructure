@@ -52,6 +52,7 @@ Net::SSH.start(host, "root") do |ssh|
   # TODO: this should get proper signed certificates for each shard.
   ssh.exec!("wget -O '#{apps_home}/tomcat/conf/tomcatcert.pem' 'http://install.infra.wisdom.com/install/Tomcat/tomcatcert.pem'")
   ssh.exec!("wget -O '#{apps_home}/tomcat/conf/tomcatkey.pem' 'http://install.infra.wisdom.com/install/Tomcat/tomcatkey.pem'")
+  ssh.exec!("mkdir #{apps_home}/tomcat/run")
   ssh.exec!("useradd tomcat")
   ssh.exec!("chown -R tomcat:tomcat #{apps_home}/#{TOMCAT}")
   tomcat_sh = [ "#!/bin/sh",
