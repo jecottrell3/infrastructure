@@ -16,7 +16,8 @@ Create /etc/yum.repos.d/rhel-epel.repo :
 yum -y install cobbler
 
 edit /etc/cobbler/settings:
-  change the server: and next_server: lines to the IP address of that machine
+  change the next_server: line to the IP address of that machine
+  change the server: line IP address to install.infra.wisdom.com
 
 chkconfig httpd on
 service httpd start
