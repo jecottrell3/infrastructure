@@ -150,6 +150,18 @@ Net::SSH.start(host, "root") do |ssh|
       f.write(server_xml)
     end
   end
+  ssh.exec!("cd #{apps_home}/tomcat/conf; mv tomcat-users.xml tomcat-users.xml.mstr_backup")
+  users_xml = [ "<?xml version='1.0' encoding='utf-8'?>",
+                '<tomcat-users>',
+                '  <role rolename="admin"/>',
+                '  <user username="hostadmin" password="hostadmin385" roles="admin"/>',
+                '</tomcat-users>'
+              ].map { |x| x + "\n" }.join
+  ssh.sftp.connect do |sftp|
+    sftp.file.open("#{apps_home}/tomcat/conf/tomcat-users.xml", "w") do |f|
+      f.write(users_xml)
+    end
+  end
 
   puts "Starting Tomcat"
   ssh.exec!("#{apps_home}/tomcat/tomcat.sh start")
