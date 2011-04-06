@@ -16,7 +16,7 @@ LIBAPR_DOWNLOAD = "libapr_so.tar.gz"
 TOMCAT = "apache-tomcat-6.0.32"
 LIBTCNATIVE_DOWNLOAD = "tomcat_native_lib_so.tar.gz"
 
-Net::SSH.start(host, "root") do |ssh|
+Net::SSH.start(host, "root", :forward_agent => true) do |ssh|
   output = ssh.exec!("ls -d /usr/java/#{JAVA_DIR}")
   if output.include? "such file"
     # Java not installed.
@@ -49,9 +49,9 @@ Net::SSH.start(host, "root") do |ssh|
   ssh.exec!("cd #{apps_home}; tar xzf #{TOMCAT}.tar.gz")
   ssh.exec!("rm #{apps_home}/#{TOMCAT}.tar.gz")
   ssh.exec!("cd #{apps_home}; ln -s #{TOMCAT} tomcat")
-  # TODO: this should get proper signed certificates for each shard.
-  ssh.exec!("wget -O '#{apps_home}/tomcat/conf/tomcatcert.pem' 'http://install.infra.wisdom.com/install/Tomcat/tomcatcert.pem'")
-  ssh.exec!("wget -O '#{apps_home}/tomcat/conf/tomcatkey.pem' 'http://install.infra.wisdom.com/install/Tomcat/tomcatkey.pem'")
+  ssh.exec!("mkdir #{apps_home}/tomcat/conf/keys")
+  ssh.exec!("scp -o StrictHostKeyChecking=no root@install.infra.wisdom.com:/MSTR/private/tomcat_ssl_keys/host_priv.key #{apps_home}/tomcat/conf/keys/")
+  ssh.exec!("scp -o StrictHostKeyChecking=no root@install.infra.wisdom.com:/MSTR/private/tomcat_ssl_keys/wildcard.wisdom.com.cer #{apps_home}/tomcat/conf/keys/")
   ssh.exec!("mkdir #{apps_home}/tomcat/run")
   ssh.exec!("rm -Rf #{apps_home}/tomcat/webapps/docs")
   ssh.exec!("rm -Rf #{apps_home}/tomcat/webapps/examples")
@@ -132,8 +132,8 @@ Net::SSH.start(host, "root") do |ssh|
                  '               maxThreads="150" scheme="https" secure="true"',
                  '               sslProtocol="all"',
                  '               maxHttpHeaderSize="16384"',
-                 '               SSLCertificateFile="${catalina.home}/conf/tomcatcert.pem"',
-                 '               SSLCertificateKeyFile="${catalina.home}/conf/tomcatkey.pem"',
+                 '               SSLCertificateFile="${catalina.home}/conf/keys/wildcard.wisdom.com.cer"',
+                 '               SSLCertificateKeyFile="${catalina.home}/conf/keys/host_priv.key"',
                  '               SSLPassword="tomcat" />',
                  '    <Connector port="' + (7000 + shard).to_s + '" protocol="AJP/1.3" redirectPort="443" />',
                  '    <Engine name="Catalina" defaultHost="localhost">',
