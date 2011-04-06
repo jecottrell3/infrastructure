@@ -47,7 +47,7 @@ DROP PROCEDURE IF EXISTS add_daily_partitions;
 DELIMITER //
 
 CREATE PROCEDURE
-add_daily_partitions (IN table_name VARCHAR(255))
+add_daily_partitions (IN table_to_process VARCHAR(255))
 LANGUAGE SQL
 DETERMINISTIC
 MODIFIES SQL DATA
@@ -60,11 +60,11 @@ BEGIN
   -- Find the newest partition.
   SELECT MAX(partition_name) INTO newest_partition
     FROM information_schema.partitions
-    WHERE table_schema = DATABASE() AND table_name = table_name AND partition_name <> 'pnew';
+    WHERE table_schema = DATABASE() AND table_name = table_to_process AND partition_name <> 'pnew';
   SET today_days = TO_DAYS(NOW()) - 693959; -- Microsoft day number for today.
   SELECT CAST(SUBSTRING(newest_partition FROM 2) AS UNSIGNED INTEGER) + 1 INTO partition_number;
   WHILE partition_number <= today_days + 5 DO
-    SET @sql_text = CONCAT('ALTER TABLE ', table_name, ' REORGANIZE PARTITION pnew INTO (\n');
+    SET @sql_text = CONCAT('ALTER TABLE ', table_to_process, ' REORGANIZE PARTITION pnew INTO (\n');
     SET @sql_text = CONCAT(@sql_text, '  PARTITION p', partition_number);
     SET @sql_text = CONCAT(@sql_text, ' VALUES LESS THAN (', partition_number + 1, '),\n');
     SET @sql_text = CONCAT(@sql_text, '  PARTITION pnew VALUES LESS THAN MAXVALUE)');
@@ -78,7 +78,6 @@ BEGIN
   SET @sql_text = NULL;
 END//
 DELIMITER ;
-
 
 DROP EVENT IF EXISTS event_add_daily_partitions;
 DELIMITER //
