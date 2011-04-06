@@ -110,7 +110,7 @@ GRANT ALL ON sma_md.* TO 'md'@'%' IDENTIFIED BY 'md824';
 
 for warehouse on port 3306:
 GRANT ALL ON sma_wh.* TO 'crawl'@'%' IDENTIFIED BY 'crawl9279';
-GRANT SELECT, CREATE TEMPORARY TABLES, INDEX ON sma_wh.* TO 'iserver'@'%' IDENTIFIED BY 'iserver1704';
+GRANT SELECT, CREATE TEMPORARY TABLES, INDEX, INSERT, DROP ON sma_wh.* TO 'iserver'@'%' IDENTIFIED BY 'iserver1704';
 GRANT SELECT, INSERT, UPDATE, DELETE ON sma_wh.Member_Management TO 'iserver'@'%';
 
 ALTER EVENT sma_wh.event_add_daily_partitions ENABLE;
