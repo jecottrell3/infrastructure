@@ -23,8 +23,10 @@ BEGIN
 
   SET @sql_text = CONCAT('ALTER TABLE ', table_name, '\n');
   SET @sql_text = CONCAT(@sql_text, 'PARTITION BY RANGE(', partition_key, ')\n');
-  SET @sql_text = CONCAT(@sql_text, 'SUBPARTITION BY KEY(', subpartition_key, ')\n');
-  SET @sql_text = CONCAT(@sql_text, 'SUBPARTITIONS 10 (\n');
+  IF subpartition_key IS NOT NULL THEN
+    SET @sql_text = CONCAT(@sql_text, 'SUBPARTITION BY KEY(', subpartition_key, ')\n');
+    SET @sql_text = CONCAT(@sql_text, 'SUBPARTITIONS 10 (\n');
+  END IF;
 
   SET today_days = TO_DAYS(NOW()) - 693959; -- Microsoft day number for today.
   SET pday = today_days - 30;
@@ -42,6 +44,13 @@ BEGIN
 END//
 DELIMITER ;
 
+-- CALL create_daily_partitions('Checkin', 'Object_created_day', 'Object_idCheckin');
+-- CALL create_daily_partitions('Object_Comment', 'Object_created_day', 'idComment');
+-- CALL create_daily_partitions('Object_Likes', 'Object_created_day', 'id_FromUser');
+-- CALL create_daily_partitions('Object_Tag', 'Object_created_day', 'Object_idObject');
+-- CALL create_daily_partitions('Object_Visibility', 'Object_created_day', 'Object_idObject');
+-- CALL create_daily_partitions('Post', 'Object_created_day', 'idPost');
+-- CALL create_daily_partitions('FBObject', 'created_day', 'idObject');
 
 DROP PROCEDURE IF EXISTS add_daily_partitions;
 DELIMITER //
