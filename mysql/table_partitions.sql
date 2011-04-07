@@ -92,7 +92,7 @@ DROP EVENT IF EXISTS event_add_daily_partitions;
 DELIMITER //
 
 CREATE EVENT event_add_daily_partitions
-ON SCHEDULE EVERY 1 DAY STARTS CURDATE() + INTERVAL '1 6' DAY_HOUR -- Run at 6am UTC (2am EDT.)
+ON SCHEDULE EVERY 1 DAY STARTS CURDATE() + INTERVAL '1 6:15' DAY_MINUTE -- Run at 6:15am UTC (2:15am EDT.)
 DO
 BEGIN
   CALL add_daily_partitions('Checkin');
