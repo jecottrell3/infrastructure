@@ -52,6 +52,7 @@ Net::SSH.start(host, "root", :forward_agent => true) do |ssh|
   ssh.exec!("mkdir #{apps_home}/tomcat/conf/keys")
   ssh.exec!("scp -o StrictHostKeyChecking=no root@install.infra.wisdom.com:/MSTR/private/tomcat_ssl_keys/host_priv.key #{apps_home}/tomcat/conf/keys/")
   ssh.exec!("scp -o StrictHostKeyChecking=no root@install.infra.wisdom.com:/MSTR/private/tomcat_ssl_keys/wildcard.wisdom.com.cer #{apps_home}/tomcat/conf/keys/")
+  ssh.exec!("scp -o StrictHostKeyChecking=no root@install.infra.wisdom.com:/MSTR/private/tomcat_ssl_keys/SSL_CA_Bundle_Apache.pem #{apps_home}/tomcat/conf/keys/")
   ssh.exec!("mkdir #{apps_home}/tomcat/run")
   ssh.exec!("rm -Rf #{apps_home}/tomcat/webapps/docs")
   ssh.exec!("rm -Rf #{apps_home}/tomcat/webapps/examples")
@@ -134,7 +135,7 @@ Net::SSH.start(host, "root", :forward_agent => true) do |ssh|
                  '               maxHttpHeaderSize="16384"',
                  '               SSLCertificateFile="${catalina.home}/conf/keys/wildcard.wisdom.com.cer"',
                  '               SSLCertificateKeyFile="${catalina.home}/conf/keys/host_priv.key"',
-                 '               SSLPassword="tomcat" />',
+                 '               SSLCACertificateFile="${catalina.home}/conf/keys/SSL_CA_Bundle_Apache.pem" />',
                  '    <Connector port="' + (7000 + shard).to_s + '" protocol="AJP/1.3" redirectPort="443" />',
                  '    <Engine name="Catalina" defaultHost="localhost">',
                  '      <Realm className="org.apache.catalina.realm.UserDatabaseRealm"',
