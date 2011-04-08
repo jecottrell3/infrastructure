@@ -56,6 +56,10 @@ Net::SSH.start(host, "root", :forward_agent => true) do |ssh|
   ssh.exec!("mkdir #{apps_home}/tomcat/run")
   ssh.exec!("rm -Rf #{apps_home}/tomcat/webapps/docs")
   ssh.exec!("rm -Rf #{apps_home}/tomcat/webapps/examples")
+  ssh.exec!("rm -Rf #{apps_home}/tomcat/webapps/ROOT")
+  ssh.exec!("wget -O '#{apps_home}/tomcat/webapps/tomcat_root.tar.gz' 'http://install.infra.wisdom.com/install/Tomcat/tomcat_root.tar.gz'")
+  ssh.exec!("cd #{apps_home}/tomcat/webapps; tar xzf tomcat_root.tar.gz")
+  ssh.exec!("rm #{apps_home}/tomcat/webapps/tomcat_root.tar.gz")
   ssh.exec!("useradd tomcat")
   ssh.exec!("chown -R tomcat:tomcat #{apps_home}/#{TOMCAT}")
   tomcat_sh = [ "#!/bin/sh",
