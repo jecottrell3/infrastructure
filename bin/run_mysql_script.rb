@@ -40,21 +40,18 @@ end
 # Also open an SFTP session on each for the same reason.
 sessions = hosts.map do |host|
   ssh = Net::SSH.start(host, "root")
-  sftp = ssh.sftp
-  sftp.connect!
-  { :ssh => ssh, :sftp => sftp }
+  ssh.sftp.connect!
+  ssh
 end
 
-threads = sessions.map do |t_session|
-  Thread.new(t_session) do |session|
-    ssh = session[:ssh]
-    sftp = session[:sftp]
+threads = sessions.map do |session|
+  Thread.new(session) do |ssh|
     Thread.current[:host] = ssh.host
     begin
       tputs "Copying SQL file"
       date = ssh.exec!("date +%s").strip
       tmp_file_name = "#{date}_#{rand(32767)}"
-      sftp.file.open("/MSTR/#{tmp_file_name}.sql", "w") do |f|
+      ssh.sftp.file.open("/MSTR/#{tmp_file_name}.sql", "w") do |f|
         f.write(SQL)
       end
 
@@ -83,7 +80,7 @@ threads = sessions.map do |t_session|
     rescue Exception => e
       tputs "Caught exception: #{e}, backtrace: #{e}"
     ensure
-      sftp.close_channel
+      ssh.sftp.close_channel
       ssh.close
     end
   end
