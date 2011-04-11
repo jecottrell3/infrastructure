@@ -56,7 +56,7 @@ threads = sessions.map do |session|
       end
 
       tputs "Running SQL"
-      e_root_pwd = ROOT_PWD.gsub(/"/, '\"')
+      e_root_pwd = ROOT_PWD.gsub(/"/, '\"').gsub(/\$/, '\$')
       mysql_cmd = "/MSTR/mysql#{FLAGS[:port]}/mysql/bin/mysql -uroot -p\"#{e_root_pwd}\" -h127.0.0.1 -P#{FLAGS[:port]}"
       mysql_cmd += " -D#{FLAGS[:db]}" if FLAGS[:db]
       mysql_cmd += " --table --show-warnings"
