@@ -1,6 +1,6 @@
 $TTL 3600
 @	IN	SOA	wisdom.com.	hostmaster.wisdom.com.	(
-	2011032601	; Serial
+	2011041101	; Serial
 	3600		; Refresh after 1 hour
 	900		; Retry after 15 minutes
 	604800		; Expire after 1 day
@@ -25,6 +25,37 @@ $GENERATE 10-50 $.107 IN PTR adcag$.machine.wisdom.com.
 $GENERATE 1-9 $.109 IN PTR adcaj0$.machine.wisdom.com.
 $GENERATE 10-50 $.109 IN PTR adcaj$.machine.wisdom.com.
 
+; Rack PDU Reverse Entries
+
+201.101	IN	PTR	adcaa-pdu-a1.infra.wisdom.com.
+202.101	IN	PTR	adcaa-pdu-a2.infra.wisdom.com.
+203.101	IN	PTR	adcaa-pdu-b1.infra.wisdom.com.
+204.101	IN	PTR	adcaa-pdu-b2.infra.wisdom.com.
+
+201.103	IN	PTR	adcac-pdu-a1.infra.wisdom.com.
+202.103	IN	PTR	adcac-pdu-a2.infra.wisdom.com.
+203.103	IN	PTR	adcac-pdu-b1.infra.wisdom.com.
+204.103	IN	PTR	adcac-pdu-b2.infra.wisdom.com.
+
+201.105	IN	PTR	adcae-pdu-a1.infra.wisdom.com.
+202.105	IN	PTR	adcae-pdu-a2.infra.wisdom.com.
+203.105	IN	PTR	adcae-pdu-b1.infra.wisdom.com.
+204.105	IN	PTR	adcae-pdu-b2.infra.wisdom.com.
+
+201.107	IN	PTR	adcag-pdu-a1.infra.wisdom.com.
+202.107	IN	PTR	adcag-pdu-a2.infra.wisdom.com.
+203.107	IN	PTR	adcag-pdu-b1.infra.wisdom.com.
+204.107	IN	PTR	adcag-pdu-b2.infra.wisdom.com.
+
+201.109	IN	PTR	adcaj-pdu-a1.infra.wisdom.com.
+202.109	IN	PTR	adcaj-pdu-a2.infra.wisdom.com.
+203.109	IN	PTR	adcaj-pdu-b1.infra.wisdom.com.
+204.109	IN	PTR	adcaj-pdu-b2.infra.wisdom.com.
+
+205.109	IN	PTR	adcak-pdu-b1.infra.wisdom.com.
+206.109	IN	PTR	adcak-pdu-b2.infra.wisdom.com.
+
+; DRAC Reverse Entries
 
 151.101	IN	PTR	adcaa01.drac.wisdom.com.
 152.101	IN	PTR	adcaa02.drac.wisdom.com.
