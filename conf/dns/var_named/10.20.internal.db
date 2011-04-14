@@ -1,6 +1,6 @@
 $TTL 3600
 @	IN	SOA	wisdom.com.	hostmaster.wisdom.com.	(
-	2011041101	; Serial
+	2011041401	; Serial
 	3600		; Refresh after 1 hour
 	900		; Retry after 15 minutes
 	604800		; Expire after 1 day
@@ -9,6 +9,8 @@ $TTL 3600
 	IN	NS	ns1.wisdom.com.
 	IN	NS	ns2.wisdom.com.
 	IN	NS	ns3.wisdom.com.
+
+; Machine Reverse Entries
 
 $GENERATE 1-9 $.101 IN PTR adcaa0$.machine.wisdom.com.
 $GENERATE 10-50 $.101 IN PTR adcaa$.machine.wisdom.com.
@@ -24,6 +26,19 @@ $GENERATE 10-50 $.107 IN PTR adcag$.machine.wisdom.com.
 
 $GENERATE 1-9 $.109 IN PTR adcaj0$.machine.wisdom.com.
 $GENERATE 10-50 $.109 IN PTR adcaj$.machine.wisdom.com.
+
+; Network Gear Reverse Entries
+
+201.0	IN	PTR	adcak-nx1.infra.wisdom.com.
+202.0	IN	PTR	adcaj-nx2.infra.wisdom.com.
+211.0	IN	PTR	adcak-lb1.infra.wisdom.com.
+212.0	IN	PTR	adcaj-lb2.infra.wisdom.com.
+231.0	IN	PTR	adcak-er1.infra.wisdom.com.
+232.0	IN	PTR	adcaj-er2.infra.wisdom.com.
+254.5	IN	PTR	adcak-fw1.infra.wisdom.com.
+253.5	IN	PTR	adcaj-fw2.infra.wisdom.com.
+251.109	IN	PTR	adcak-cr1.infra.wisdom.com.
+252.109	IN	PTR	adcaj-cr2.infra.wisdom.com.
 
 ; Rack PDU Reverse Entries
 
