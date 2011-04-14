@@ -10,6 +10,7 @@ require "net/sftp"
 FLAGS = {}
 opts = OptionParser.new do |opts|
   opts.banner = "Usage: #{$0} install --shard <number> --version <version> --package <package.tar.gz> --key <cdkey> <host>\n" +
+                "       #{$0} install_cluster --shard <number> --version <version> --package <package.tar.gz> --key <cdkey> <host1> <host2>\n" +
                 "       #{$0} upgrade_cluster --shard <number> --vfrom <version> --vto <version> --package <package.tar.gz> --key <cdkey> <host1> <host2>"
   opts.on("--shard SHARD", Integer, "Shard number.") { |x| FLAGS[:shard] = x }
   opts.on("--version VERSION", "Version to install.") { |x| FLAGS[:version] = x }
@@ -27,14 +28,18 @@ opts.parse!
 abort "You must specify the command.\n\n#{opts}" if ARGV.size < 1
 command = ARGV.shift
 
-MD_PWD = ask("MySQL password for the metadata database: ") { |q| q.echo = false }
-
 if command == "install"
   abort "You must specify the shard number.\n\n#{opts}" unless FLAGS[:shard]
   abort "You must specify the version to install.\n\n#{opts}" unless FLAGS[:version]
   abort "You must specify the tar.gz package to install.\n\n#{opts}" unless FLAGS[:package]
   abort "You must specify the CD key.\n\n#{opts}" unless FLAGS[:key]
   abort "You must specify the host to install on.\n\n#{opts}" if ARGV.size < 1
+elsif command == "install_cluster"
+  abort "You must specify the shard number.\n\n#{opts}" unless FLAGS[:shard]
+  abort "You must specify the version to install.\n\n#{opts}" unless FLAGS[:version]
+  abort "You must specify the tar.gz package to install.\n\n#{opts}" unless FLAGS[:package]
+  abort "You must specify the CD key.\n\n#{opts}" unless FLAGS[:key]
+  abort "You must specify the two hosts to install on.\n\n#{opts}" if ARGV.size != 2
 elsif command == "upgrade_cluster"
   abort "You must specify the shard number.\n\n#{opts}" unless FLAGS[:shard]
   abort "You must specify the version to upgrade from.\n\n#{opts}" unless FLAGS[:vfrom]
@@ -42,10 +47,12 @@ elsif command == "upgrade_cluster"
   abort "Versions cannot be the same.\n\n#{opts}" if FLAGS[:vfrom] == FLAGS[:vto]
   abort "You must specify the tar.gz package to install.\n\n#{opts}" unless FLAGS[:package]
   abort "You must specify the CD key.\n\n#{opts}" unless FLAGS[:key]
-  abort "You must specify the list of IServer hosts in the cluster.\n\n#{opts}" if ARGV.size != 2
+  abort "You must specify the two hosts in the cluster.\n\n#{opts}" if ARGV.size != 2
 else
   abort "Invalid command: #{command}\n\n#{opts}"
 end
+
+MD_PWD = ask("MySQL password for the metadata database: ") { |q| q.echo = false }
 
 # Update sysctl parameters.
 def update_sysctl(ssh, variable, value, comment)
@@ -222,9 +229,46 @@ def install_iserver(ssh, shard, version, package, cdkey)
   ssh.exec!("bash -c '#{install_root}/MicroStrategy/bin/mstrctl -s IntelligenceServer start </dev/null &>/dev/null'")
   sleep 1
 
-  puts "Configuring NFS exports"
+  puts "Starting NFS"
   ssh.exec!("chkconfig nfs on")
   ssh.exec!("service nfs start")
+end
+
+def update_exports(ssh, export_dir, shard, other_host)
+  exports = ""
+  ssh.sftp.file.open("/etc/exports", "r") do |f|
+    exports = f.read
+  end
+  lines = exports.split("\n").select { |x| not x.start_with? "/MSTR/shard#{shard}" }
+  lines.push "#{export_dir} #{other_host.upcase}(rw,no_root_squash)"
+  ssh.sftp.file.open("/etc/exports", "w") { |f| f.write(lines.join("\n") + "\n") }
+end
+
+def update_fstab(ssh, export_dir, other_host)
+  fstab = ""
+  ssh.sftp.file.open("/etc/fstab", "r") do |f|
+    fstab = f.read
+  end
+  lines = fstab.split("\n").select { |x| not x.downcase.start_with? "#{other_host.downcase}:" }
+  lines.push "#{other_host.upcase}:#{export_dir} /#{other_host.upcase}/ClusterCube nfs defaults 0 0"
+  ssh.sftp.file.open("/etc/fstab", "w") { |f| f.write(lines.join("\n") + "\n") }
+end
+
+def configure_cluster_nfs(ssh1, ssh2, shard, version)
+  # Update exports.
+  export_dir = "/MSTR/shard#{shard}/#{version}/MicroStrategy/IntelligenceServer/Cube/WAS-HSOEWANDI77"
+  update_exports(ssh1, export_dir, shard, ssh2.host)
+  ssh1.exec!("exportfs -r")
+  update_exports(ssh2, export_dir, shard, ssh1.host)
+  ssh2.exec!("exportfs -r")
+  sleep 2
+  # Update mounts.
+  ssh1.exec!("mkdir -p /#{ssh2.host.upcase}/ClusterCube")
+  update_fstab(ssh1, export_dir, ssh2.host)
+  ssh1.exec!("mount /#{ssh2.host.upcase}/ClusterCube")
+  ssh2.exec!("mkdir -p /#{ssh1.host.upcase}/ClusterCube")
+  update_fstab(ssh2, export_dir, ssh1.host)
+  ssh2.exec!("mount /#{ssh1.host.upcase}/ClusterCube")
 end
 
 if command == "install"
@@ -240,6 +284,31 @@ if command == "install"
     ssh.close
   end
 
+elsif command == "install_cluster"
+  host1 = ARGV[0]
+  host2 = ARGV[1]
+  ssh1 = Net::SSH.start(host1, "root")
+  ssh1.sftp.connect!
+  ssh2 = Net::SSH.start(host2, "root")
+  ssh2.sftp.connect!
+
+  begin
+    puts "Installing version #{FLAGS[:version]} for shard #{FLAGS[:shard]} on cluster hosts #{host1} and #{host2}"
+    puts "Installing on #{host1}"
+    install_iserver(ssh1, FLAGS[:shard], FLAGS[:version], FLAGS[:package], FLAGS[:key])
+    puts "Done on #{host1}"
+    puts "Installing on #{host2}"
+    install_iserver(ssh2, FLAGS[:shard], FLAGS[:version], FLAGS[:package], FLAGS[:key])
+    puts "Done on #{host2}"
+    puts "Setting up NFS for clustering"
+    configure_cluster_nfs(ssh1, ssh2, FLAGS[:shard], FLAGS[:version])
+  ensure
+    # Disconnect from hosts.
+    ssh1.sftp.close_channel
+    ssh1.close
+    ssh2.sftp.close_channel
+    ssh2.close
+  end
 elsif command == "upgrade_cluster"
   host1 = ARGV[0]
   host2 = ARGV[1]
