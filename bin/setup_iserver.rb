@@ -4,6 +4,7 @@
 
 require "optparse"
 require "highline/import"
+require "rexml/document"
 require "net/ssh"
 require "net/sftp"
 
@@ -72,6 +73,27 @@ end
 def download_url(ssh, url, filepath)
   output = ssh.exec!("wget -q -O '#{filepath}' '#{url}' || echo MSTRFAIL")
   raise "Download of #{url} failed." if output and output.include? "MSTRFAIL"
+end
+
+def start_iserver(ssh, shard, version)
+  puts "Starting the Intelligence Server"
+  install_root = "/MSTR/shard#{shard}/#{version}"
+  ssh.exec!("bash -c '#{install_root}/MicroStrategy/bin/mstrctl -s IntelligenceServer start </dev/null &>/dev/null'")
+  sleep 1
+  seconds = 0
+  timeout = 300
+  loop do
+    state = ""
+    output = ssh.exec!("#{install_root}/MicroStrategy/bin/mstrctl -s IntelligenceServer gs")
+    REXML::Document.new(output).elements.each("status/state") { |x| state = x.text }
+    raise "Unable to start, state is #{state}" unless state == "starting" or state == "running"
+    break if state == "running"
+    raise "Unable to start, timeout of #{timeout} seconds reached" if seconds > timeout
+    print "."
+    seconds += 1
+    sleep 1
+  end
+  puts " started"
 end
 
 # Install the IServer on the host that ssh is connected to.  ssh should already
@@ -225,9 +247,7 @@ def install_iserver(ssh, shard, version, package, cdkey)
   puts "Removing temporary installation files"
   ssh.exec!("rm -Rf #{download_dir}")
 
-  puts "Starting the Intelligence Server"
-  ssh.exec!("bash -c '#{install_root}/MicroStrategy/bin/mstrctl -s IntelligenceServer start </dev/null &>/dev/null'")
-  sleep 1
+  start_iserver(ssh, shard, version)
 
   puts "Starting NFS"
   ssh.exec!("chkconfig nfs on")
