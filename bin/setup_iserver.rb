@@ -54,6 +54,7 @@ else
 end
 
 MD_PWD = ask("MySQL password for the metadata database: ") { |q| q.echo = false }
+ADM_PWD = ask("IServer password for Administrator: ") { |q| q.echo = false }
 
 # Update sysctl parameters.
 def update_sysctl(ssh, variable, value, comment)
@@ -90,6 +91,7 @@ def start_iserver(ssh, shard, version)
     break if state == "running"
     raise "Unable to start, timeout of #{timeout} seconds reached" if seconds > timeout
     print "."
+    $stdout.flush
     seconds += 1
     sleep 1
   end
@@ -291,6 +293,18 @@ def configure_cluster_nfs(ssh1, ssh2, shard, version)
   ssh2.exec!("mount /#{ssh1.host.upcase}/ClusterCube")
 end
 
+def cluster_iserver(ssh, shard, version, other_host)
+  install_root = "/MSTR/shard#{shard}/#{version}"
+  port = ("3" + shard.to_s * 4).to_i
+  script = "CONNECT SERVER \"#{ssh.host.upcase}\" USER \"Administrator\" PASSWORD \"#{ADM_PWD}\" PORT #{port};\n" +
+           "ADD SERVER \"#{other_host.upcase}\" TO CLUSTER;\n"
+  ssh.sftp.file.open("#{install_root}/tmp_cluster.scp", "w") do |f|
+    f.write(script)
+  end
+  ssh.exec!("#{install_root}/MicroStrategy/bin/mstrcmdmgr -connlessMSTR -f #{install_root}/tmp_cluster.scp")
+  ssh.exec!("rm #{install_root}/tmp_cluster.scp")
+end
+
 if command == "install"
   host = ARGV[0]
   ssh = Net::SSH.start(host, "root")
@@ -322,6 +336,8 @@ elsif command == "install_cluster"
     puts "Done on #{host2}"
     puts "Setting up NFS for clustering"
     configure_cluster_nfs(ssh1, ssh2, FLAGS[:shard], FLAGS[:version])
+    puts "Cluster the Intelligence Servers"
+    cluster_iserver(ssh1, FLAGS[:shard], FLAGS[:version], host2)
   ensure
     # Disconnect from hosts.
     ssh1.sftp.close_channel
