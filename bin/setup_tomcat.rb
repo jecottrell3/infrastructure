@@ -60,6 +60,17 @@ Net::SSH.start(host, "root", :forward_agent => true) do |ssh|
   ssh.exec!("wget -O '#{apps_home}/tomcat/webapps/tomcat_root.tar.gz' 'http://install.infra.wisdom.com/install/Tomcat/tomcat_root.tar.gz'")
   ssh.exec!("cd #{apps_home}/tomcat/webapps; tar xzf tomcat_root.tar.gz")
   ssh.exec!("rm #{apps_home}/tomcat/webapps/tomcat_root.tar.gz")
+  ssh.sftp.connect do |sftp|
+    sftp.file.open("#{apps_home}/tomcat/conf/jmxremote.access", "w") do |f|
+      f.write("monitorRole readonly\n")
+    end
+  end
+  ssh.sftp.connect do |sftp|
+    sftp.file.open("#{apps_home}/tomcat/conf/jmxremote.password", "w") do |f|
+      f.write("monitorRole tomcat\n")
+    end
+  end
+  ssh.exec!("chmod 400 #{apps_home}/tomcat/conf/jmxremote.password")
   ssh.exec!("useradd tomcat")
   ssh.exec!("chown -R tomcat:tomcat #{apps_home}/#{TOMCAT}")
   tomcat_sh = [ "#!/bin/sh",
@@ -67,7 +78,7 @@ Net::SSH.start(host, "root", :forward_agent => true) do |ssh|
                 "JAVA_HOME=/usr/java/#{JAVA_DIR}",
                 "PATH=\"$JAVA_HOME\"/bin:\"$PATH\"",
                 "CATALINA_HOME=#{apps_home}/tomcat",
-                "CATALINA_OPTS=\"-server -Xms512m -Xmx2048m -Dbuild.compiler.emacs=true -Djava.library.path=$CATALINA_HOME/lib\"",
+                "CATALINA_OPTS=\"-server -Xms512m -Xmx2048m -Dbuild.compiler.emacs=true -Djava.library.path=$CATALINA_HOME/lib -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=" + (5000 + shard).to_s + " -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=true -Dcom.sun.management.jmxremote.password.file=$CATALINA_HOME/conf/jmxremote.password -Dcom.sun.management.jmxremote.access.file=$CATALINA_HOME/conf/jmxremote.access\"",
                 "CATALINA_PID=\"$CATALINA_HOME\"/run/tomcat.pid",
                 "",
                 "export JAVA_HOME CATALINA_HOME CATALINA_OPTS PATH CATALINA_PID",
