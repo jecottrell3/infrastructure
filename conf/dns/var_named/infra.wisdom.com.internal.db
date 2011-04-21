@@ -1,6 +1,6 @@
-$TTL 3600
+$TTL 60
 @	IN	SOA	wisdom.com.	hostmaster.wisdom.com.	(
-	2011042004	; Serial
+	2011042006	; Serial
 	3600		; Refresh after 1 hour
 	900		; Retry after 15 minutes
 	604800		; Expire after 1 day
@@ -58,13 +58,13 @@ adcak-pdu-b2	IN	A	10.20.109.206
 ; Network Gear
 
 adcak-cr1	IN	A	10.20.109.251
-adcak-nx1	IN	A	10.20.0.201
+adcak-nx1	IN	A	10.20.0.251
 adcak-er1	IN	A	10.20.0.231
 adcak-lb1	IN	A	10.20.0.211
 adcak-esw1	IN	A	10.20.0.241
 adcak-fw1	IN	A	10.20.5.254
 adcaj-cr2	IN	A	10.20.109.252
-adcaj-nx2	IN	A	10.20.0.202
+adcaj-nx2	IN	A	10.20.0.252
 adcaj-er2	IN	A	10.20.0.232
 adcaj-lb2	IN	A	10.20.0.212
 adcaj-esw2	IN	A	10.20.0.242
