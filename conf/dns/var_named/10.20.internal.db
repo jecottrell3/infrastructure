@@ -40,8 +40,6 @@ $GENERATE 10-50 $.109 IN PTR adcaj$.machine.wisdom.com.
 254.0	IN	PTR	nxvip.infra.wisdom.com.
 254.5	IN	PTR	adcak-fw1.infra.wisdom.com.
 253.5	IN	PTR	adcaj-fw2.infra.wisdom.com.
-251.109	IN	PTR	adcak-cr1.infra.wisdom.com.
-252.109	IN	PTR	adcaj-cr2.infra.wisdom.com.
 
 ; Rack PDU Reverse Entries
 
