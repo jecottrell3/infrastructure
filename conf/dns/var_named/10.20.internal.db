@@ -1,6 +1,6 @@
 $TTL 3600
 @	IN	SOA	wisdom.com.	hostmaster.wisdom.com.	(
-	2011041401	; Serial
+	2011041402	; Serial
 	3600		; Refresh after 1 hour
 	900		; Retry after 15 minutes
 	604800		; Expire after 1 day
@@ -35,6 +35,8 @@ $GENERATE 10-50 $.109 IN PTR adcaj$.machine.wisdom.com.
 212.0	IN	PTR	adcaj-lb2.infra.wisdom.com.
 231.0	IN	PTR	adcak-er1.infra.wisdom.com.
 232.0	IN	PTR	adcaj-er2.infra.wisdom.com.
+241.0	IN	PTR	adcak-esw1.infra.wisdom.com.
+242.0	IN	PTR	adcaj-esw2.infra.wisdom.com.
 254.5	IN	PTR	adcak-fw1.infra.wisdom.com.
 253.5	IN	PTR	adcaj-fw2.infra.wisdom.com.
 251.109	IN	PTR	adcak-cr1.infra.wisdom.com.
