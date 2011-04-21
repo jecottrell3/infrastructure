@@ -1,6 +1,6 @@
 $TTL 60
 @	IN	SOA	wisdom.com.	hostmaster.wisdom.com.	(
-	2011042006	; Serial
+	2011042007	; Serial
 	3600		; Refresh after 1 hour
 	900		; Retry after 15 minutes
 	604800		; Expire after 1 day
@@ -69,4 +69,5 @@ adcaj-er2	IN	A	10.20.0.232
 adcaj-lb2	IN	A	10.20.0.212
 adcaj-esw2	IN	A	10.20.0.242
 adcaj-fw2	IN	A	10.20.5.253
+nxvip		IN	A	10.20.0.254
 
