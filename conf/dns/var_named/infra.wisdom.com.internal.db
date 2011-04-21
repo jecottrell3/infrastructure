@@ -13,6 +13,7 @@ $TTL 3600
 nls1	IN	CNAME	adcag03.machine.wisdom.com.
 nls2	IN	CNAME	adcaa05.machine.wisdom.com.
 
+nms	IN	CNAME	nms2.infra.wisdom.com.
 nms1	IN	CNAME	adcaa04.machine.wisdom.com.
 nms2	IN	CNAME	adcae04.machine.wisdom.com.
 nms3	IN	CNAME	adcag04.machine.wisdom.com.
