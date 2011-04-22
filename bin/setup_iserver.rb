@@ -201,7 +201,7 @@ def install_iserver(ssh, shard, version, package, cdkey)
                '[sma_md]',
                'Driver=/usr/lib/libmyodbc3.so',
                'Description=MySQL ODBC 3.51 Driver DSN',
-               'Server=s' + shard.to_s + 'db-master.prod.wisdom.com',
+               'Server=s' + shard.to_s + 'mdb-master.prod.wisdom.com',
                'Port=3307',
                'Database=sma_md',
                '',
