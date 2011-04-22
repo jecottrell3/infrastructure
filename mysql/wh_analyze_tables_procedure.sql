@@ -16,7 +16,7 @@ BEGIN
   DECLARE tname VARCHAR(255);
   DECLARE done INT DEFAULT 0;
   DECLARE dummy INT;
-  DECLARE tcursor CURSOR FOR SELECT table_name FROM information_schema.tables WHERE table_schema = 'sma_wh';
+  DECLARE tcursor CURSOR FOR SELECT table_name FROM information_schema.tables WHERE table_schema = DATABASE();
   DECLARE CONTINUE HANDLER FOR NOT FOUND
   BEGIN
     SET done = 1;
