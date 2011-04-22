@@ -33,6 +33,7 @@ LOCK = Mutex.new
 def tputs(str)
   LOCK.synchronize do
     puts str.split("\n").map { |x| "[#{Thread.current[:host]}] #{x}\n" }.join
+    $stdout.flush
   end
 end
 
