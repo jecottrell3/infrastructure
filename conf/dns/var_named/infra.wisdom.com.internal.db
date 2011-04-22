@@ -1,6 +1,6 @@
 $TTL 60
 @	IN	SOA	wisdom.com.	hostmaster.wisdom.com.	(
-	2011042201	; Serial
+	2011042202	; Serial
 	3600		; Refresh after 1 hour
 	900		; Retry after 15 minutes
 	604800		; Expire after 1 day
@@ -10,20 +10,24 @@ $TTL 60
 	IN	NS	ns2.wisdom.com.
 	IN	NS	ns3.wisdom.com.
 
-nls1	IN	CNAME	adcag03.machine.wisdom.com.
-nls2	IN	CNAME	adcaa05.machine.wisdom.com.
+nls1-adc	IN	CNAME	adcag03.machine.wisdom.com.
+nls2-adc	IN	CNAME	adcaa05.machine.wisdom.com.
 
-nms	IN	CNAME	nms2.infra.wisdom.com.
-nms1	IN	CNAME	adcaa04.machine.wisdom.com.
-nms2	IN	CNAME	adcae04.machine.wisdom.com.
-nms3	IN	CNAME	adcag04.machine.wisdom.com.
+nms		IN	CNAME	nms-adc.infra.wisdom.com.
+nms-adc		IN	CNAME	nms2-adc.infra.wisdom.com.
+nms1		IN	CNAME	nms1-adc.infra.wisdom.com.
+nms2		IN	CNAME	nms2-adc.infra.wisdom.com.
+nms3		IN	CNAME	nms3-adc.infra.wisdom.com.
+nms1-adc	IN	CNAME	adcaa04.machine.wisdom.com.
+nms2-adc	IN	CNAME	adcae04.machine.wisdom.com.
+nms3-adc	IN	CNAME	adcag04.machine.wisdom.com.
 
-install	IN	CNAME	install-adc
+install		IN	CNAME	install-adc
 install-adc	IN	CNAME	install2-adc
 install1-adc	IN	CNAME	adcac04.machine.wisdom.com.
 install2-adc	IN	CNAME	adcae05.machine.wisdom.com.
 
-ntp	IN	A	10.20.0.254
+ntp		IN	A	10.20.0.254
 
 ; PDUs
 adcaa-pdu-a1	IN	A	10.20.101.201

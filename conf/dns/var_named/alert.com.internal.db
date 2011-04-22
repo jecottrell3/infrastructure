@@ -1,4 +1,4 @@
-$TTL 3600
+$TTL 60
 @	IN	SOA	alert.com.	hostmaster.alert.com.	(
 	2011042201	; Serial
 	3600		; Refresh after 1 hour
