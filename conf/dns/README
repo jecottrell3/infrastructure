@@ -6,9 +6,6 @@ yum install bind bind-chroot bind-libs bind-utils
 copy the contents of var_named from subversion to /var/named/chroot/var/named/
 copy the contents of etc from subversion to /var/named/chroot/etc/
 
-copy the key (secret) from /var/named/chroot/etc/rndc.key and put in /var/named/chroot/etc/named.conf, in the
-  ddns_key section
-
 service named start
 
 chkconfig named on
