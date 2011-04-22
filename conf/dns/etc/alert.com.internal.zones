@@ -1,0 +1,10 @@
+zone "alert.com" {
+	type master;
+	file "alert.com.internal.db";
+};
+
+zone "prod.alert.com" {
+	type master;
+	file "prod.alert.com.internal.db";
+};
+
