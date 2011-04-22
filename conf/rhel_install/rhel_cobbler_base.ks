@@ -127,10 +127,11 @@ echo "SLAVE=yes" >> /etc/sysconfig/network-scripts/ifcfg-eth1
 echo "alias bond0 bonding" >> /etc/modprobe.conf
 echo "options bonding mode=802.3ad" >> /etc/modprobe.conf
 mv /etc/snmp/snmpd.conf /etc/snmp/snmpd.conf.mstr_orig
-echo "rocommunity machine nms1.infra.wisdom.com" > /etc/snmp/snmpd.conf
-echo "rocommunity machine nms2.infra.wisdom.com" >> /etc/snmp/snmpd.conf
-echo "rocommunity machine nms3.infra.wisdom.com" >> /etc/snmp/snmpd.conf
-awk -F= '/^IPADDR/ {printf "sysLocation "; if($2~/^10\.20\./) {print "ADC"} else if($2~/^10\.23\./) {print "BDC"}}' /etc/sysconfig/network-scripts/ifcfg-bond0 >> /etc/snmp/snmpd.conf
+DATACENTER=`awk -F= '/^IPADDR/ {if($2~/^10\.20\./) {print "adc"} else if($2~/^10\.23\./) {print "bdc"}}' /etc/sysconfig/network-scripts/ifcfg-bond0`
+echo "rocommunity machine nms1-$DATACENTER.infra.wisdom.com" > /etc/snmp/snmpd.conf
+echo "rocommunity machine nms2-$DATACENTER.infra.wisdom.com" >> /etc/snmp/snmpd.conf
+echo "rocommunity machine nms3-$DATACENTER.infra.wisdom.com" >> /etc/snmp/snmpd.conf
+echo "sysLocation `echo $DATACENTER |tr a-z A-Z`" >> /etc/snmp/snmpd.conf
 sed -i -e 's/^search.*/search machine.wisdom.com/' /etc/resolv.conf
 sed -i -e 's/^defscrollback.*/defscrollback 8192/' /etc/screenrc
 echo "bind s" >> /etc/screenrc
