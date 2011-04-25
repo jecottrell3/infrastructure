@@ -106,10 +106,10 @@ $kickstart_done
 
 # Post installation script.
 %post
-sed -i -e 's/^server 0.rhel.pool.ntp.org/server ntp.infra.wisdom.com/' /etc/ntp.conf
-sed -i -e '/^server 1.rhel.pool.ntp.org/d' /etc/ntp.conf
+sed -i -e 's/^server 0.rhel.pool.ntp.org/server ntp1.infra.wisdom.com/' /etc/ntp.conf
+sed -i -e 's/^server 1.rhel.pool.ntp.org/server ntp2.infra.wisdom.com/' /etc/ntp.conf
 sed -i -e '/^server 2.rhel.pool.ntp.org/d' /etc/ntp.conf
-ntpdate ntp.infra.wisdom.com
+ntpdate ntp1.infra.wisdom.com
 hwclock --systohc
 CONFIGURED_ETH=`grep -l IPADDR /etc/sysconfig/network-scripts/ifcfg-eth* | head -1`
 sed -e '/^#/d' -e 's/DEVICE=eth.*/DEVICE=bond0/' -e '/^HWADDR/d' $CONFIGURED_ETH > /etc/sysconfig/network-scripts/ifcfg-bond0
