@@ -166,7 +166,8 @@ def fix_mysql_privileges(ssh, mysql_root, port)
               "UPDATE mysql.user SET password = '*F344FBB28F4FCBC5715D2B436296803647FFA474' WHERE user = 'root'",
               "FLUSH PRIVILEGES",
               "CREATE DATABASE mon",
-              "CREATE TABLE mon.Heartbeat (heartbeat DATETIME);",
+              "CREATE TABLE mon.Heartbeat (heartbeat DATETIME)",
+              "INSERT INTO mon.Heartbeat (heartbeat) VALUES (NULL)",
               "GRANT PROCESS, REPLICATION CLIENT ON *.* TO 'mon'@'%'",
               "GRANT SELECT ON mon.* TO 'mon'@'%'"
             ].map { |x| x + ";"}.join(" ")
