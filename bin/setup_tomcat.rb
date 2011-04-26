@@ -148,6 +148,7 @@ Net::SSH.start(host, "root", :forward_agent => true) do |ssh|
                  '               maxThreads="150" scheme="https" secure="true"',
                  '               sslProtocol="all"',
                  '               maxHttpHeaderSize="16384"',
+                 '               SSLCipherSuite="ALL:!ADH:!SSLv2:!EXPORT40:!EXP:!LOW"',
                  '               SSLCertificateFile="${catalina.home}/conf/keys/wildcard.wisdom.com.cer"',
                  '               SSLCertificateKeyFile="${catalina.home}/conf/keys/host_priv.key"',
                  '               SSLCACertificateFile="${catalina.home}/conf/keys/SSL_CA_Bundle_Apache.pem" />',
