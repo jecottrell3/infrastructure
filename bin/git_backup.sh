@@ -8,10 +8,9 @@
 GIT_HOME=/MSTR/git-repos
 BACKUP_HOST=git-backup.infra.wisdom.com
 
-for REPO in `ls -1 $GIT_HOME`; do
-  RHOME="$GIT_HOME"/"$REPO"
-  ssh git@"$BACKUP_HOST" sh -c "'mkdir -p $RHOME; cd $RHOME; git rev-parse --git-dir || git init --bare'" &>/dev/null
-  cd $RHOME
-  git push --mirror ssh://git@"${BACKUP_HOST}${RHOME}" &>/dev/null
+for REPO in `ls -1d $GIT_HOME/*.git`; do
+  ssh git@"$BACKUP_HOST" sh -c "'mkdir -p $REPO; cd $REPO; git rev-parse --git-dir || git init --bare'" &>/dev/null
+  cd $REPO
+  git push --mirror ssh://git@"${BACKUP_HOST}${REPO}" &>/dev/null
 done
 
