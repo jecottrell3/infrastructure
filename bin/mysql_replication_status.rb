@@ -125,12 +125,12 @@ puts "REPLICATED HOSTS"
 puts "----------------"
 masters.each do |hostport|
   (host, port) = hostport.split(":")
-  printf "%-25s #{host_messages[hostport]}\n", "[M: #{short_hostname(host)}:#{port}]"
+  printf "%-32s #{host_messages[hostport]}\n", "[M: #{short_hostname(host)}:#{port}]"
   ip = Socket.gethostbyname(host)[3]
   ipport = "#{ip}:#{port}"
   master_replicas[ipport].each do |replica|
     (replica_host, replica_port) = replica.split(":")
-    printf "%-25s #{host_messages[replica]}\n", "    [R: #{short_hostname(replica_host)}:#{replica_port}]"
+    printf "%-32s #{host_messages[replica]}\n", "    [R: #{short_hostname(replica_host)}:#{replica_port}]"
   end
   puts ""
 end
