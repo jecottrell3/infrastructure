@@ -4,6 +4,7 @@
 
 require "optparse"
 require "socket"
+require "highline"
 require "mysql"
 
 FLAGS = {}
@@ -22,12 +23,19 @@ abort "You must specify the list of hosts to run on.\n#{opts}" if ARGV.size < 1
 
 hosts = ARGV.map { |x| "#{x}:#{FLAGS[:port]}" }
 
+HighLine.use_color = false unless $stdout.tty?
+HIGHLINE = HighLine.new
+
 def short_hostname(host)
   if host.end_with?("machine.wisdom.com") or host.end_with?("prod.wisdom.com") or host.end_with?("prod.alert.com")
     host.split(".").first
   else
     host
   end
+end
+
+def color_error(message)
+  HIGHLINE.color(message, HighLine::RED, HighLine::BOLD)
 end
 
 host_threads = {}
@@ -70,15 +78,15 @@ hosts.each do |hostport|
   thread = host_threads[hostport]
   heartbeat = thread[:heartbeat_behind]
   if thread[:error]
-    host_messages[hostport] = thread[:error]
+    host_messages[hostport] = color_error(thread[:error])
     others << hostport
   elsif thread[:master_status]
     status = thread[:master_status]
     host_messages[hostport] = "#{status["File"]}:#{status["Position"]}"
     if heartbeat
-      host_messages[hostport] += " (heartbeat #{heartbeat.to_i}s behind)" if heartbeat.to_i > 1
+      host_messages[hostport] += color_error(" (heartbeat #{heartbeat.to_i}s behind)") if heartbeat.to_i > 1
     else
-      host_messages[hostport] += " (no heartbeat)"
+      host_messages[hostport] += color_error(" (no heartbeat)")
     end
     masters << hostport
     ip = Socket.gethostbyname(host)[3]
@@ -90,24 +98,25 @@ hosts.each do |hostport|
     master_port = status["Master_Port"]
     file = status["Relay_Master_Log_File"]
     pos = status["Exec_Master_Log_Pos"]
-    slave_io = status["Slave_IO_Running"] == "Yes" ? "Y" : "N"
-    slave_sql = status["Slave_SQL_Running"] == "Yes" ? "Y" : "N"
-    delay = status["Seconds_Behind_Master"]
+    slave_io = status["Slave_IO_Running"] == "Yes" ? "Y" : color_error("N")
+    slave_sql = status["Slave_SQL_Running"] == "Yes" ? "Y" : color_error("N")
+    delay = status["Seconds_Behind_Master"].to_i
     delay = heartbeat.to_i if heartbeat
+    delay = color_error("#{delay}") if delay > 30
     io_state = status["Slave_IO_State"]
     last_error = status["Last_Error"]
     if last_error.empty?
       error_message = ""
     else
-      error_message = " ERROR:#{last_error}"
+      error_message = color_error(" ERROR:#{last_error}")
     end
-    host_messages[hostport] = "#{file}:#{pos} #{slave_io}/#{slave_sql} #{delay}s#{heartbeat ? "" : " (no heartbeat)"} (#{io_state}#{error_message})"
+    host_messages[hostport] = "#{file}:#{pos} #{slave_io}/#{slave_sql} #{delay}s#{heartbeat ? "" : color_error(" (no heartbeat)")} (#{io_state}#{error_message})"
     ip = Socket.gethostbyname(master_host)[3]
     ipport = "#{ip}:#{master_port}"
     master_replicas[ipport] = [] unless master_replicas[ipport]
     master_replicas[ipport] << hostport
   else
-    host_messages[hostport] = "not a replica or a master"
+    host_messages[hostport] = color_error("not a replica or a master")
     others << hostport
   end
 end
