@@ -126,10 +126,12 @@ masters.each do |hostport|
   puts ""
 end
 
-puts "OTHER HOSTS"
-puts "-----------"
-others.each do |hostport|
-  (host, port) = hostport.split(":")
-  puts "[#{short_hostname(host)}:#{port}] #{host_messages[hostport]}"
+if others.size > 0
+  puts "OTHER HOSTS"
+  puts "-----------"
+  others.each do |hostport|
+    (host, port) = hostport.split(":")
+    puts "[#{short_hostname(host)}:#{port}] #{host_messages[hostport]}"
+  end
 end
 
