@@ -4,7 +4,7 @@
 
 require "net/ssh"
 
-if ARGV.size < 2
+if ARGV.size < 2 or ARGV[0].to_i < 1
   puts "Usage: #{$0} port mysql_host [mysql_host ...]"
   exit 1
 end
