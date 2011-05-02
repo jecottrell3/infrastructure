@@ -4,6 +4,7 @@
 
 require "net/ssh"
 require "net/sftp"
+require "highline/import"
 
 unless host = ARGV[0]
   puts "Usage: #{$0} host_to_make_master [<port>]"
@@ -12,6 +13,7 @@ unless host = ARGV[0]
 end
 
 port = ARGV[1] ? ARGV[1].to_i : 3306
+ROOT_PWD = ask("MySQL root password: ") { |q| q.echo = false }
 
 def stop_mysql(ssh, mysql_root)
   ssh.exec!("#{mysql_root}/mysql/bin/mysql.stop")
@@ -20,6 +22,12 @@ end
 
 def start_mysql(ssh, mysql_root)
   ssh.exec!("#{mysql_root}/mysql/bin/mysql.start")
+end
+
+def add_repl_user(ssh, mysql_root, port)
+  e_root_pwd = ROOT_PWD.gsub(/"/, '\"').gsub(/\$/, '\$')
+  mysql_cmd = "#{mysql_root}/mysql/bin/mysql -uroot -p\"#{e_root_pwd}\" -h127.0.0.1 -P#{port}"
+  ssh.exec!("#{mysql_cmd} -e\"GRANT REPLICATION SLAVE on *.* TO 'repl'@'%' IDENTIFIED BY 'repl'\"")
 end
 
 def write_master_mycnf(ssh, mysql_root)
@@ -45,6 +53,9 @@ Net::SSH.start(host, "root") do |ssh|
 
   puts "Starting MySQL"
   start_mysql(ssh, mysql_root)
+
+  puts "Adding the replication user"
+  add_repl_user(ssh, mysql_root, port)
 
   puts "Done."
 end
