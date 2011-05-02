@@ -60,7 +60,7 @@ hosts.each do |hostport|
         # Heartbeat table probably not configured.
       end
       dbh.close
-    rescue SocketError => e
+    rescue SocketError, Errno::ECONNREFUSED
       Thread.current[:error] = "Unable to connect"
     end
   end
