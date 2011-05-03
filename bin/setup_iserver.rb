@@ -53,8 +53,9 @@ else
   abort "Invalid command: #{command}\n\n#{opts}"
 end
 
-MD_PWD = ask("MySQL password for the metadata database: ") { |q| q.echo = false }
-ADM_PWD = ask("IServer password for Administrator: ") { |q| q.echo = false }
+PASSWORDS = {}
+PASSWORDS[:md_pwd] = ask("MySQL password for the metadata database: ") { |q| q.echo = false }
+PASSWORDS[:adm_pwd] = ask("IServer password for Administrator: ") { |q| q.echo = false }
 
 # Update sysctl parameters.
 def update_sysctl(ssh, variable, value, comment)
@@ -96,6 +97,28 @@ def start_iserver(ssh, shard, version)
     sleep 1
   end
   puts " started"
+end
+
+def stop_iserver(ssh, shard, version)
+  puts "Stopping the Intelligence Server"
+  install_root = "/MSTR/shard#{shard}/#{version}"
+  ssh.exec!("bash -c '#{install_root}/MicroStrategy/bin/mstrctl -s IntelligenceServer stop </dev/null &>/dev/null'")
+  sleep 1
+  seconds = 0
+  timeout = 300
+  loop do
+    state = ""
+    output = ssh.exec!("#{install_root}/MicroStrategy/bin/mstrctl -s IntelligenceServer gs")
+    REXML::Document.new(output).elements.each("status/state") { |x| state = x.text }
+    raise "Unable to stop, state is #{state}" unless state == "stopping" or state == "unloading" or state == "stopped"
+    break if state == "stopped"
+    raise "Unable to stop, timeout of #{timeout} seconds reached" if seconds > timeout
+    print "."
+    $stdout.flush
+    seconds += 1
+    sleep 1
+  end
+  puts " stopped"
 end
 
 # Install the IServer on the host that ssh is connected to.  ssh should already
@@ -229,7 +252,7 @@ def install_iserver(ssh, shard, version, package, cdkey)
   # Update the registry.
   port = ("3" + shard.to_s * 4).to_i
   configuration_xml = "<configuration>"
-  configuration_xml += "<metadata><login pwd=\"#{MD_PWD}\">md</login><odbc dsn=\"sma_md\"/></metadata>"
+  configuration_xml += "<metadata><login pwd=\"#{PASSWORDS[:md_pwd]}\">md</login><odbc dsn=\"sma_md\"/></metadata>"
   configuration_xml += "<svrd n=\"WAS-HSOEWANDI77\"/>"
   configuration_xml += "<tcp_port_number>#{port}</tcp_port_number>"
   configuration_xml += "</configuration>"
@@ -294,13 +317,41 @@ end
 def cluster_iserver(ssh, shard, version, other_host)
   install_root = "/MSTR/shard#{shard}/#{version}"
   port = ("3" + shard.to_s * 4).to_i
-  script = "CONNECT SERVER \"#{ssh.host.upcase}\" USER \"Administrator\" PASSWORD \"#{ADM_PWD}\" PORT #{port};\n" +
+  script = "CONNECT SERVER \"#{ssh.host.upcase}\" USER \"Administrator\" PASSWORD \"#{PASSWORDS[:adm_pwd]}\" PORT #{port};\n" +
            "ADD SERVER \"#{other_host.upcase}\" TO CLUSTER;\n"
   ssh.sftp.file.open("#{install_root}/tmp_cluster.scp", "w") do |f|
     f.write(script)
   end
-  ssh.exec!("#{install_root}/MicroStrategy/bin/mstrcmdmgr -connlessMSTR -f #{install_root}/tmp_cluster.scp")
+  loop do
+    output = ssh.exec!("#{install_root}/MicroStrategy/bin/mstrcmdmgr -connlessMSTR -f #{install_root}/tmp_cluster.scp")
+    if output.include? "Incorrect login"
+      puts "IServer Administrator password incorrect."
+      PASSWORDS[:adm_pwd] = ask("IServer password for Administrator: ") { |q| q.echo = false }
+    else
+      break
+    end
+  end
   ssh.exec!("rm #{install_root}/tmp_cluster.scp")
+end
+
+def idle_iserver(ssh, shard, version)
+  install_root = "/MSTR/shard#{shard}/#{version}"
+  port = ("3" + shard.to_s * 4).to_i
+  script = "CONNECT SERVER \"#{ssh.host.upcase}\" USER \"Administrator\" PASSWORD \"#{PASSWORDS[:adm_pwd]}\" PORT #{port};\n" +
+           "IDLE PROJECT \"SMA Project 03-31\" MODE REQUEST;\n"
+  ssh.sftp.file.open("#{install_root}/tmp_idle.scp", "w") do |f|
+    f.write(script)
+  end
+  loop do
+    output = ssh.exec!("#{install_root}/MicroStrategy/bin/mstrcmdmgr -connlessMSTR -f #{install_root}/tmp_idle.scp")
+    puts "DEBUG: #{output}"
+    if output.include? "Incorrect login"
+      puts "IServer Administrator password incorrect."
+      PASSWORDS[:adm_pwd] = ask("IServer password for Administrator: ") { |q| q.echo = false }
+    else
+      break
+    end
+  ssh.exec!("rm #{install_root}/tmp_idle.scp")
 end
 
 if command == "install"
@@ -366,6 +417,7 @@ elsif command == "upgrade_cluster"
       raise "Host #{ssh.host} does not have #{from_root}." if output.include? "such file"
       output = ssh.exec!("pgrep -f #{from_root}/MicroStrategy/install/IntelligenceServer/bin/MSTRSvr")
       raise "MSTRSvr is not running on host #{ssh.host}." unless output
+    end
 
     # Install the new version.
     puts "Installing version #{FLAGS[:vto]} on #{host1}"
@@ -374,7 +426,14 @@ elsif command == "upgrade_cluster"
     puts "Installing version #{FLAGS[:vto]} on #{host2}"
     install_iserver(ssh2, FLAGS[:shard], FLAGS[:vto], FLAGS[:package], FLAGS[:key])
     puts "Installed on #{host2}"
-    end
+
+    # Idle host1 and shut it down.
+    puts "Idling version #{FLAGS[:vfrom]} on #{host1}"
+    idle_iserver(ssh1, FLAGS[:shard], FLAGS[:vfrom])
+    puts "Waiting 60 seconds."
+    sleep 60
+    puts "Stopping version #{FLAGS[:vfrom]} on #{host1}"
+    stop_iserver(ssh1, FLAGS[:shard], FLAGS[:vfrom])
 
   ensure
     # Disconnect from hosts.
