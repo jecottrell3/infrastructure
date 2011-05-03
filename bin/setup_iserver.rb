@@ -110,8 +110,8 @@ def stop_iserver(ssh, shard, version)
     state = ""
     output = ssh.exec!("#{install_root}/MicroStrategy/bin/mstrctl -s IntelligenceServer gs")
     REXML::Document.new(output).elements.each("status/state") { |x| state = x.text }
-    raise "Unable to stop, state is #{state}" unless state == "stopping" or state == "unloading" or state == "stopped"
-    break if state == "stopped"
+    raise "Unable to stop, state is #{state}" unless state == "stopping" or state == "unloading" or state == "stopped" or state == "terminated"
+    break if state == "stopped" or state == "terminated"
     raise "Unable to stop, timeout of #{timeout} seconds reached" if seconds > timeout
     print "."
     $stdout.flush
@@ -344,7 +344,6 @@ def idle_iserver(ssh, shard, version)
       f.write(script)
     end
     output = ssh.exec!("#{install_root}/MicroStrategy/bin/mstrcmdmgr -connlessMSTR -f #{install_root}/tmp_idle.scp")
-    puts "DEBUG: #{output}"
     ssh.exec!("rm #{install_root}/tmp_idle.scp")
     if output.include? "Incorrect login"
       puts "IServer Administrator password incorrect."
@@ -420,7 +419,7 @@ elsif command == "upgrade_cluster"
       raise "MSTRSvr is not running on host #{ssh.host}." unless output
     end
 
-    # Install the new version.
+    # Install the new version on both hosts.
     puts "Installing version #{FLAGS[:vto]} on #{host1}"
     install_iserver(ssh1, FLAGS[:shard], FLAGS[:vto], FLAGS[:package], FLAGS[:key])
     puts "Installed on #{host1}"
@@ -428,13 +427,18 @@ elsif command == "upgrade_cluster"
     install_iserver(ssh2, FLAGS[:shard], FLAGS[:vto], FLAGS[:package], FLAGS[:key])
     puts "Installed on #{host2}"
 
-    # Idle host1 and shut it down.
+    # Idle host1, shut it down, and unmount NFS.
     puts "Idling version #{FLAGS[:vfrom]} on #{host1}"
     idle_iserver(ssh1, FLAGS[:shard], FLAGS[:vfrom])
     puts "Waiting 60 seconds."
     sleep 60
     puts "Stopping version #{FLAGS[:vfrom]} on #{host1}"
     stop_iserver(ssh1, FLAGS[:shard], FLAGS[:vfrom])
+    puts "Removing NFS mount for version #{FLAGS[:vfrom]} on #{host1}"
+    ssh1.exec!("umount /#{host1.upcase}/ClusterCube")
+
+    # Start the new version on host1.
+    start_iserver(ssh1, FLAGS[:shard], FLAGS[:vto])
 
   ensure
     # Disconnect from hosts.
