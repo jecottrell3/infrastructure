@@ -351,6 +351,7 @@ def idle_iserver(ssh, shard, version)
     else
       break
     end
+  end
   ssh.exec!("rm #{install_root}/tmp_idle.scp")
 end
 
