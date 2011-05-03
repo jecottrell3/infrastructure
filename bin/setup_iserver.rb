@@ -317,13 +317,14 @@ end
 def cluster_iserver(ssh, shard, version, other_host)
   install_root = "/MSTR/shard#{shard}/#{version}"
   port = ("3" + shard.to_s * 4).to_i
-  script = "CONNECT SERVER \"#{ssh.host.upcase}\" USER \"Administrator\" PASSWORD \"#{PASSWORDS[:adm_pwd]}\" PORT #{port};\n" +
-           "ADD SERVER \"#{other_host.upcase}\" TO CLUSTER;\n"
-  ssh.sftp.file.open("#{install_root}/tmp_cluster.scp", "w") do |f|
-    f.write(script)
-  end
   loop do
+    script = "CONNECT SERVER \"#{ssh.host.upcase}\" USER \"Administrator\" PASSWORD \"#{PASSWORDS[:adm_pwd]}\" PORT #{port};\n" +
+             "ADD SERVER \"#{other_host.upcase}\" TO CLUSTER;\n"
+    ssh.sftp.file.open("#{install_root}/tmp_cluster.scp", "w") do |f|
+      f.write(script)
+    end
     output = ssh.exec!("#{install_root}/MicroStrategy/bin/mstrcmdmgr -connlessMSTR -f #{install_root}/tmp_cluster.scp")
+    ssh.exec!("rm #{install_root}/tmp_cluster.scp")
     if output.include? "Incorrect login"
       puts "IServer Administrator password incorrect."
       PASSWORDS[:adm_pwd] = ask("IServer password for Administrator: ") { |q| q.echo = false }
@@ -331,20 +332,20 @@ def cluster_iserver(ssh, shard, version, other_host)
       break
     end
   end
-  ssh.exec!("rm #{install_root}/tmp_cluster.scp")
 end
 
 def idle_iserver(ssh, shard, version)
   install_root = "/MSTR/shard#{shard}/#{version}"
   port = ("3" + shard.to_s * 4).to_i
-  script = "CONNECT SERVER \"#{ssh.host.upcase}\" USER \"Administrator\" PASSWORD \"#{PASSWORDS[:adm_pwd]}\" PORT #{port};\n" +
-           "IDLE PROJECT \"SMA Project 03-31\" MODE REQUEST;\n"
-  ssh.sftp.file.open("#{install_root}/tmp_idle.scp", "w") do |f|
-    f.write(script)
-  end
   loop do
+    script = "CONNECT SERVER \"#{ssh.host.upcase}\" USER \"Administrator\" PASSWORD \"#{PASSWORDS[:adm_pwd]}\" PORT #{port};\n" +
+             "IDLE PROJECT \"SMA Project 03-31\" MODE REQUEST;\n"
+    ssh.sftp.file.open("#{install_root}/tmp_idle.scp", "w") do |f|
+      f.write(script)
+    end
     output = ssh.exec!("#{install_root}/MicroStrategy/bin/mstrcmdmgr -connlessMSTR -f #{install_root}/tmp_idle.scp")
     puts "DEBUG: #{output}"
+    ssh.exec!("rm #{install_root}/tmp_idle.scp")
     if output.include? "Incorrect login"
       puts "IServer Administrator password incorrect."
       PASSWORDS[:adm_pwd] = ask("IServer password for Administrator: ") { |q| q.echo = false }
@@ -352,7 +353,6 @@ def idle_iserver(ssh, shard, version)
       break
     end
   end
-  ssh.exec!("rm #{install_root}/tmp_idle.scp")
 end
 
 if command == "install"
@@ -389,7 +389,7 @@ elsif command == "install_cluster"
     puts "Done on #{host2}"
     puts "Setting up NFS for clustering"
     configure_cluster_nfs(ssh1, ssh2, FLAGS[:shard], FLAGS[:version])
-    puts "Cluster the Intelligence Servers"
+    puts "Clustering the Intelligence Servers"
     cluster_iserver(ssh1, FLAGS[:shard], FLAGS[:version], host2)
   ensure
     # Disconnect from hosts.
