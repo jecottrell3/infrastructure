@@ -435,7 +435,7 @@ elsif command == "upgrade_cluster"
     puts "Stopping version #{FLAGS[:vfrom]} on #{host1}"
     stop_iserver(ssh1, FLAGS[:shard], FLAGS[:vfrom])
     puts "Removing NFS mount for version #{FLAGS[:vfrom]} on #{host1}"
-    ssh1.exec!("umount /#{host1.upcase}/ClusterCube")
+    ssh1.exec!("umount /#{host2.upcase}/ClusterCube")
 
     # Start the new version on host1.
     start_iserver(ssh1, FLAGS[:shard], FLAGS[:vto])
