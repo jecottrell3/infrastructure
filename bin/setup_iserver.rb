@@ -249,8 +249,6 @@ def install_iserver(ssh, shard, version, package, cdkey)
   puts "Removing temporary installation files"
   ssh.exec!("rm -Rf #{download_dir}")
 
-  start_iserver(ssh, shard, version)
-
   puts "Starting NFS"
   ssh.exec!("chkconfig nfs on")
   ssh.exec!("service nfs start")
@@ -312,6 +310,7 @@ if command == "install"
   begin
     puts "Installing version #{FLAGS[:version]} for shard #{FLAGS[:shard]} on host #{host}"
     install_iserver(ssh, FLAGS[:shard], FLAGS[:version], FLAGS[:package], FLAGS[:key])
+    start_iserver(ssh, FLAGS[:shard], FLAGS[:version])
   ensure
     # Disconnect from the host.
     ssh.sftp.close_channel
@@ -330,9 +329,11 @@ elsif command == "install_cluster"
     puts "Installing version #{FLAGS[:version]} for shard #{FLAGS[:shard]} on cluster hosts #{host1} and #{host2}"
     puts "Installing on #{host1}"
     install_iserver(ssh1, FLAGS[:shard], FLAGS[:version], FLAGS[:package], FLAGS[:key])
+    start_iserver(ssh1, FLAGS[:shard], FLAGS[:version])
     puts "Done on #{host1}"
     puts "Installing on #{host2}"
     install_iserver(ssh2, FLAGS[:shard], FLAGS[:version], FLAGS[:package], FLAGS[:key])
+    start_iserver(ssh2, FLAGS[:shard], FLAGS[:version])
     puts "Done on #{host2}"
     puts "Setting up NFS for clustering"
     configure_cluster_nfs(ssh1, ssh2, FLAGS[:shard], FLAGS[:version])
@@ -365,6 +366,14 @@ elsif command == "upgrade_cluster"
       raise "Host #{ssh.host} does not have #{from_root}." if output.include? "such file"
       output = ssh.exec!("pgrep -f #{from_root}/MicroStrategy/install/IntelligenceServer/bin/MSTRSvr")
       raise "MSTRSvr is not running on host #{ssh.host}." unless output
+
+    # Install the new version.
+    puts "Installing version #{FLAGS[:vto]} on #{host1}"
+    install_iserver(ssh1, FLAGS[:shard], FLAGS[:vto], FLAGS[:package], FLAGS[:key])
+    puts "Installed on #{host1}"
+    puts "Installing version #{FLAGS[:vto]} on #{host2}"
+    install_iserver(ssh2, FLAGS[:shard], FLAGS[:vto], FLAGS[:package], FLAGS[:key])
+    puts "Installed on #{host2}"
     end
 
   ensure
