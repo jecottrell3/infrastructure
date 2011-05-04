@@ -438,7 +438,28 @@ elsif command == "upgrade_cluster"
     ssh1.exec!("umount /#{host2.upcase}/ClusterCube")
 
     # Start the new version on host1.
+    puts "Starting version #{FLAGS[:vto]} on #{host1}"
     start_iserver(ssh1, FLAGS[:shard], FLAGS[:vto])
+
+    # Idle host2, shut it down, and unmount NFS.
+    puts "Idling version #{FLAGS[:vfrom]} on #{host2}"
+    idle_iserver(ssh2, FLAGS[:shard], FLAGS[:vfrom])
+    puts "Waiting 60 seconds."
+    sleep 60
+    puts "Stopping version #{FLAGS[:vfrom]} on #{host2}"
+    stop_iserver(ssh2, FLAGS[:shard], FLAGS[:vfrom])
+    puts "Removing NFS mount for version #{FLAGS[:vfrom]} on #{host2}"
+    ssh2.exec!("umount /#{host1.upcase}/ClusterCube")
+
+    # Start the new version on host2.
+    puts "Starting version #{FLAGS[:vto]} on #{host2}"
+    start_iserver(ssh2, FLAGS[:shard], FLAGS[:vto])
+
+    # Set up NFS and cluster the servers.
+    puts "Setting up NFS for clustering"
+    configure_cluster_nfs(ssh1, ssh2, FLAGS[:shard], FLAGS[:vto])
+    puts "Clustering the Intelligence Servers"
+    cluster_iserver(ssh1, FLAGS[:shard], FLAGS[:vto], host2)
 
   ensure
     # Disconnect from hosts.
