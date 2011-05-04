@@ -63,6 +63,13 @@ cobbler profile edit --name=RHEL56-x86_64 --repos="rhel-updates rhel-epel rhel-e
 
 cobbler sync
 
+Set up a DHCP server on the same machine:
+yum install dhcp
+on your local machine, run Infrastructure/bin/generate_dhcpd_conf.rb <dns_name_of_cobbler_server>
+back on the cobbler server:
+chkconfig dhcpd on
+service dhcpd start
+
 On the client, to reinstall later:
 koan --replace-self --profile=RHEL56-x86_64 --kopts="mstrhostname=`hostname --short`"
 shutdown -r now
