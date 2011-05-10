@@ -13,3 +13,5 @@ $TTL 60
 	IN	MX	10	mailgate3.microstrategy.com.
 	IN	MX	10	mailgate4.microstrategy.com.
 
+	IN	A	209.133.33.40
+www	IN	A	209.133.33.40
