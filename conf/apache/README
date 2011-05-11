@@ -1,12 +1,11 @@
-1. Copy ius.repo file from the yum.repos.d git directory to /etc/yum.repos.d/ directory (if it is not already there)
+1. Copy ius.repo file from the yum.repos.d git repository to /etc/yum.repos.d/ directory (if it is not already there)
 2. Install apache and php:
 	yum install --nogpgcheck httpd mod_ssl php53u-pecl-memcache php53u php53u-mysql php53u-pear
 3. Create /MSTR/wwwroot, /MSTR/wwwroot/alert.com, /MSTR/wwwroot/default, /MSTR/javawww folders and change ownership to alert user/group:
 	chown -R alert:alert /MSTR/wwwroot
 4. Configure Apache to start automatically:
 	chkconfig httpd on
-5. Start apache web server: 
+5. Copy configuration files from the conf.d git repository to /etc/httpd/conf.d/ on the web server
+6. Create /etc/httpd/keys directory that will contain the SSL certificate related files and copy these from install.infra.wisdom.com:/MSTR/private/alert_ssl_keys folder
+7. Start apache web server: 
 	service httpd start
-6. Copy configuration files from the conf.d git directory to /etc/httpd/conf.d/ on the web server
-7. Create /etc/httpd/keys directory that will contain the SSL certificate related files and copy these from install.infra.wisdom.com:/MSTR/private/alert_ssl_keys folder
-
