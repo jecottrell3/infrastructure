@@ -161,6 +161,7 @@ def install_mysql(ssh, mysql_root, port, server_id)
   end
   ssh.exec!("chmod +x #{mysql_root}/mysql/bin/mysql.start")
   ssh.exec!("chmod +x #{mysql_root}/mysql/bin/mysql.stop")
+  ssh.exec!("chmod +x #{mysql_root}/mysql/bin/update_heartbeat_loop.sh")
 end
 
 def start_mysql(ssh, mysql_root)
