@@ -141,6 +141,10 @@ def install_mysql(ssh, mysql_root, port, server_id)
                  "  echo \" stopped.\"",
                  "fi"
                ].map { |x| x + "\n" }.join
+  update_heartbeat = [ "#!/bin/sh",
+                       "",
+                       "/bin/sh -c \"while true; do #{mysql_root}/mysql/bin/mysql -uheartbeat -h127.0.0.1 -P#{port} -e'UPDATE mon.Heartbeat SET heartbeat = NOW() LIMIT 1'; sleep 1; done\" </dev/null &>/dev/null &",
+                     ].map { |x| x + "\n" }.join
   ssh.sftp.connect do |sftp|
     sftp.file.open("#{mysql_root}/mysql/etc/my.cnf", "w") do |f|
       f.write(my_cnf)
@@ -150,6 +154,9 @@ def install_mysql(ssh, mysql_root, port, server_id)
     end
     sftp.file.open("#{mysql_root}/mysql/bin/mysql.stop", "w") do |f|
       f.write(mysql_stop)
+    end
+    sftp.file.open("#{mysql_root}/mysql/bin/update_heartbeat_loop.sh", "w") do |f|
+      f.write(update_heartbeat)
     end
   end
   ssh.exec!("chmod +x #{mysql_root}/mysql/bin/mysql.start")
