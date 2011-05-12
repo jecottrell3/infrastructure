@@ -70,6 +70,7 @@ Net::SSH.start(host, "root", :forward_agent => true) do |ssh|
       f.write("monitorRole tomcat\n")
     end
   end
+  ssh.exec!("mkdir #{apps_home}/tomcat/webapps/mon")
   ssh.exec!("chmod 400 #{apps_home}/tomcat/conf/jmxremote.password")
   ssh.exec!("useradd tomcat")
   ssh.exec!("chown -R tomcat:tomcat #{apps_home}/#{TOMCAT}")
@@ -110,7 +111,7 @@ Net::SSH.start(host, "root", :forward_agent => true) do |ssh|
   end
   ssh.exec!("chmod +x #{apps_home}/tomcat/tomcat.sh")
   ssh.sftp.connect do |sftp|
-    sftp.file.open("#{apps_home}/tomcat/webapps/ROOT/status.jsp", "w") do |f|
+    sftp.file.open("#{apps_home}/tomcat/webapps/mon/status.jsp", "w") do |f|
       f.write('<%= "OK" %>')
     end
   end
