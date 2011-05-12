@@ -169,7 +169,8 @@ def fix_mysql_privileges(ssh, mysql_root, port)
               "CREATE TABLE mon.Heartbeat (heartbeat DATETIME)",
               "INSERT INTO mon.Heartbeat (heartbeat) VALUES (NULL)",
               "GRANT PROCESS, REPLICATION CLIENT ON *.* TO 'mon'@'%'",
-              "GRANT SELECT ON mon.* TO 'mon'@'%'"
+              "GRANT SELECT ON mon.* TO 'mon'@'%'",
+              "GRANT ALL ON mon.* TO 'monw'@'%' IDENTIFIED BY PASSWORD '*03D90B5B6347BD01557762F0EBDF17358A64D473'"
             ].map { |x| x + ";"}.join(" ")
   ssh.exec!("echo \"#{fix_sql}\" | #{mysql_root}/mysql/bin/mysql -uroot -h127.0.0.1 -P#{port}")
 end
