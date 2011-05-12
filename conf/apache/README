@@ -9,3 +9,5 @@
 6. Create /etc/httpd/keys directory that will contain the SSL certificate related files and copy these from install.infra.wisdom.com:/MSTR/private/alert_ssl_keys folder
 7. Start apache web server: 
 	service httpd start
+8. Add the JDBC MySQL connector to the Java installation directory:
+	cd /usr/java/jdk1.6.0_24/lib; wget http://install-adc.infra.wisdom.com/install/MySQL/mysql-connector-java-5.1.15-bin.jar
