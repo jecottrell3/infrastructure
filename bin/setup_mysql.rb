@@ -88,6 +88,7 @@ def install_mysql(ssh, mysql_root, port, server_id)
              "replicate-wild-ignore-table = mysql.%",
              "innodb_buffer_pool_size = 16G",
              "innodb_buffer_pool_instances = 8",
+             "innodb_log_file_size = 1G",
              "server-id = #{server_id}",
              "",
              "!includedir #{mysql_root}/mysql/etc/conf.d"
