@@ -11,3 +11,4 @@
 	service httpd start
 8. Add the JDBC MySQL connector to the Java installation directory:
 	cd /usr/java/jdk1.6.0_24/lib; wget http://install-adc.infra.wisdom.com/install/MySQL/mysql-connector-java-5.1.15-bin.jar
+9. Make apache logs readable by the alert user: chgrp alert /var/log/httpd; chmod g+rx /var/log/httpd
