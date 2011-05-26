@@ -1,0 +1,7 @@
+#!/bin/bash
+BACKUPDIR=/MSTR/zenoss/zenoss/backups
+KEEPDAYS=30
+${ZENHOME}/bin/zenbackup --file $BACKUPDIR/zenoss-backup-$(date +%d-%m-%Y).tgz --save-mysql-access -C ${ZENHOME}/etc/zenbackup.conf < /dev/null
+find $BACKUPDIR -type f -mtime +$KEEPDAYS -name 'zenoss-backup*' -exec rm -f {} \; > /dev/null
+/usr/bin/rsync -av --delete $BACKUPDIR/ zenoss@nms1-adc.infra.wisdom.com:/MSTR/zenoss/zenoss/backups/ > /dev/null
+/usr/bin/rsync -av --delete $BACKUPDIR/ zenoss@nms3-adc.infra.wisdom.com:/MSTR/zenoss/zenoss/backups/ > /dev/null
