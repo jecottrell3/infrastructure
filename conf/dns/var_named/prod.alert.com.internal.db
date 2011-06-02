@@ -1,6 +1,6 @@
 $TTL 60
 @	IN	SOA	alert.com.	hostmaster.alert.com.	(
-	2011060201	; Serial
+	2011060202	; Serial
 	3600		; Refresh after 1 hour
 	900		; Retry after 15 minutes
 	604800		; Expire after 1 day
@@ -45,5 +45,5 @@ s4db-replica1-adc	IN	CNAME	adcae11.machine.wisdom.com.
 s5db-master	60	IN	CNAME	adcaa09.machine.wisdom.com.
 s5db-replica1-adc	IN	CNAME	adcac09.machine.wisdom.com.
 
-zencart1-master	60	IN	CNAME	adcag15.machine.wisdom.com.
-zencart1-replica1-adc	IN	CNAME	adcae15.machine.wisdom.com.
+zencartdb1-master	60	IN	CNAME	adcag15.machine.wisdom.com.
+zencartdb1-replica1-adc	IN	CNAME	adcae15.machine.wisdom.com.
