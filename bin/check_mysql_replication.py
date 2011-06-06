@@ -1,4 +1,4 @@
-#!/bin/env /MSTR/zenoss/python/bin/python
+#!/usr/bin/env python
 
 import sys
 import getopt
@@ -36,18 +36,7 @@ def main():
   delay = row[0]
   cursor.close()
   conn.close()
-
-  state = "OK"
-  if delay > 900:
-    state = "CRITICAL"
-  elif delay > 300:
-    state = "WARNING"
-
-  exit_code = {"CRITICAL": 2, "WARNING": 1, "OK": 0}[state]
-
-  print "STATE_%s| replication_delay=%ds" % (state, row[0])
-
-  sys.exit(exit_code)
+  print "STATE_OK| replication_delay=%ds" % delay
 
 if __name__ == "__main__":
   main()
