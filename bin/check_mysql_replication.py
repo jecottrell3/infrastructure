@@ -36,7 +36,7 @@ def main():
   delay = row[0]
   cursor.close()
   conn.close()
-  print "STATE_OK| replication_delay=%ds" % delay
+  print "STATE_OK| replication_delay_%s=%ds" % (port, delay)
 
 if __name__ == "__main__":
   main()
