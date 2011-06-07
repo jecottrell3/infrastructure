@@ -29,7 +29,10 @@ def parse_args(args):
 
 def main():
   host, port = parse_args(sys.argv[1:])
-  conn = MySQLdb.connect(host=host, user="mon", port=port)
+  try:
+    conn = MySQLdb.connect(host=host, user="mon", port=port)
+  except MySQLdb.OperationalError, err:
+    sys.exit(1)
   cursor = conn.cursor()
   cursor.execute("SELECT COUNT(uid) FROM alert.alertUser")
   row = cursor.fetchone()
