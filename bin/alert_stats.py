@@ -39,7 +39,7 @@ def main():
   num_users = row[0]
   cursor.close()
   conn.close()
-  print "|num_alert_users=%dc" % num_users
+  print "|num_alert_users=%d" % num_users
 
 if __name__ == "__main__":
   main()
