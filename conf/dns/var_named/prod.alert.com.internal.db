@@ -1,6 +1,6 @@
 $TTL 60
 @	IN	SOA	alert.com.	hostmaster.alert.com.	(
-	2011060601	; Serial
+	2011060701	; Serial
 	3600		; Refresh after 1 hour
 	900		; Retry after 15 minutes
 	604800		; Expire after 1 day
@@ -34,22 +34,22 @@ s9memcache-adc          IN      CNAME   adcae13.machine.wisdom.com.
 s10memcache-adc         IN      CNAME   adcag06.machine.wisdom.com.
 
 
-s1db-master	60	IN	CNAME	adcaa10.machine.wisdom.com.
+s1db-master	60	IN	CNAME	adcaa15.machine.wisdom.com.
 s1db-replica1-adc	IN	CNAME	adcac10.machine.wisdom.com.
-s2db-master	60	IN	CNAME	adcac11.machine.wisdom.com.
+s2db-master	60	IN	CNAME	adcae14.machine.wisdom.com.
 s2db-replica1-adc	IN	CNAME	adcaa11.machine.wisdom.com.
-s3db-master	60	IN	CNAME	adcae10.machine.wisdom.com.
+s3db-master	60	IN	CNAME	adcaa14.machine.wisdom.com.
 s3db-replica1-adc	IN	CNAME	adcag10.machine.wisdom.com.
-s4db-master	60	IN	CNAME	adcag11.machine.wisdom.com.
+s4db-master	60	IN	CNAME	adcag14.machine.wisdom.com.
 s4db-replica1-adc	IN	CNAME	adcae11.machine.wisdom.com.
-s5db-master	60	IN	CNAME	adcaa09.machine.wisdom.com.
+s5db-master	60	IN	CNAME	adcag13.machine.wisdom.com.
 s5db-replica1-adc	IN	CNAME	adcac09.machine.wisdom.com.
 
 zencartdb1-master	60	IN	CNAME	adcag15.machine.wisdom.com.
 zencartdb1-replica1-adc	IN	CNAME	adcae15.machine.wisdom.com.
 
-s1db-replica2-adc	IN	CNAME	adcaa15.machine.wisdom.com.
-s2db-replica2-adc	IN	CNAME	adcae14.machine.wisdom.com.
-s3db-replica2-adc	IN	CNAME	adcaa14.machine.wisdom.com.
-s4db-replica2-adc	IN	CNAME	adcag14.machine.wisdom.com.
-s5db-replica2-adc	IN	CNAME	adcag13.machine.wisdom.com.
+s1db-replica_old-adc	IN	CNAME	adcaa10.machine.wisdom.com.
+s2db-replica_old-adc	IN	CNAME	adcac11.machine.wisdom.com.
+s3db-replica_old-adc	IN	CNAME	adcae10.machine.wisdom.com.
+s4db-replica_old-adc	IN	CNAME	adcag11.machine.wisdom.com.
+s5db-replica_old-adc	IN	CNAME	adcaa09.machine.wisdom.com.
