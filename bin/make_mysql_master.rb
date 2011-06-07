@@ -24,10 +24,11 @@ def start_mysql(ssh, mysql_root)
   ssh.exec!("#{mysql_root}/mysql/bin/mysql.start")
 end
 
-def add_repl_user(ssh, mysql_root, port)
+def add_users(ssh, mysql_root, port)
   e_root_pwd = ROOT_PWD.gsub(/"/, '\"').gsub(/\$/, '\$')
   mysql_cmd = "#{mysql_root}/mysql/bin/mysql -uroot -p\"#{e_root_pwd}\" -h127.0.0.1 -P#{port}"
   ssh.exec!("#{mysql_cmd} -e\"GRANT REPLICATION SLAVE on *.* TO 'repl'@'%' IDENTIFIED BY 'repl'\"")
+  ssh.exec!("#{mysql_cmd} -e\"GRANT SELECT, UPDATE ON mon.Heartbeat TO 'heartbeat'@'127.0.0.1\"")
 end
 
 def write_master_mycnf(ssh, mysql_root)
@@ -55,7 +56,7 @@ Net::SSH.start(host, "root") do |ssh|
   start_mysql(ssh, mysql_root)
 
   puts "Adding the replication user"
-  add_repl_user(ssh, mysql_root, port)
+  add_users(ssh, mysql_root, port)
 
   puts "Done."
 end
