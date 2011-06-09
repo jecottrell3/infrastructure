@@ -46,7 +46,7 @@ def main():
   cursor.close()
 
   cursor = conn.cursor()
-  cursor.execute("SELECT SUM(data_length), SUM(index_length) FROM information_schema.tables WHERE table_schema = 'alert'")
+  cursor.execute("SELECT SUM(data_length), SUM(index_length) FROM information_schema.tables WHERE table_schema = 'alert' AND table_type = 'BASE TABLE'")
   row = cursor.fetchone()
   data_size = int(row[0])
   index_size = int(row[1])
