@@ -1,16 +1,29 @@
 These are instructions on how to configure multiple iDRAC cards from the command line. 
 
-1. Choose the correct .cfg config file from this repository - there are separate config files for different datacenters.
-2. If you prefer to dump a fresh config file from an existing configured iDRAC you can do so with the command: 
+1. Install Dell OpenManage on the hosts: 
+
+Unzip the OM installation
+Run $OMINSTALLDIR/srvadmin-install.sh -x -p -a
+
+2. Set the drac IP address by running from the localhost: 
+racadm config -g cfgLanNetworking -o cfgNicEnable 1
+racadm config -g cfgLanNetworking -o cfgNicIpAddress 192.168.0.120
+racadm config -g cfgLanNetworking -o cfgNicNetmask 255.255.255.0
+racadm config -g cfgLanNetworking -o cfgNicGateway 192.168.0.120
+
+3. Set the drac hostname by running from the localhost: 
+for a in 1 2;do for b in e g j;do ssh root@adca${b}0${a}.machine.wisdom.com racadm config -g cfgLanNetworking -o cfgDNSRacName adca${b}0${a};done;done
+
+4. Enable iDRAC remote configuration from the localhost: 
+for a in 1 2 3 4 5;do for b in 1 2;do ssh root@s${a}mstr${b}-adc.prod.wisdom.com racadm config -g cfgRacTuning -o cfgRacTuneRemoteRacadmEnable 1;done;done
+
+5. Choose the correct .cfg config file from this repository - there are separate config files for different datacenters.
+
+6. If you prefer to dump a fresh config file from an existing configured iDRAC you can do so with the command: 
 
 racadm getconfig -f filename.cfg
  
-3. Import the config file from step 1. above remotely to the unconfigured iDRAC by running:
+7. Import the config file from step 5. above remotely (NOTE: config file skips networking part):
 
 racadm -r DRACIP:443 -u root -p calvin config -f configfile.cfg
 
-4. Using the command from 3. without -r option can be run locally on the host which DRAC you want to configure. 
-
-NOTE: above assumes that you have already installed OpenManage before you can use the racadm command. 
-
-NOTE: Above assumes that you have already configured networking on the DRAC and assumes that username/password are factory default. 
