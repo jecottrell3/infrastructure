@@ -1,0 +1,16 @@
+These are instructions on how to configure multiple iDRAC cards from the command line. 
+
+1. Choose the correct .cfg config file from this repository - there are separate config files for different datacenters.
+2. If you prefer to dump a fresh config file from an existing configured iDRAC you can do so with the command: 
+
+racadm getconfig -f filename.cfg
+ 
+3. Import the config file from step 1. above remotely to the unconfigured iDRAC by running:
+
+racadm -r DRACIP:443 -u root -p calvin config -f configfile.cfg
+
+4. Using the command from 3. without -r option can be run locally on the host which DRAC you want to configure. 
+
+NOTE: above assumes that you have already installed OpenManage before you can use the racadm command. 
+
+NOTE: Above assumes that you have already configured networking on the DRAC and assumes that username/password are factory default. 
