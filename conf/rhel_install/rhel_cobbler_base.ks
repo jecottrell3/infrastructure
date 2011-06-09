@@ -9,8 +9,8 @@ auth --useshadow --enablemd5
 # Disable firstboot.
 firstboot --disable
 
-# Disable selinux.
-selinux --disabled
+# Set selinux to enabled but non-enforcing
+selinux --permissive
 
 # Install the bootloader into the MBR.
 bootloader --location=mbr
