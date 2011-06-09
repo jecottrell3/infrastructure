@@ -72,7 +72,8 @@ if [ -z "$MSTRIP" ]; then
   read DUMMY
 fi
 MSTRGATEWAY=`route -n | awk '/^0.0.0.0/ {print $2}'`
-echo "network --bootproto=static --ip='$MSTRIP' --netmask=255.255.255.0 --gateway='$MSTRGATEWAY' --nameserver=10.20.103.3,10.20.101.3 --hostname='$MSTRFQDN'" > /tmp/mstr_network_config
+MSTRDNSSERVERS=`awk -v ORS=, '/^nameserver/ {print $2}' /etc/resolv.conf | sed 's/,$//'`
+echo "network --bootproto=static --ip='$MSTRIP' --netmask=255.255.255.0 --gateway='$MSTRGATEWAY' --nameserver=$MSTRDNSSERVERS --hostname='$MSTRFQDN'" > /tmp/mstr_network_config
 # Enable installation monitoring
 $SNIPPET('pre_anamon')
 
