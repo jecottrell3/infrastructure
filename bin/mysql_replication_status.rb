@@ -54,7 +54,7 @@ hosts.each do |hostport|
       res = dbh.query("SHOW MASTER STATUS")
       res.each_hash { |row| Thread.current[:master_status] = row; break }
       begin
-        res = dbh.query("SELECT NOW() - heartbeat AS delay FROM mon.Heartbeat LIMIT 1")
+        res = dbh.query("SELECT UNIX_TIMESTAMP() - UNIX_TIMESTAMP(heartbeat) AS delay FROM mon.Heartbeat LIMIT 1")
         res.each_hash { |row| Thread.current[:heartbeat_behind] = row["delay"]; break }
       rescue Mysql::ServerError => e
         # Heartbeat table probably not configured.
