@@ -46,14 +46,14 @@ def main():
   cursor.close()
 
   cursor = conn.cursor()
-  cursor.execute("SELECT SUM(data_length) / (1024 * 1024), SUM(index_length) / (1024 * 1024) FROM information_schema.tables WHERE table_schema = 'alert'")
+  cursor.execute("SELECT SUM(data_length), SUM(index_length) FROM information_schema.tables WHERE table_schema = 'alert'")
   row = cursor.fetchone()
-  data_size = float(row[0])
-  index_size = float(row[1])
+  data_size = int(row[0])
+  index_size = int(row[1])
   cursor.close()
 
   conn.close()
-  print "|num_alert_users=%d data_size_mb=%1.3f index_size_mb=%1.3f" % (num_users, data_size, index_size)
+  print "|num_alert_users=%d data_size=%dB index_size=%dB" % (num_users, data_size, index_size)
 
 if __name__ == "__main__":
   main()
