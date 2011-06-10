@@ -1,0 +1,87 @@
+$TTL 1800
+@	IN	SOA	wisdom.com.	hostmaster.wisdom.com.	(
+	2011061000	; Serial
+	3600		; Refresh after 1 hour
+	900		; Retry after 15 minutes
+	604800		; Expire after 1 day
+	14400 )		; Minimum TTL of 4 hours
+
+	IN	NS	ns1.wisdom.com.
+	IN	NS	ns2.wisdom.com.
+	IN	NS	ns3.wisdom.com.
+	IN	NS	ns4.wisdom.com.
+
+; Machine Reverse Entries
+
+$GENERATE 1-9 $.101 IN PTR bdcaa0$.machine.wisdom.com.
+$GENERATE 10-50 $.101 IN PTR bdcaa$.machine.wisdom.com.
+
+$GENERATE 1-9 $.102 IN PTR bdcac0$.machine.wisdom.com.
+$GENERATE 10-50 $.102 IN PTR bdcac$.machine.wisdom.com.
+
+$GENERATE 1-9 $.103 IN PTR bdcae0$.machine.wisdom.com.
+$GENERATE 10-50 $.103 IN PTR bdcae$.machine.wisdom.com.
+
+; Network Gear Reverse Entries
+
+;211.0	IN	PTR	adcak-lb1.infra.wisdom.com.
+;212.0	IN	PTR	adcaj-lb2.infra.wisdom.com.
+;231.0	IN	PTR	adcak-er1.infra.wisdom.com.
+;232.0	IN	PTR	adcaj-er2.infra.wisdom.com.
+;241.0	IN	PTR	adcak-esw1.infra.wisdom.com.
+;242.0	IN	PTR	adcaj-esw2.infra.wisdom.com.
+;251.0	IN	PTR	adcak-nx1.infra.wisdom.com.
+;252.0	IN	PTR	adcaj-nx2.infra.wisdom.com.
+;254.0	IN	PTR	nxvip.infra.wisdom.com.
+;254.5	IN	PTR	adcak-fw1.infra.wisdom.com.
+;253.5	IN	PTR	adcaj-fw2.infra.wisdom.com.
+
+; Rack PDU Reverse Entries
+
+;201.101	IN	PTR	adcaa-pdu-a1.infra.wisdom.com.
+;202.101	IN	PTR	adcaa-pdu-a2.infra.wisdom.com.
+;203.101	IN	PTR	adcaa-pdu-b1.infra.wisdom.com.
+;204.101	IN	PTR	adcaa-pdu-b2.infra.wisdom.com.
+;
+;201.103	IN	PTR	adcac-pdu-a1.infra.wisdom.com.
+;202.103	IN	PTR	adcac-pdu-a2.infra.wisdom.com.
+;203.103	IN	PTR	adcac-pdu-b1.infra.wisdom.com.
+;204.103	IN	PTR	adcac-pdu-b2.infra.wisdom.com.
+;
+;201.105	IN	PTR	adcae-pdu-a1.infra.wisdom.com.
+;202.105	IN	PTR	adcae-pdu-a2.infra.wisdom.com.
+;203.105	IN	PTR	adcae-pdu-b1.infra.wisdom.com.
+;204.105	IN	PTR	adcae-pdu-b2.infra.wisdom.com.
+;
+;201.107	IN	PTR	adcag-pdu-a1.infra.wisdom.com.
+;202.107	IN	PTR	adcag-pdu-a2.infra.wisdom.com.
+;203.107	IN	PTR	adcag-pdu-b1.infra.wisdom.com.
+;204.107	IN	PTR	adcag-pdu-b2.infra.wisdom.com.
+;
+;201.109	IN	PTR	adcaj-pdu-a1.infra.wisdom.com.
+;202.109	IN	PTR	adcaj-pdu-a2.infra.wisdom.com.
+;203.109	IN	PTR	adcaj-pdu-b1.infra.wisdom.com.
+;204.109	IN	PTR	adcaj-pdu-b2.infra.wisdom.com.
+;
+;205.109	IN	PTR	adcak-pdu-b1.infra.wisdom.com.
+;206.109	IN	PTR	adcak-pdu-b2.infra.wisdom.com.
+
+; DRAC Reverse Entries
+
+$GENERATE 1-9 15$.101 IN PTR bdcaa0$.drac.wisdom.com.
+$GENERATE 0-9 16$.101 IN PTR bdcaa1$.drac.wisdom.com.
+$GENERATE 0-9 17$.101 IN PTR bdcaa2$.drac.wisdom.com.
+$GENERATE 0-9 18$.101 IN PTR bdcaa3$.drac.wisdom.com.
+$GENERATE 0-9 19$.101 IN PTR bdcaa4$.drac.wisdom.com.
+
+$GENERATE 1-9 15$.102 IN PTR bdcac0$.drac.wisdom.com.
+$GENERATE 0-9 16$.102 IN PTR bdcac1$.drac.wisdom.com.
+$GENERATE 0-9 17$.102 IN PTR bdcac2$.drac.wisdom.com.
+$GENERATE 0-9 18$.102 IN PTR bdcac3$.drac.wisdom.com.
+$GENERATE 0-9 19$.102 IN PTR bdcac4$.drac.wisdom.com.
+
+$GENERATE 1-9 15$.103 IN PTR bdcae0$.drac.wisdom.com.
+$GENERATE 0-9 16$.103 IN PTR bdcae1$.drac.wisdom.com.
+$GENERATE 0-9 17$.103 IN PTR bdcae2$.drac.wisdom.com.
+$GENERATE 0-9 18$.103 IN PTR bdcae3$.drac.wisdom.com.
+$GENERATE 0-9 19$.103 IN PTR bdcae4$.drac.wisdom.com.
