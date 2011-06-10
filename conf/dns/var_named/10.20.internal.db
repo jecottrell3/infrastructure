@@ -73,261 +73,37 @@ $GENERATE 10-50 $.109 IN PTR adcaj$.machine.wisdom.com.
 
 ; DRAC Reverse Entries
 
-151.101	IN	PTR	adcaa01.drac.wisdom.com.
-152.101	IN	PTR	adcaa02.drac.wisdom.com.
-153.101	IN	PTR	adcaa03.drac.wisdom.com.
-154.101	IN	PTR	adcaa04.drac.wisdom.com.
-155.101	IN	PTR	adcaa05.drac.wisdom.com.
-156.101	IN	PTR	adcaa06.drac.wisdom.com.
-157.101	IN	PTR	adcaa07.drac.wisdom.com.
-158.101	IN	PTR	adcaa08.drac.wisdom.com.
-159.101	IN	PTR	adcaa09.drac.wisdom.com.
-160.101	IN	PTR	adcaa10.drac.wisdom.com.
-161.101	IN	PTR	adcaa11.drac.wisdom.com.
-162.101	IN	PTR	adcaa12.drac.wisdom.com.
-163.101	IN	PTR	adcaa13.drac.wisdom.com.
-164.101	IN	PTR	adcaa14.drac.wisdom.com.
-165.101	IN	PTR	adcaa15.drac.wisdom.com.
-166.101	IN	PTR	adcaa16.drac.wisdom.com.
-167.101	IN	PTR	adcaa17.drac.wisdom.com.
-168.101	IN	PTR	adcaa18.drac.wisdom.com.
-169.101	IN	PTR	adcaa19.drac.wisdom.com.
-170.101	IN	PTR	adcaa20.drac.wisdom.com.
-171.101	IN	PTR	adcaa21.drac.wisdom.com.
-172.101	IN	PTR	adcaa22.drac.wisdom.com.
-173.101	IN	PTR	adcaa23.drac.wisdom.com.
-174.101	IN	PTR	adcaa24.drac.wisdom.com.
-175.101	IN	PTR	adcaa25.drac.wisdom.com.
-176.101	IN	PTR	adcaa26.drac.wisdom.com.
-177.101	IN	PTR	adcaa27.drac.wisdom.com.
-178.101	IN	PTR	adcaa28.drac.wisdom.com.
-179.101	IN	PTR	adcaa29.drac.wisdom.com.
-180.101	IN	PTR	adcaa30.drac.wisdom.com.
-181.101	IN	PTR	adcaa31.drac.wisdom.com.
-182.101	IN	PTR	adcaa32.drac.wisdom.com.
-183.101	IN	PTR	adcaa33.drac.wisdom.com.
-184.101	IN	PTR	adcaa34.drac.wisdom.com.
-185.101	IN	PTR	adcaa35.drac.wisdom.com.
-186.101	IN	PTR	adcaa36.drac.wisdom.com.
-187.101	IN	PTR	adcaa37.drac.wisdom.com.
-188.101	IN	PTR	adcaa38.drac.wisdom.com.
-189.101	IN	PTR	adcaa39.drac.wisdom.com.
-190.101	IN	PTR	adcaa40.drac.wisdom.com.
-191.101	IN	PTR	adcaa41.drac.wisdom.com.
-192.101	IN	PTR	adcaa42.drac.wisdom.com.
-193.101	IN	PTR	adcaa43.drac.wisdom.com.
-194.101	IN	PTR	adcaa44.drac.wisdom.com.
-195.101	IN	PTR	adcaa45.drac.wisdom.com.
-196.101	IN	PTR	adcaa46.drac.wisdom.com.
-197.101	IN	PTR	adcaa47.drac.wisdom.com.
-198.101	IN	PTR	adcaa48.drac.wisdom.com.
-199.101	IN	PTR	adcaa49.drac.wisdom.com.
-200.101	IN	PTR	adcaa50.drac.wisdom.com.
+$GENERATE 1-9 15$.101 IN PTR adcaa0$.drac.wisdom.com.
+$GENERATE 0-9 16$.101 IN PTR adcaa1$.drac.wisdom.com.
+$GENERATE 0-9 17$.101 IN PTR adcaa2$.drac.wisdom.com.
+$GENERATE 0-9 18$.101 IN PTR adcaa3$.drac.wisdom.com.
+$GENERATE 0-9 19$.101 IN PTR adcaa4$.drac.wisdom.com.
+200.101		IN	PTR	adcaa50.drac.wisdom.com.
 
+$GENERATE 1-9 15$.103 IN PTR adcac0$.drac.wisdom.com.
+$GENERATE 0-9 16$.103 IN PTR adcac1$.drac.wisdom.com.
+$GENERATE 0-9 17$.103 IN PTR adcac2$.drac.wisdom.com.
+$GENERATE 0-9 18$.103 IN PTR adcac3$.drac.wisdom.com.
+$GENERATE 0-9 19$.103 IN PTR adcac4$.drac.wisdom.com.
+200.103		IN	PTR	adcac50.drac.wisdom.com.
 
-151.103	IN	PTR	adcac01.drac.wisdom.com.
-152.103	IN	PTR	adcac02.drac.wisdom.com.
-153.103	IN	PTR	adcac03.drac.wisdom.com.
-154.103	IN	PTR	adcac04.drac.wisdom.com.
-155.103	IN	PTR	adcac05.drac.wisdom.com.
-156.103	IN	PTR	adcac06.drac.wisdom.com.
-157.103	IN	PTR	adcac07.drac.wisdom.com.
-158.103	IN	PTR	adcac08.drac.wisdom.com.
-159.103	IN	PTR	adcac09.drac.wisdom.com.
-160.103	IN	PTR	adcac10.drac.wisdom.com.
-161.103	IN	PTR	adcac11.drac.wisdom.com.
-162.103	IN	PTR	adcac12.drac.wisdom.com.
-163.103	IN	PTR	adcac13.drac.wisdom.com.
-164.103	IN	PTR	adcac14.drac.wisdom.com.
-165.103	IN	PTR	adcac15.drac.wisdom.com.
-166.103	IN	PTR	adcac16.drac.wisdom.com.
-167.103	IN	PTR	adcac17.drac.wisdom.com.
-168.103	IN	PTR	adcac18.drac.wisdom.com.
-169.103	IN	PTR	adcac19.drac.wisdom.com.
-170.103	IN	PTR	adcac20.drac.wisdom.com.
-171.103	IN	PTR	adcac21.drac.wisdom.com.
-172.103	IN	PTR	adcac22.drac.wisdom.com.
-173.103	IN	PTR	adcac23.drac.wisdom.com.
-174.103	IN	PTR	adcac24.drac.wisdom.com.
-175.103	IN	PTR	adcac25.drac.wisdom.com.
-176.103	IN	PTR	adcac26.drac.wisdom.com.
-177.103	IN	PTR	adcac27.drac.wisdom.com.
-178.103	IN	PTR	adcac28.drac.wisdom.com.
-179.103	IN	PTR	adcac29.drac.wisdom.com.
-180.103	IN	PTR	adcac30.drac.wisdom.com.
-181.103	IN	PTR	adcac31.drac.wisdom.com.
-182.103	IN	PTR	adcac32.drac.wisdom.com.
-183.103	IN	PTR	adcac33.drac.wisdom.com.
-184.103	IN	PTR	adcac34.drac.wisdom.com.
-185.103	IN	PTR	adcac35.drac.wisdom.com.
-186.103	IN	PTR	adcac36.drac.wisdom.com.
-187.103	IN	PTR	adcac37.drac.wisdom.com.
-188.103	IN	PTR	adcac38.drac.wisdom.com.
-189.103	IN	PTR	adcac39.drac.wisdom.com.
-190.103	IN	PTR	adcac40.drac.wisdom.com.
-191.103	IN	PTR	adcac41.drac.wisdom.com.
-192.103	IN	PTR	adcac42.drac.wisdom.com.
-193.103	IN	PTR	adcac43.drac.wisdom.com.
-194.103	IN	PTR	adcac44.drac.wisdom.com.
-195.103	IN	PTR	adcac45.drac.wisdom.com.
-196.103	IN	PTR	adcac46.drac.wisdom.com.
-197.103	IN	PTR	adcac47.drac.wisdom.com.
-198.103	IN	PTR	adcac48.drac.wisdom.com.
-199.103	IN	PTR	adcac49.drac.wisdom.com.
-200.103	IN	PTR	adcac50.drac.wisdom.com.
+$GENERATE 1-9 15$.105 IN PTR adcae0$.drac.wisdom.com.
+$GENERATE 0-9 16$.105 IN PTR adcae1$.drac.wisdom.com.
+$GENERATE 0-9 17$.105 IN PTR adcae2$.drac.wisdom.com.
+$GENERATE 0-9 18$.105 IN PTR adcae3$.drac.wisdom.com.
+$GENERATE 0-9 19$.105 IN PTR adcae4$.drac.wisdom.com.
+200.105		IN	PTR	adcae50.drac.wisdom.com.
 
+$GENERATE 1-9 15$.107 IN PTR adcag0$.drac.wisdom.com.
+$GENERATE 0-9 16$.107 IN PTR adcag1$.drac.wisdom.com.
+$GENERATE 0-9 17$.107 IN PTR adcag2$.drac.wisdom.com.
+$GENERATE 0-9 18$.107 IN PTR adcag3$.drac.wisdom.com.
+$GENERATE 0-9 19$.107 IN PTR adcag4$.drac.wisdom.com.
+200.107		IN	PTR	adcag50.drac.wisdom.com.
 
-151.105	IN	PTR	adcae01.drac.wisdom.com.
-152.105	IN	PTR	adcae02.drac.wisdom.com.
-153.105	IN	PTR	adcae03.drac.wisdom.com.
-154.105	IN	PTR	adcae04.drac.wisdom.com.
-155.105	IN	PTR	adcae05.drac.wisdom.com.
-156.105	IN	PTR	adcae06.drac.wisdom.com.
-157.105	IN	PTR	adcae07.drac.wisdom.com.
-158.105	IN	PTR	adcae08.drac.wisdom.com.
-159.105	IN	PTR	adcae09.drac.wisdom.com.
-160.105	IN	PTR	adcae10.drac.wisdom.com.
-161.105	IN	PTR	adcae11.drac.wisdom.com.
-162.105	IN	PTR	adcae12.drac.wisdom.com.
-163.105	IN	PTR	adcae13.drac.wisdom.com.
-164.105	IN	PTR	adcae14.drac.wisdom.com.
-165.105	IN	PTR	adcae15.drac.wisdom.com.
-166.105	IN	PTR	adcae16.drac.wisdom.com.
-167.105	IN	PTR	adcae17.drac.wisdom.com.
-168.105	IN	PTR	adcae18.drac.wisdom.com.
-169.105	IN	PTR	adcae19.drac.wisdom.com.
-170.105	IN	PTR	adcae20.drac.wisdom.com.
-171.105	IN	PTR	adcae21.drac.wisdom.com.
-172.105	IN	PTR	adcae22.drac.wisdom.com.
-173.105	IN	PTR	adcae23.drac.wisdom.com.
-174.105	IN	PTR	adcae24.drac.wisdom.com.
-175.105	IN	PTR	adcae25.drac.wisdom.com.
-176.105	IN	PTR	adcae26.drac.wisdom.com.
-177.105	IN	PTR	adcae27.drac.wisdom.com.
-178.105	IN	PTR	adcae28.drac.wisdom.com.
-179.105	IN	PTR	adcae29.drac.wisdom.com.
-180.105	IN	PTR	adcae30.drac.wisdom.com.
-181.105	IN	PTR	adcae31.drac.wisdom.com.
-182.105	IN	PTR	adcae32.drac.wisdom.com.
-183.105	IN	PTR	adcae33.drac.wisdom.com.
-184.105	IN	PTR	adcae34.drac.wisdom.com.
-185.105	IN	PTR	adcae35.drac.wisdom.com.
-186.105	IN	PTR	adcae36.drac.wisdom.com.
-187.105	IN	PTR	adcae37.drac.wisdom.com.
-188.105	IN	PTR	adcae38.drac.wisdom.com.
-189.105	IN	PTR	adcae39.drac.wisdom.com.
-190.105	IN	PTR	adcae40.drac.wisdom.com.
-191.105	IN	PTR	adcae41.drac.wisdom.com.
-192.105	IN	PTR	adcae42.drac.wisdom.com.
-193.105	IN	PTR	adcae43.drac.wisdom.com.
-194.105	IN	PTR	adcae44.drac.wisdom.com.
-195.105	IN	PTR	adcae45.drac.wisdom.com.
-196.105	IN	PTR	adcae46.drac.wisdom.com.
-197.105	IN	PTR	adcae47.drac.wisdom.com.
-198.105	IN	PTR	adcae48.drac.wisdom.com.
-199.105	IN	PTR	adcae49.drac.wisdom.com.
-200.105	IN	PTR	adcae50.drac.wisdom.com.
-
-
-151.107	IN	PTR	adcag01.drac.wisdom.com.
-152.107	IN	PTR	adcag02.drac.wisdom.com.
-153.107	IN	PTR	adcag03.drac.wisdom.com.
-154.107	IN	PTR	adcag04.drac.wisdom.com.
-155.107	IN	PTR	adcag05.drac.wisdom.com.
-156.107	IN	PTR	adcag06.drac.wisdom.com.
-157.107	IN	PTR	adcag07.drac.wisdom.com.
-158.107	IN	PTR	adcag08.drac.wisdom.com.
-159.107	IN	PTR	adcag09.drac.wisdom.com.
-160.107	IN	PTR	adcag10.drac.wisdom.com.
-161.107	IN	PTR	adcag11.drac.wisdom.com.
-162.107	IN	PTR	adcag12.drac.wisdom.com.
-163.107	IN	PTR	adcag13.drac.wisdom.com.
-164.107	IN	PTR	adcag14.drac.wisdom.com.
-165.107	IN	PTR	adcag15.drac.wisdom.com.
-166.107	IN	PTR	adcag16.drac.wisdom.com.
-167.107	IN	PTR	adcag17.drac.wisdom.com.
-168.107	IN	PTR	adcag18.drac.wisdom.com.
-169.107	IN	PTR	adcag19.drac.wisdom.com.
-170.107	IN	PTR	adcag20.drac.wisdom.com.
-171.107	IN	PTR	adcag21.drac.wisdom.com.
-172.107	IN	PTR	adcag22.drac.wisdom.com.
-173.107	IN	PTR	adcag23.drac.wisdom.com.
-174.107	IN	PTR	adcag24.drac.wisdom.com.
-175.107	IN	PTR	adcag25.drac.wisdom.com.
-176.107	IN	PTR	adcag26.drac.wisdom.com.
-177.107	IN	PTR	adcag27.drac.wisdom.com.
-178.107	IN	PTR	adcag28.drac.wisdom.com.
-179.107	IN	PTR	adcag29.drac.wisdom.com.
-180.107	IN	PTR	adcag30.drac.wisdom.com.
-181.107	IN	PTR	adcag31.drac.wisdom.com.
-182.107	IN	PTR	adcag32.drac.wisdom.com.
-183.107	IN	PTR	adcag33.drac.wisdom.com.
-184.107	IN	PTR	adcag34.drac.wisdom.com.
-185.107	IN	PTR	adcag35.drac.wisdom.com.
-186.107	IN	PTR	adcag36.drac.wisdom.com.
-187.107	IN	PTR	adcag37.drac.wisdom.com.
-188.107	IN	PTR	adcag38.drac.wisdom.com.
-189.107	IN	PTR	adcag39.drac.wisdom.com.
-190.107	IN	PTR	adcag40.drac.wisdom.com.
-191.107	IN	PTR	adcag41.drac.wisdom.com.
-192.107	IN	PTR	adcag42.drac.wisdom.com.
-193.107	IN	PTR	adcag43.drac.wisdom.com.
-194.107	IN	PTR	adcag44.drac.wisdom.com.
-195.107	IN	PTR	adcag45.drac.wisdom.com.
-196.107	IN	PTR	adcag46.drac.wisdom.com.
-197.107	IN	PTR	adcag47.drac.wisdom.com.
-198.107	IN	PTR	adcag48.drac.wisdom.com.
-199.107	IN	PTR	adcag49.drac.wisdom.com.
-200.107	IN	PTR	adcag50.drac.wisdom.com.
-
-
-151.109	IN	PTR	adcaj01.drac.wisdom.com.
-152.109	IN	PTR	adcaj02.drac.wisdom.com.
-153.109	IN	PTR	adcaj03.drac.wisdom.com.
-154.109	IN	PTR	adcaj04.drac.wisdom.com.
-155.109	IN	PTR	adcaj05.drac.wisdom.com.
-156.109	IN	PTR	adcaj06.drac.wisdom.com.
-157.109	IN	PTR	adcaj07.drac.wisdom.com.
-158.109	IN	PTR	adcaj08.drac.wisdom.com.
-159.109	IN	PTR	adcaj09.drac.wisdom.com.
-160.109	IN	PTR	adcaj10.drac.wisdom.com.
-161.109	IN	PTR	adcaj11.drac.wisdom.com.
-162.109	IN	PTR	adcaj12.drac.wisdom.com.
-163.109	IN	PTR	adcaj13.drac.wisdom.com.
-164.109	IN	PTR	adcaj14.drac.wisdom.com.
-165.109	IN	PTR	adcaj15.drac.wisdom.com.
-166.109	IN	PTR	adcaj16.drac.wisdom.com.
-167.109	IN	PTR	adcaj17.drac.wisdom.com.
-168.109	IN	PTR	adcaj18.drac.wisdom.com.
-169.109	IN	PTR	adcaj19.drac.wisdom.com.
-170.109	IN	PTR	adcaj20.drac.wisdom.com.
-171.109	IN	PTR	adcaj21.drac.wisdom.com.
-172.109	IN	PTR	adcaj22.drac.wisdom.com.
-173.109	IN	PTR	adcaj23.drac.wisdom.com.
-174.109	IN	PTR	adcaj24.drac.wisdom.com.
-175.109	IN	PTR	adcaj25.drac.wisdom.com.
-176.109	IN	PTR	adcaj26.drac.wisdom.com.
-177.109	IN	PTR	adcaj27.drac.wisdom.com.
-178.109	IN	PTR	adcaj28.drac.wisdom.com.
-179.109	IN	PTR	adcaj29.drac.wisdom.com.
-180.109	IN	PTR	adcaj30.drac.wisdom.com.
-181.109	IN	PTR	adcaj31.drac.wisdom.com.
-182.109	IN	PTR	adcaj32.drac.wisdom.com.
-183.109	IN	PTR	adcaj33.drac.wisdom.com.
-184.109	IN	PTR	adcaj34.drac.wisdom.com.
-185.109	IN	PTR	adcaj35.drac.wisdom.com.
-186.109	IN	PTR	adcaj36.drac.wisdom.com.
-187.109	IN	PTR	adcaj37.drac.wisdom.com.
-188.109	IN	PTR	adcaj38.drac.wisdom.com.
-189.109	IN	PTR	adcaj39.drac.wisdom.com.
-190.109	IN	PTR	adcaj40.drac.wisdom.com.
-191.109	IN	PTR	adcaj41.drac.wisdom.com.
-192.109	IN	PTR	adcaj42.drac.wisdom.com.
-193.109	IN	PTR	adcaj43.drac.wisdom.com.
-194.109	IN	PTR	adcaj44.drac.wisdom.com.
-195.109	IN	PTR	adcaj45.drac.wisdom.com.
-196.109	IN	PTR	adcaj46.drac.wisdom.com.
-197.109	IN	PTR	adcaj47.drac.wisdom.com.
-198.109	IN	PTR	adcaj48.drac.wisdom.com.
-199.109	IN	PTR	adcaj49.drac.wisdom.com.
-200.109	IN	PTR	adcaj50.drac.wisdom.com.
+$GENERATE 1-9 15$.109 IN PTR adcaj0$.drac.wisdom.com.
+$GENERATE 0-9 16$.109 IN PTR adcaj1$.drac.wisdom.com.
+$GENERATE 0-9 17$.109 IN PTR adcaj2$.drac.wisdom.com.
+$GENERATE 0-9 18$.109 IN PTR adcaj3$.drac.wisdom.com.
+$GENERATE 0-9 19$.109 IN PTR adcaj4$.drac.wisdom.com.
+200.109		IN	PTR	adcaj50.drac.wisdom.com.
