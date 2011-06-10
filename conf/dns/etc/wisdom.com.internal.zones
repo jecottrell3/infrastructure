@@ -28,3 +28,7 @@ zone "20.10.in-addr.arpa"{
 	file "10.20.internal.db";
 };
 
+zone "140.10.in-addr.arpa"{
+	type master;
+	file "10.140.internal.db";
+};
