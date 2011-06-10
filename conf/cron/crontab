@@ -11,4 +11,10 @@
 5 */2 * * * /MSTR/cron/wisdom_log_missing_friend_data.sh s3db-master.prod.wisdom.com 3>&1 >/dev/null 2>&3 | logger -t wisdom_log_missing_friend_data_s3 -p cron.err
 5 */2 * * * /MSTR/cron/wisdom_log_missing_friend_data.sh s4db-master.prod.wisdom.com 3>&1 >/dev/null 2>&3 | logger -t wisdom_log_missing_friend_data_s4 -p cron.err
 5 */2 * * * /MSTR/cron/wisdom_log_missing_friend_data.sh s5db-master.prod.wisdom.com 3>&1 >/dev/null 2>&3 | logger -t wisdom_log_missing_friend_data_s5 -p cron.err
-
+#
+# Add daily partitions in Wisdom.
+15 6 * * * /MSTR/cron/wisdom_add_daily_partitions.sh s1db-master.prod.wisdom.com 3>&1 >/dev/null 2>&3 | logger -t wisdom_add_daily_partitions_s1 -p cron.err
+15 6 * * * /MSTR/cron/wisdom_add_daily_partitions.sh s2db-master.prod.wisdom.com 3>&1 >/dev/null 2>&3 | logger -t wisdom_add_daily_partitions_s2 -p cron.err
+15 6 * * * /MSTR/cron/wisdom_add_daily_partitions.sh s3db-master.prod.wisdom.com 3>&1 >/dev/null 2>&3 | logger -t wisdom_add_daily_partitions_s3 -p cron.err
+15 6 * * * /MSTR/cron/wisdom_add_daily_partitions.sh s4db-master.prod.wisdom.com 3>&1 >/dev/null 2>&3 | logger -t wisdom_add_daily_partitions_s4 -p cron.err
+15 6 * * * /MSTR/cron/wisdom_add_daily_partitions.sh s5db-master.prod.wisdom.com 3>&1 >/dev/null 2>&3 | logger -t wisdom_add_daily_partitions_s5 -p cron.err
