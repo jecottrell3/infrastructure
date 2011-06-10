@@ -1,0 +1,6 @@
+# Run ETL on the Wisdom warehouse.
+0 2,5,8,11,14,17,20,23 * * * /MSTR/cron/wisdom_warehouse_update.sh s1db-master.prod.wisdom.com
+0 2,5,8,11,14,17,20,23 * * * /MSTR/cron/wisdom_warehouse_update.sh s2db-master.prod.wisdom.com
+0 2,5,8,11,14,17,20,23 * * * /MSTR/cron/wisdom_warehouse_update.sh s3db-master.prod.wisdom.com
+0 2,5,8,11,14,17,20,23 * * * /MSTR/cron/wisdom_warehouse_update.sh s4db-master.prod.wisdom.com
+0 2,5,8,11,14,17,20,23 * * * /MSTR/cron/wisdom_warehouse_update.sh s5db-master.prod.wisdom.com
