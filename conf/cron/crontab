@@ -1,13 +1,14 @@
 # Run ETL on the Wisdom warehouse.
-0 2,5,8,11,14,17,20,23 * * * /MSTR/cron/wisdom_warehouse_update.sh s1db-master.prod.wisdom.com
-0 2,5,8,11,14,17,20,23 * * * /MSTR/cron/wisdom_warehouse_update.sh s2db-master.prod.wisdom.com
-0 2,5,8,11,14,17,20,23 * * * /MSTR/cron/wisdom_warehouse_update.sh s3db-master.prod.wisdom.com
-0 2,5,8,11,14,17,20,23 * * * /MSTR/cron/wisdom_warehouse_update.sh s4db-master.prod.wisdom.com
-0 2,5,8,11,14,17,20,23 * * * /MSTR/cron/wisdom_warehouse_update.sh s5db-master.prod.wisdom.com
+0 2,5,8,11,14,17,20,23 * * * /MSTR/cron/wisdom_warehouse_update.sh s1db-master.prod.wisdom.com 3>&1 >/dev/null 2>&3 | logger -t wisdom_warehouse_update_s1 -p cron.err
+0 2,5,8,11,14,17,20,23 * * * /MSTR/cron/wisdom_warehouse_update.sh s2db-master.prod.wisdom.com 3>&1 >/dev/null 2>&3 | logger -t wisdom_warehouse_update_s2 -p cron.err
+0 2,5,8,11,14,17,20,23 * * * /MSTR/cron/wisdom_warehouse_update.sh s3db-master.prod.wisdom.com 3>&1 >/dev/null 2>&3 | logger -t wisdom_warehouse_update_s3 -p cron.err
+0 2,5,8,11,14,17,20,23 * * * /MSTR/cron/wisdom_warehouse_update.sh s4db-master.prod.wisdom.com 3>&1 >/dev/null 2>&3 | logger -t wisdom_warehouse_update_s4 -p cron.err
+0 2,5,8,11,14,17,20,23 * * * /MSTR/cron/wisdom_warehouse_update.sh s5db-master.prod.wisdom.com 3>&1 >/dev/null 2>&3 | logger -t wisdom_warehouse_update_s5 -p cron.err
 #
 # Log missing friend data in Wisdom.
-5 */2 * * * /MSTR/cron/wisdom_log_missing_friend_data.sh s1db-master.prod.wisdom.com
-5 */2 * * * /MSTR/cron/wisdom_log_missing_friend_data.sh s2db-master.prod.wisdom.com
-5 */2 * * * /MSTR/cron/wisdom_log_missing_friend_data.sh s3db-master.prod.wisdom.com
-5 */2 * * * /MSTR/cron/wisdom_log_missing_friend_data.sh s4db-master.prod.wisdom.com
-5 */2 * * * /MSTR/cron/wisdom_log_missing_friend_data.sh s5db-master.prod.wisdom.com
+5 */2 * * * /MSTR/cron/wisdom_log_missing_friend_data.sh s1db-master.prod.wisdom.com 3>&1 >/dev/null 2>&3 | logger -t wisdom_log_missing_friend_data_s1 -p cron.err
+5 */2 * * * /MSTR/cron/wisdom_log_missing_friend_data.sh s2db-master.prod.wisdom.com 3>&1 >/dev/null 2>&3 | logger -t wisdom_log_missing_friend_data_s2 -p cron.err
+5 */2 * * * /MSTR/cron/wisdom_log_missing_friend_data.sh s3db-master.prod.wisdom.com 3>&1 >/dev/null 2>&3 | logger -t wisdom_log_missing_friend_data_s3 -p cron.err
+5 */2 * * * /MSTR/cron/wisdom_log_missing_friend_data.sh s4db-master.prod.wisdom.com 3>&1 >/dev/null 2>&3 | logger -t wisdom_log_missing_friend_data_s4 -p cron.err
+5 */2 * * * /MSTR/cron/wisdom_log_missing_friend_data.sh s5db-master.prod.wisdom.com 3>&1 >/dev/null 2>&3 | logger -t wisdom_log_missing_friend_data_s5 -p cron.err
+
