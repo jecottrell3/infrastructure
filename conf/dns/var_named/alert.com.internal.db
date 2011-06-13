@@ -1,6 +1,6 @@
 $TTL 60
 @	IN	SOA	alert.com.	hostmaster.alert.com.	(
-	2011060100	; Serial
+	2011061300	; Serial
 	3600		; Refresh after 1 hour
 	900		; Retry after 15 minutes
 	604800		; Expire after 1 day
@@ -17,3 +17,5 @@ $TTL 60
 www	IN	A	209.133.33.40
 api	IN	A	209.133.33.41
 media	IN	CNAME	hwcdn.net.
+hwcdn	IN	CNAME	hwcdn.net.
+internapcdn	IN	CNAME	microstrategy.http.internapcdn.net.
