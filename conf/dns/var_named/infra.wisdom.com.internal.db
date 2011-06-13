@@ -1,6 +1,6 @@
 $TTL 60
 @	IN	SOA	wisdom.com.	hostmaster.wisdom.com.	(
-	2011061000	; Serial
+	2011061300	; Serial
 	3600		; Refresh after 1 hour
 	900		; Retry after 15 minutes
 	604800		; Expire after 1 day
@@ -37,6 +37,8 @@ git-backup	IN	CNAME	adcac04.machine.wisdom.com.
 ntp		IN	A	10.20.0.254
 ntp1		IN	CNAME	adcak-er1.infra.wisdom.com.
 ntp2		IN	CNAME	adcaj-er2.infra.wisdom.com.
+
+wiki		IN	CNAME	adcaa04.machine.wisdom.com.
 
 ; PDUs
 adcaa-pdu-a1	IN	A	10.20.101.201
