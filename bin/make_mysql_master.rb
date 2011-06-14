@@ -14,6 +14,7 @@ end
 
 port = ARGV[1] ? ARGV[1].to_i : 3306
 ROOT_PWD = ask("MySQL root password: ") { |q| q.echo = false }
+REPL_PWD = ask("MySQL repl (replication) password: ") { |q| q.echo = false }
 
 def stop_mysql(ssh, mysql_root)
   ssh.exec!("#{mysql_root}/mysql/bin/mysql.stop")
@@ -27,7 +28,7 @@ end
 def add_users(ssh, mysql_root, port)
   e_root_pwd = ROOT_PWD.gsub(/"/, '\"').gsub(/\$/, '\$')
   mysql_cmd = "#{mysql_root}/mysql/bin/mysql -uroot -p\"#{e_root_pwd}\" -h127.0.0.1 -P#{port}"
-  ssh.exec!("#{mysql_cmd} -e\"GRANT REPLICATION SLAVE on *.* TO 'repl'@'%' IDENTIFIED BY 'repl'\"")
+  ssh.exec!("#{mysql_cmd} -e\"GRANT REPLICATION SLAVE on *.* TO 'repl'@'%' IDENTIFIED BY '#{REPL_PWD}'\"")
   ssh.exec!("#{mysql_cmd} -e\"GRANT SELECT, UPDATE ON mon.Heartbeat TO 'heartbeat'@'127.0.0.1'\"")
 end
 
