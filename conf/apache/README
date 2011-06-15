@@ -5,7 +5,7 @@
 	chown -R alert:alert /MSTR/wwwroot
 4. Configure Apache to start automatically:
 	chkconfig httpd on
-5. Copy configuration files from the conf.d git repository to /etc/httpd/conf.d/ on the web server
+5. Copy configuration files from the conf and conf.d git repository to /etc/httpd/conf/ and /etc/httpd/conf.d/ on the web server
 6. Create /etc/httpd/keys directory that will contain the SSL certificate related files and copy these from install.infra.wisdom.com:/MSTR/private/alert_ssl_keys folder
 7. Start apache web server: 
 	service httpd start
