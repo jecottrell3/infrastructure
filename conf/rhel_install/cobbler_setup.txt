@@ -70,6 +70,18 @@ back on the cobbler server:
 chkconfig dhcpd on
 service dhcpd start
 
+NOTE: RHEL install enables iptables by default. This needs to be disabled or configured before TFTP connections will be allowed. To disable iptables run:
+
+service iptables stop
+chkconfig iptables off
+ 
+NOTE: RHEL install enables SELinux in enforcing mode. For cobbler to work properly you need to change SELinux mode to permissive. To change the mode run:
+
+setenforce 0
+edit /etc/selinux/config and change to "SELINUX=permissive" 
+
+
+
 On the client, to reinstall later:
 koan --replace-self --profile=RHEL56-x86_64 --kopts="mstrhostname=`hostname --short`"
 shutdown -r now
