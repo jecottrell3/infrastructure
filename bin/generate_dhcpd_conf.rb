@@ -8,22 +8,39 @@ require "net/sftp"
 if ARGV.size != 1
   puts "Generates and writes a new /etc/dhcpd.conf on the given server."
   puts ""
-  puts "Usage: #{$0} <DHCP server>"
+  puts "Usage: #{$0} <DHCP server> <Datacenter>"
   exit 1
 end
 
-host = ARGV.first
+host = ARGV[0]
+datacenter = ARGV[1]
 
-VLANS = [
+if datacenter.downcase == "adc"
+  VLANS = [
           # ADC
           "10.20.101",
           "10.20.103",
           "10.20.105",
           "10.20.107",
           "10.20.109",
-        ]
+          ]
+  NAMESERVERS = ["10.20.103.3", "10.20.101.3"]
+elsif datacenter.downcase == "bdc"
+  VLANS = [
+          # BDC
+          "10.140.101",
+          "10.140.102",
+          "10.140.103",
+          "10.140.104",
+          "10.140.105",
+          ]
+  NAMESERVERS = ["10.140.101.5", "10.140.102.5"]
+else
+  puts "Unknown datacenter #{datacenter}"
+  exit 1
+end
 
-# vlan should be the first three octets of the network, "10.20.105"
+# vlan should be the first three octets of the network, i.e. "10.20.105"
 def subnet_stanza(vlan)
   "subnet #{vlan}.0 netmask 255.255.255.0 {\n" +
   "  option routers #{vlan}.254;\n" +
@@ -31,7 +48,7 @@ def subnet_stanza(vlan)
   "}\n"
 end
 
-dhcpd_conf = "option domain-name-servers 10.20.103.3, 10.20.101.3;\n" +
+dhcpd_conf = "option domain-name-servers #{NAMESERVERS.join(", ")};\n" +
              "option domain-name \"machine.wisdom.com\";\n" +
              "ddns-update-style none;\n" +
              "filename \"/pxelinux.0\";\n"
