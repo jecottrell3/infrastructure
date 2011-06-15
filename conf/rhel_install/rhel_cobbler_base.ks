@@ -15,12 +15,8 @@ selinux --permissive
 # Install the bootloader into the MBR.
 bootloader --location=mbr
 
-# Partition the disk.
-clearpart --drives=sda,sdb --all --initlabel
-part /boot --ondisk=sda --fstype=ext3 --size=1 --grow --asprimary
-part swap --ondisk=sdb --size=10240 --asprimary
-part / --ondisk=sdb --fstype=ext3 --size=5120 --asprimary
-part /MSTR --ondisk=sdb --fstype=ext3 --size=1 --grow --asprimary
+# Partition information
+%include /tmp/diskpart
 
 # Network information.
 %include /tmp/mstr_network_config
@@ -74,6 +70,21 @@ fi
 MSTRGATEWAY=`route -n | awk '/^0.0.0.0/ {print $2}'`
 MSTRDNSSERVERS=`awk -v ORS=, '/^nameserver/ {print $2}' /etc/resolv.conf | sed 's/,$//'`
 echo "network --bootproto=static --ip='$MSTRIP' --netmask=255.255.255.0 --gateway='$MSTRGATEWAY' --nameserver=$MSTRDNSSERVERS --hostname='$MSTRFQDN'" > /tmp/mstr_network_config
+# Determine Drive Configuration
+if [ -b /dev/sdb ] ; then
+  echo "clearpart --drives=sda,sdb --all --initlabel" > /tmp/diskpart
+  echo "part /boot --ondisk=sda --fstype=ext3 --size=1 --grow --asprimary" >> /tmp/diskpart
+  echo "part swap --ondisk=sdb --size=10240 --asprimary" >> /tmp/diskpart
+  echo "part / --ondisk=sdb --fstype=ext3 --size=5120 --asprimary" >> /tmp/diskpart
+  echo "part /MSTR --ondisk=sdb --fstype=ext3 --size=1 --grow --asprimary" >> /tmp/diskpart
+else
+  echo "clearpart --drives=sda --all --initlabel" > /tmp/diskpart
+  echo "part /boot --ondisk=sda --fstype=ext3 --size=100 --asprimary" >> /tmp/diskpart
+  echo "part swap --ondisk=sda --size=10240 --asprimary" >> /tmp/diskpart
+  echo "part / --ondisk=sda --fstype=ext3 --size=5120 --asprimary" >> /tmp/diskpart
+  echo "part /MSTR --ondisk=sda --fstype=ext3 --size=1 --grow --asprimary" >> /tmp/diskpart
+fi
+
 # Enable installation monitoring
 $SNIPPET('pre_anamon')
 
