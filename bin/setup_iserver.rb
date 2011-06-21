@@ -19,8 +19,8 @@ opts = OptionParser.new do |opts|
   opts.on("--vto VERSION", "Version to upgrade to.") { |x| FLAGS[:vto] = x }
   opts.on("--package PACKAGE", "Installation package in tar.gz format.") { |x| FLAGS[:package] = x }
   opts.on("--key CDKEY", "Installation CD key.") { |x| FLAGS[:key] = x }
-  opts.on("--type INSTALLTYPE", "Install type, only options now are 'wisdom' or 'ai' (alert intelligence).") { |x| FLAGS[:key] = x }
-  opts.on("--dc DATACENTER", "Which datacenter we're setting this up in, only used in determining install server url.") { |x| FLAGS[:key] = x }
+  opts.on("--type INSTALLTYPE", "Install type, only options now are 'wisdom' or 'ai' (alert intelligence).") { |x| FLAGS[:type] = x }
+  opts.on("--dc DATACENTER", "Which datacenter we're setting this up in, only used in determining install server url.") { |x| FLAGS[:dc] = x }
   opts.on("--help", "Dispaly this help.") do
     puts opts
     exit
@@ -36,16 +36,16 @@ if command == "install"
   abort "You must specify the version to install.\n\n#{opts}" unless FLAGS[:version]
   abort "You must specify the tar.gz package to install.\n\n#{opts}" unless FLAGS[:package]
   abort "You must specify the CD key.\n\n#{opts}" unless FLAGS[:key]
-  abort "You must specify the install type.\n\n#{opts}" unless ( FLAGS[:type] == 'wisdom' || FLAGS[:type] == 'ai' )
-  abort "You must specify a valid datacenter.\n\n#{opts}" unless ( FLAGS[:dc] == 'adc' || FLAGS[:dc] == 'bdc' )
+  abort "You must specify the install type.\n\n#{opts}" unless ( FLAGS[:type] == 'wisdom' or FLAGS[:type] == 'ai' )
+  abort "You must specify a valid datacenter.\n\n#{opts}" unless ( FLAGS[:dc] == 'adc' or FLAGS[:dc] == 'bdc' )
   abort "You must specify the host to install on.\n\n#{opts}" if ARGV.size < 1
 elsif command == "install_cluster"
   abort "You must specify the shard number.\n\n#{opts}" unless FLAGS[:shard]
   abort "You must specify the version to install.\n\n#{opts}" unless FLAGS[:version]
   abort "You must specify the tar.gz package to install.\n\n#{opts}" unless FLAGS[:package]
   abort "You must specify the CD key.\n\n#{opts}" unless FLAGS[:key]
-  abort "You must specify the install type.\n\n#{opts}" unless ( FLAGS[:type] == 'wisdom' || FLAGS[:type] == 'ai' )
-  abort "You must specify a valid datacenter.\n\n#{opts}" unless ( FLAGS[:dc] == 'adc' || FLAGS[:dc] == 'bdc' )
+  abort "You must specify the install type.\n\n#{opts}" unless ( FLAGS[:type] == 'wisdom' or FLAGS[:type] == 'ai' )
+  abort "You must specify a valid datacenter.\n\n#{opts}" unless ( FLAGS[:dc] == 'adc' or FLAGS[:dc] == 'bdc' )
   abort "You must specify the two hosts to install on.\n\n#{opts}" if ARGV.size != 2
 elsif command == "upgrade_cluster"
   abort "You must specify the shard number.\n\n#{opts}" unless FLAGS[:shard]
@@ -54,8 +54,8 @@ elsif command == "upgrade_cluster"
   abort "Versions cannot be the same.\n\n#{opts}" if FLAGS[:vfrom] == FLAGS[:vto]
   abort "You must specify the tar.gz package to install.\n\n#{opts}" unless FLAGS[:package]
   abort "You must specify the CD key.\n\n#{opts}" unless FLAGS[:key]
-  abort "You must specify the install type.\n\n#{opts}" unless ( FLAGS[:type] == 'wisdom' || FLAGS[:type] == 'ai' )
-  abort "You must specify a valid datacenter.\n\n#{opts}" unless ( FLAGS[:dc] == 'adc' || FLAGS[:dc] == 'bdc' )
+  abort "You must specify the install type.\n\n#{opts}" unless ( FLAGS[:type] == 'wisdom' or FLAGS[:type] == 'ai' )
+  abort "You must specify a valid datacenter.\n\n#{opts}" unless ( FLAGS[:dc] == 'adc' or FLAGS[:dc] == 'bdc' )
   abort "You must specify the two hosts in the cluster.\n\n#{opts}" if ARGV.size != 2
 else
   abort "Invalid command: #{command}\n\n#{opts}"
@@ -394,6 +394,7 @@ if command == "install"
 elsif command == "install_cluster"
   host1 = ARGV[0]
   host2 = ARGV[1]
+  puts host1.inspect
   ssh1 = Net::SSH.start(host1, "root")
   ssh1.sftp.connect!
   ssh2 = Net::SSH.start(host2, "root")
