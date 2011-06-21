@@ -10,15 +10,17 @@ require "net/sftp"
 
 FLAGS = {}
 opts = OptionParser.new do |opts|
-  opts.banner = "Usage: #{$0} install --shard <number> --version <version> --package <package.tar.gz> --key <cdkey> <host>\n" +
-                "       #{$0} install_cluster --shard <number> --version <version> --package <package.tar.gz> --key <cdkey> <host1> <host2>\n" +
-                "       #{$0} upgrade_cluster --shard <number> --vfrom <version> --vto <version> --package <package.tar.gz> --key <cdkey> <host1> <host2>"
+  opts.banner = "Usage: #{$0} install --shard <number> --version <version> --package <package.tar.gz> --key <cdkey> --type <wisdom|ai> --dc <datacenter> <host>\n" +
+                "       #{$0} install_cluster --shard <number> --version <version> --package <package.tar.gz> --key <cdkey> --type <wisdom|ai> --dc <datacenter> <host1> <host2>\n" +
+                "       #{$0} upgrade_cluster --shard <number> --vfrom <version> --vto <version> --package <package.tar.gz> --key <cdkey> --type <wisdom|ai> --dc <datacenter> <host1> <host2>"
   opts.on("--shard SHARD", Integer, "Shard number.") { |x| FLAGS[:shard] = x }
   opts.on("--version VERSION", "Version to install.") { |x| FLAGS[:version] = x }
   opts.on("--vfrom VERSION", "Version to upgrade from.") { |x| FLAGS[:vfrom] = x }
   opts.on("--vto VERSION", "Version to upgrade to.") { |x| FLAGS[:vto] = x }
   opts.on("--package PACKAGE", "Installation package in tar.gz format.") { |x| FLAGS[:package] = x }
   opts.on("--key CDKEY", "Installation CD key.") { |x| FLAGS[:key] = x }
+  opts.on("--type INSTALLTYPE", "Install type, only options now are 'wisdom' or 'ai' (alert intelligence).") { |x| FLAGS[:key] = x }
+  opts.on("--dc DATACENTER", "Which datacenter we're setting this up in, only used in determining install server url.") { |x| FLAGS[:key] = x }
   opts.on("--help", "Dispaly this help.") do
     puts opts
     exit
@@ -34,12 +36,16 @@ if command == "install"
   abort "You must specify the version to install.\n\n#{opts}" unless FLAGS[:version]
   abort "You must specify the tar.gz package to install.\n\n#{opts}" unless FLAGS[:package]
   abort "You must specify the CD key.\n\n#{opts}" unless FLAGS[:key]
+  abort "You must specify the install type.\n\n#{opts}" unless ( FLAGS[:type] == 'wisdom' || FLAGS[:type] == 'ai' )
+  abort "You must specify a valid datacenter.\n\n#{opts}" unless ( FLAGS[:dc] == 'adc' || FLAGS[:dc] == 'bdc' )
   abort "You must specify the host to install on.\n\n#{opts}" if ARGV.size < 1
 elsif command == "install_cluster"
   abort "You must specify the shard number.\n\n#{opts}" unless FLAGS[:shard]
   abort "You must specify the version to install.\n\n#{opts}" unless FLAGS[:version]
   abort "You must specify the tar.gz package to install.\n\n#{opts}" unless FLAGS[:package]
   abort "You must specify the CD key.\n\n#{opts}" unless FLAGS[:key]
+  abort "You must specify the install type.\n\n#{opts}" unless ( FLAGS[:type] == 'wisdom' || FLAGS[:type] == 'ai' )
+  abort "You must specify a valid datacenter.\n\n#{opts}" unless ( FLAGS[:dc] == 'adc' || FLAGS[:dc] == 'bdc' )
   abort "You must specify the two hosts to install on.\n\n#{opts}" if ARGV.size != 2
 elsif command == "upgrade_cluster"
   abort "You must specify the shard number.\n\n#{opts}" unless FLAGS[:shard]
@@ -48,6 +54,8 @@ elsif command == "upgrade_cluster"
   abort "Versions cannot be the same.\n\n#{opts}" if FLAGS[:vfrom] == FLAGS[:vto]
   abort "You must specify the tar.gz package to install.\n\n#{opts}" unless FLAGS[:package]
   abort "You must specify the CD key.\n\n#{opts}" unless FLAGS[:key]
+  abort "You must specify the install type.\n\n#{opts}" unless ( FLAGS[:type] == 'wisdom' || FLAGS[:type] == 'ai' )
+  abort "You must specify a valid datacenter.\n\n#{opts}" unless ( FLAGS[:dc] == 'adc' || FLAGS[:dc] == 'bdc' )
   abort "You must specify the two hosts in the cluster.\n\n#{opts}" if ARGV.size != 2
 else
   abort "Invalid command: #{command}\n\n#{opts}"
@@ -123,8 +131,13 @@ end
 
 # Install the IServer on the host that ssh is connected to.  ssh should already
 # have an open sftp channel as well.
-def install_iserver(ssh, shard, version, package, cdkey)
-  install_url = "http://install.infra.wisdom.com/install"
+def install_iserver(ssh, shard, version, package, cdkey, type, dc)
+  case dc
+  when 'adc'
+    install_url = "http://install.infra.wisdom.com/install"
+  when 'bdc'
+    install_url = "http://install1-bdc.infra.wisdom.com/install"
+  end
   install_root = "/MSTR/shard#{shard}/#{version}"
   output = ssh.exec!("ls -d #{install_root}")
   raise "Host #{ssh.host} already has #{install_root}." unless output.include? "such file"
@@ -207,6 +220,16 @@ def install_iserver(ssh, shard, version, package, cdkey)
     f.write(tunable_sh + "\n" + tunable_append)
   end
   # Update odbc.ini .
+  case type
+  when "wisdom"
+    whdb_suffix = "db-master.prod.wisdom.com"
+    mdb_suffix = "mdb-master.prod.wisdom.com"
+    alert_server = "10.20.107.9,1433"
+  when "ai"
+    whdb_suffix = "aidb-master.prod.alert.com"
+    mdb_suffix = "aimdb-master.prod.alert.com"
+    alert_server = "10.140.107.9,1433"
+  end
   odbc_ini = [ '[ODBC Data Sources]',
                'sma_md=MySQL',
                'sma_wh=MySQL',
@@ -224,21 +247,21 @@ def install_iserver(ssh, shard, version, package, cdkey)
                '[sma_md]',
                'Driver=/usr/lib/libmyodbc3.so',
                'Description=MySQL ODBC 3.51 Driver DSN',
-               'Server=s' + shard.to_s + 'mdb-master.prod.wisdom.com',
+               'Server=s' + shard.to_s + mdb_suffix,
                'Port=3307',
                'Database=sma_md',
                '',
                '[sma_wh]',
                'Driver=/usr/lib/libmyodbc3.so',
                'Description=MySQL ODBC 3.51 Driver DSN',
-               'Server=s' + shard.to_s + 'db-master.prod.wisdom.com',
+               'Server=s' + shard.to_s + whdb_suffix,
                'Port=3306',
                'Database=sma_wh',
                'Charset=utf8',
                '',
                '[sma_stats]',
                'Database=SMA_STATS',
-               'Address=10.20.107.9,1433',
+               'Address=' + alert_server,
                'Driver=' + install_root + '/MicroStrategy/install/lib32/MYmsssXX.so',
                'Description=MicroStrategy ODBC Driver for SQL Server Wire Protocol',
                'QuotedId=Yes',
@@ -360,7 +383,7 @@ if command == "install"
   ssh.sftp.connect!
   begin
     puts "Installing version #{FLAGS[:version]} for shard #{FLAGS[:shard]} on host #{host}"
-    install_iserver(ssh, FLAGS[:shard], FLAGS[:version], FLAGS[:package], FLAGS[:key])
+    install_iserver(ssh, FLAGS[:shard], FLAGS[:version], FLAGS[:package], FLAGS[:key], FLAGS[:type], FLAGS[:dc])
     start_iserver(ssh, FLAGS[:shard], FLAGS[:version])
   ensure
     # Disconnect from the host.
@@ -379,11 +402,11 @@ elsif command == "install_cluster"
   begin
     puts "Installing version #{FLAGS[:version]} for shard #{FLAGS[:shard]} on cluster hosts #{host1} and #{host2}"
     puts "Installing on #{host1}"
-    install_iserver(ssh1, FLAGS[:shard], FLAGS[:version], FLAGS[:package], FLAGS[:key])
+    install_iserver(ssh1, FLAGS[:shard], FLAGS[:version], FLAGS[:package], FLAGS[:key], FLAGS[:type], FLAGS[:dc])
     start_iserver(ssh1, FLAGS[:shard], FLAGS[:version])
     puts "Done on #{host1}"
     puts "Installing on #{host2}"
-    install_iserver(ssh2, FLAGS[:shard], FLAGS[:version], FLAGS[:package], FLAGS[:key])
+    install_iserver(ssh2, FLAGS[:shard], FLAGS[:version], FLAGS[:package], FLAGS[:key], FLAGS[:type], FLAGS[:dc])
     start_iserver(ssh2, FLAGS[:shard], FLAGS[:version])
     puts "Done on #{host2}"
     puts "Setting up NFS for clustering"
@@ -421,10 +444,10 @@ elsif command == "upgrade_cluster"
 
     # Install the new version on both hosts.
     puts "Installing version #{FLAGS[:vto]} on #{host1}"
-    install_iserver(ssh1, FLAGS[:shard], FLAGS[:vto], FLAGS[:package], FLAGS[:key])
+    install_iserver(ssh1, FLAGS[:shard], FLAGS[:vto], FLAGS[:package], FLAGS[:key], FLAGS[:type], FLAGS[:dc])
     puts "Installed on #{host1}"
     puts "Installing version #{FLAGS[:vto]} on #{host2}"
-    install_iserver(ssh2, FLAGS[:shard], FLAGS[:vto], FLAGS[:package], FLAGS[:key])
+    install_iserver(ssh2, FLAGS[:shard], FLAGS[:vto], FLAGS[:package], FLAGS[:key], FLAGS[:type], FLAGS[:dc])
     puts "Installed on #{host2}"
 
     # Idle host1, shut it down, and unmount NFS.
