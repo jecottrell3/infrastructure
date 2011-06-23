@@ -1,0 +1,9 @@
+zone "usher.com" {
+	type master;
+	file "usher.com.db";
+};
+
+zone "prod.usher.com" {
+	type master;
+	file "prod.usher.com.db";
+};

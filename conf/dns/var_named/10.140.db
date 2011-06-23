@@ -1,6 +1,6 @@
 $TTL 1800
 @	IN	SOA	wisdom.com.	hostmaster.wisdom.com.	(
-	2011061002	; Serial
+	2011062301	; Serial
 	3600		; Refresh after 1 hour
 	900		; Retry after 15 minutes
 	604800		; Expire after 1 day
@@ -16,11 +16,11 @@ $TTL 1800
 $GENERATE 1-9 $.101 IN PTR bdcaa0$.machine.wisdom.com.
 $GENERATE 10-50 $.101 IN PTR bdcaa$.machine.wisdom.com.
 
-$GENERATE 1-9 $.102 IN PTR bdcac0$.machine.wisdom.com.
-$GENERATE 10-50 $.102 IN PTR bdcac$.machine.wisdom.com.
+$GENERATE 1-9 $.103 IN PTR bdcac0$.machine.wisdom.com.
+$GENERATE 10-50 $.103 IN PTR bdcac$.machine.wisdom.com.
 
-$GENERATE 1-9 $.103 IN PTR bdcae0$.machine.wisdom.com.
-$GENERATE 10-50 $.103 IN PTR bdcae$.machine.wisdom.com.
+$GENERATE 1-9 $.105 IN PTR bdcae0$.machine.wisdom.com.
+$GENERATE 10-50 $.105 IN PTR bdcae$.machine.wisdom.com.
 
 ; Network Gear Reverse Entries
 
@@ -77,14 +77,14 @@ $GENERATE 0-9 19$.101 IN PTR bdcaa4$.drac.wisdom.com.
 
 $GENERATE 1-9 15$.102 IN PTR bdcac0$.drac.wisdom.com.
 $GENERATE 0-9 16$.102 IN PTR bdcac1$.drac.wisdom.com.
-$GENERATE 0-9 17$.102 IN PTR bdcac2$.drac.wisdom.com.
-$GENERATE 0-9 18$.102 IN PTR bdcac3$.drac.wisdom.com.
-$GENERATE 0-9 19$.102 IN PTR bdcac4$.drac.wisdom.com.
-200.102		IN	PTR	bdcac50.drac.wisdom.com.
+$GENERATE 0-9 17$.103 IN PTR bdcac2$.drac.wisdom.com.
+$GENERATE 0-9 18$.103 IN PTR bdcac3$.drac.wisdom.com.
+$GENERATE 0-9 19$.103 IN PTR bdcac4$.drac.wisdom.com.
+200.103		IN	PTR	bdcac50.drac.wisdom.com.
 
 $GENERATE 1-9 15$.103 IN PTR bdcae0$.drac.wisdom.com.
 $GENERATE 0-9 16$.103 IN PTR bdcae1$.drac.wisdom.com.
-$GENERATE 0-9 17$.103 IN PTR bdcae2$.drac.wisdom.com.
-$GENERATE 0-9 18$.103 IN PTR bdcae3$.drac.wisdom.com.
-$GENERATE 0-9 19$.103 IN PTR bdcae4$.drac.wisdom.com.
-200.103		IN	PTR	bdcae50.drac.wisdom.com.
+$GENERATE 0-9 17$.105 IN PTR bdcae2$.drac.wisdom.com.
+$GENERATE 0-9 18$.105 IN PTR bdcae3$.drac.wisdom.com.
+$GENERATE 0-9 19$.105 IN PTR bdcae4$.drac.wisdom.com.
+200.105		IN	PTR	bdcae50.drac.wisdom.com.

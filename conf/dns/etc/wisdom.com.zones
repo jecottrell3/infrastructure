@@ -1,34 +1,34 @@
 zone "wisdom.com" {
 	type master;
-	file "wisdom.com.internal.db";
+	file "wisdom.com.db";
 };
 
 zone "machine.wisdom.com" {
 	type master;
-	file "machine.wisdom.com.internal.db";
+	file "machine.wisdom.com.db";
 };
 
 zone "infra.wisdom.com" {
 	type master;
-	file "infra.wisdom.com.internal.db";
+	file "infra.wisdom.com.db";
 };
 
 zone "drac.wisdom.com" {
 	type master;
-	file "drac.wisdom.com.internal.db";
+	file "drac.wisdom.com.db";
 };
 
 zone "prod.wisdom.com" {
 	type master;
-	file "prod.wisdom.com.internal.db";
+	file "prod.wisdom.com.db";
 };
 
 zone "20.10.in-addr.arpa"{
 	type master;
-	file "10.20.internal.db";
+	file "10.20.db";
 };
 
 zone "140.10.in-addr.arpa"{
 	type master;
-	file "10.140.internal.db";
+	file "10.140.db";
 };

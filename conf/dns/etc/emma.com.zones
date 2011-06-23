@@ -1,0 +1,9 @@
+zone "emma.com" {
+	type master;
+	file "emma.com.db";
+};
+
+zone "prod.emma.com" {
+	type master;
+	file "prod.emma.com.db";
+};
