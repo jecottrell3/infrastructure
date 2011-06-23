@@ -48,6 +48,47 @@ reboot
 %pre
 $SNIPPET('log_ks_pre')
 $kickstart_start
+# Build the RAID volumes if needed
+if [ -b /dev/sdb ] ; then
+	echo "No volumes needed"
+else
+  /usr/bin/wget -O /tmp/MegaCli64 http://install1-bdc.infra.wisdom.com/install/megacli/MegaCli64
+  /usr/bin/chmod 755 /tmp/MegaCli64
+  /usr/bin/wget -O /libsysfs.tar.gz http://install1-bdc.infra.wisdom.com/install/megacli/libsysfs.tar.gz
+  cd /; /usr/bin/tar zxvf /libsysfs.tar.gz
+  DRIVECOUNT=`/tmp/MegaCli64 -EncInfo -a0 | /usr/bin/grep "Number of Physical Drives" | head -1 |  /usr/bin/awk '{print $6}'`
+  if [ $DRIVECOUNT -eq 24 ] ; then
+    /tmp/MegaCli64 -CfgClr -a0
+    /tmp/MegaCli64 -CfgSpanAdd -R10 -Array0[24:0,24:1,24:2,24:3] -Array1[24:4,24:5,24:6,24:7] -Array2[24:8,24:9,24:10,24:11] -Array3[24:12,24:13,24:14,24:15] -Array4[24:16,24:17,24:18,24:19] -Array5[24:20,24:21,24:22,24:23] -sz100 -a0
+    /tmp/MegaCli64 -CfgSpanAdd -R10 -Array0[24:0,24:1,24:2,24:3] -Array1[24:4,24:5,24:6,24:7] -Array2[24:8,24:9,24:10,24:11] -Array3[24:12,24:13,24:14,24:15] -Array4[24:16,24:17,24:18,24:19] -Array5[24:20,24:21,24:22,24:23] -afterLd0 -a0
+    /usr/bin/mknod /dev/sda b 8 0
+    /usr/bin/mknod /dev/sdb b 8 16
+    reboot
+  elif [ $DRIVECOUNT -eq 12 ] ; then
+    /tmp/MegaCli64 -CfgClr -a0
+    /tmp/MegaCli64 -CfgLdAdd -R6[12:0,12:1,12:2,12:3,12:4,12:5,12:6,12:7,12:8,12:9,12:10,12:11] -sz100 -a0
+    /tmp/MegaCli64 -CfgLdAdd -R6[12:0,12:1,12:2,12:3,12:4,12:5,12:6,12:7,12:8,12:9,12:10,12:11] -afterLd0 -a0
+    /usr/bin/mknod /dev/sda b 8 0
+    /usr/bin/mknod /dev/sdb b 8 16
+    reboot
+  elif [ $DRIVECOUNT -eq 16 ] ; then
+    /tmp/MegaCli64 -CfgClr -a0
+    /tmp/MegaCli64 -CfgSpanAdd -R10 -Array0[32:0,32:1] -Array1[32:2,32:3] -Array2[32:4,32:5] -Array3[32:6,32:7] -Array4[32:8,32:9] -Array5[32:10,32:11] -Array6[32:12,32:13] -Array7[32:14,32:15] -sz100 -a0
+    /tmp/MegaCli64 -CfgSpanAdd -R10 -Array0[32:0,32:1] -Array1[32:2,32:3] -Array2[32:4,32:5] -Array3[32:6,32:7] -Array4[32:8,32:9] -Array5[32:10,32:11] -Array6[32:12,32:13] -Array7[32:14,32:15] -afterLd0 -a0
+    /usr/bin/mknod /dev/sda b 8 0
+    /usr/bin/mknod /dev/sdb b 8 16
+    reboot
+  elif [ $DRIVECOUNT -eq 6 ] ; then
+    /tmp/MegaCli64 -CfgClr -a0
+    /tmp/MegaCli64 -CfgSpanAdd -R10 -Array0[32:0,32:1] -Array1[32:2,32:3] -Array2[32:4,32:5] -sz100 -a0
+    /tmp/MegaCli64 -CfgSpanAdd -R10 -Array0[32:0,32:1] -Array1[32:2,32:3] -Array2[32:4,32:5] -afterLd0 -a0
+    /usr/bin/mknod /dev/sda b 8 0
+    /usr/bin/mknod /dev/sdb b 8 16
+    reboot
+  fi
+fi
+
+# Get the hostname, and set some network info
 MSTRHOSTNAME=`cat /proc/cmdline | python -c 'import sys; import re; m = re.search(r"mstrhostname=(\w+)",sys.stdin.readline()); g = m and m.group(1); sys.stdout.write(g or "")'`
 if [ -z "$MSTRHOSTNAME" ]; then
   echo >/dev/tty1
@@ -70,24 +111,7 @@ fi
 MSTRGATEWAY=`route -n | awk '/^0.0.0.0/ {print $2}'`
 MSTRDNSSERVERS=`awk -v ORS=, '/^nameserver/ {print $2}' /etc/resolv.conf | sed 's/,$//'`
 echo "network --bootproto=static --ip='$MSTRIP' --netmask=255.255.255.0 --gateway='$MSTRGATEWAY' --nameserver=$MSTRDNSSERVERS --hostname='$MSTRFQDN'" > /tmp/mstr_network_config
-# Build the RAID volumes if needed
-/usr/bin/wget -O /tmp/MegaCli64 http://install1-bdc.infra.wisdom.com/install/megacli/MegaCli64
-/usr/bin/chmod 755 /tmp/MegaCli64
-DRIVECOUNT=`/tmp/MegaCli64 -EncInfo -a0 | /usr/bin/grep -m1 "Number of Physical Drives" | /usr/bin/awk '{print $6}'`
-if [ $DRIVECOUNT -eq 24 ] ; then
-  /tmp/MegaCli64 -CfgSpanAdd -R10 -Array0[24:0,24:1,24:2,24:3] -Array1[24:4,24:5,24:6,24:7] -Array2[24:8,24:9,24:10,24:11] -Array3[24:12,24:13,24:14,24:15] -Array4[24:16,24:17,24:18,24:19] -Array5[24:20,24:21,24:22,24:23] -sz100 -a0
-  /tmp/MegaCli64 -CfgSpanAdd -R10 -Array0[24:0,24:1,24:2,24:3] -Array1[24:4,24:5,24:6,24:7] -Array2[24:8,24:9,24:10,24:11] -Array3[24:12,24:13,24:14,24:15] -Array4[24:16,24:17,24:18,24:19] -Array5[24:20,24:21,24:22,24:23] -afterLd0 -a0
-elif [ $DRIVECOUNT -eq 12 ] ; then
-  /tmp/MegaCli64 -CfgLdAdd -R6[12:0,12:1,12:2,12:3,12:4,12:5,12:6,12:7,12:8,12:9,12:10,12:11] -sz100 -a0
-  /tmp/MegaCli64 -CfgLdAdd -R6[12:0,12:1,12:2,12:3,12:4,12:5,12:6,12:7,12:8,12:9,12:10,12:11] -afterLd0 -a0
-elif [ $DRIVECOUNT -eq 16 ] ; then
-  /tmp/MegaCli64 -CfgSpanAdd -R10 -Array0[32:0,32:1] -Array1[32:2,32:3] -Array2[32:4,32:5] -Array3[32:6,32:7] -Array4[32:8,32:9] -Array5[32:10,32:11] -Array6[32:12,32:13] -Array7[32:14,32:15] -sz100 -a0
-  /tmp/MegaCli64 -CfgSpanAdd -R10 -Array0[32:0,32:1] -Array1[32:2,32:3] -Array2[32:4,32:5] -Array3[32:6,32:7] -Array4[32:8,32:9] -Array5[32:10,32:11] -Array6[32:12,32:13] -Array7[32:14,32:15] -afterLd0 -a0
-elif [ $DRIVECOUNT -eq 6 ] ; then
-  /tmp/MegaCli64 -CfgSpanAdd -R10 -Array0[32:0,32:1] -Array1[32:2,32:3] -Array2[32:4,32:5] -sz100 -a0
-  /tmp/MegaCli64 -CfgSpanAdd -R10 -Array0[32:0,32:1] -Array1[32:2,32:3] -Array2[32:4,32:5] -afterLd0 -a0
-fi
-  
+ 
   
 # Determine Drive Configuration
 if [ -b /dev/sdb ] ; then
