@@ -1,15 +1,48 @@
 $TTL 60
 @	IN	SOA	usher.com.	hostmaster.usher.com.	(
-	2011062200	; Serial
+	2011062400	; Serial
 	3600		; Refresh after 1 hour
 	900		; Retry after 15 minutes
 	604800		; Expire after 1 day
-	14400 )		; Minimum TTL of 4 hours
+	15 )		; Minimum TTL of 15 seconds
 
 	IN	NS	ns1.wisdom.com.
 	IN	NS	ns2.wisdom.com.
 	IN	NS	ns3.wisdom.com.
 	IN	NS	ns4.wisdom.com.
 
-	IN	MX	10	mailgate3.microstrategy.com.
-	IN	MX	10	mailgate4.microstrategy.com.
+www1-adc                IN      CNAME   adcac05.machine.wisdom.com.
+www2-adc                IN      CNAME   adcae06.machine.wisdom.com.
+www3-adc                IN      CNAME   adcaa06.machine.wisdom.com.
+www4-adc                IN      CNAME   adcac06.machine.wisdom.com.
+www5-adc                IN      CNAME   adcaa12.machine.wisdom.com.
+www6-adc                IN      CNAME   adcae12.machine.wisdom.com.
+www7-adc                IN      CNAME   adcaa13.machine.wisdom.com.
+www8-adc                IN      CNAME   adcag05.machine.wisdom.com.
+www9-adc                IN      CNAME   adcae13.machine.wisdom.com.
+www10-adc               IN      CNAME   adcag06.machine.wisdom.com.
+
+
+s1memcache-adc          IN      CNAME   adcac05.machine.wisdom.com.
+s2memcache-adc          IN      CNAME   adcae06.machine.wisdom.com.
+s3memcache-adc          IN      CNAME   adcaa06.machine.wisdom.com.
+s4memcache-adc          IN      CNAME   adcac06.machine.wisdom.com.
+s5memcache-adc          IN      CNAME   adcaa12.machine.wisdom.com.
+s6memcache-adc          IN      CNAME   adcae12.machine.wisdom.com.
+s7memcache-adc          IN      CNAME   adcaa13.machine.wisdom.com.
+s8memcache-adc          IN      CNAME   adcag05.machine.wisdom.com.
+s9memcache-adc          IN      CNAME   adcae13.machine.wisdom.com.
+s10memcache-adc         IN      CNAME   adcag06.machine.wisdom.com.
+
+
+s1db-master	60	IN	CNAME	adcaa15.machine.wisdom.com.
+s1db-replica1-adc	IN	CNAME	adcac10.machine.wisdom.com.
+s2db-master	60	IN	CNAME	adcae14.machine.wisdom.com.
+s2db-replica1-adc	IN	CNAME	adcaa11.machine.wisdom.com.
+s3db-master	60	IN	CNAME	adcaa14.machine.wisdom.com.
+s3db-replica1-adc	IN	CNAME	adcag10.machine.wisdom.com.
+s4db-master	60	IN	CNAME	adcag14.machine.wisdom.com.
+s4db-replica1-adc	IN	CNAME	adcae11.machine.wisdom.com.
+s5db-master	60	IN	CNAME	adcag13.machine.wisdom.com.
+s5db-replica1-adc	IN	CNAME	adcac09.machine.wisdom.com.
+
