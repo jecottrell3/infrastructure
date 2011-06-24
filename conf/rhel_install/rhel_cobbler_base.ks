@@ -206,7 +206,8 @@ mkdir /root/.ssh
 chmod 700 /root/.ssh
 wget -O /root/.ssh/authorized_keys http://$http_server/install/authorized_keys
 wget -O /root/OM-SrvAdmin-Dell-Web-LX-6.5.0-2247.RHEL5.x86_64_A01.4.tar.gz http://$http_server/install/OpenManage/OM-SrvAdmin-Dell-Web-LX-6.5.0-2247.RHEL5.x86_64_A01.4.tar.gz
-tar zxf /root/OM-SrvAdmin-Dell-Web-LX-6.5.0-2247.RHEL5.x86_64_A01.4.tar.gz -C /tmp
+mkdir /tmp/OpenManage
+tar zxf /root/OM-SrvAdmin-Dell-Web-LX-6.5.0-2247.RHEL5.x86_64_A01.4.tar.gz -C /tmp/OpenManage
 /root/OpenManage/linux/supportscripts/srvadmin-install.sh –x –a 
 rm -rf /tmp/OpenManage
 chmod 600 /root/.ssh/authorized_keys
