@@ -49,9 +49,9 @@ reboot
 $SNIPPET('log_ks_pre')
 $kickstart_start
 # Build the RAID volumes if needed
-/usr/bin/wget -O /tmp/MegaCli64 http://install1-bdc.infra.wisdom.com/install/megacli/MegaCli64
+/usr/bin/wget -O /tmp/MegaCli64 http://$http_server/install/megacli/MegaCli64
 /usr/bin/chmod 755 /tmp/MegaCli64
-/usr/bin/wget -O /libsysfs.tar.gz http://install1-bdc.infra.wisdom.com/install/megacli/libsysfs.tar.gz
+/usr/bin/wget -O /libsysfs.tar.gz http://$http_server/install/megacli/libsysfs.tar.gz
 cd /; /usr/bin/tar zxvf /libsysfs.tar.gz
 VDCOUNT=`/tmp/MegaCli64 -CfgDsply -a0 | /usr/bin/grep "Number of VDs" | head -1 |  /usr/bin/awk '{print $4}'`
 if [ $VDCOUNT -ne 2 ] ; then
@@ -197,6 +197,10 @@ sed -i -e 's/^HISTORY=.*/HISTORY=30/' /etc/sysconfig/sysstat
 mkdir /root/.ssh
 chmod 700 /root/.ssh
 wget -O /root/.ssh/authorized_keys http://$http_server/install/authorized_keys
+wget -O /root/OM-SrvAdmin-Dell-Web-LX-6.5.0-2247.RHEL5.x86_64_A01.4.tar.gz http://$http_server/install/OpenManage/OM-SrvAdmin-Dell-Web-LX-6.5.0-2247.RHEL5.x86_64_A01.4.tar.gz
+tar zxf /root/OM-SrvAdmin-Dell-Web-LX-6.5.0-2247.RHEL5.x86_64_A01.4.tar.gz -C /tmp
+/root/OpenManage/linux/supportscripts/srvadmin-install.sh –x –a 
+rm -rf /tmp/OpenManage
 chmod 600 /root/.ssh/authorized_keys
 chkconfig bluetooth off
 chkconfig firstboot off
