@@ -1,6 +1,6 @@
 $TTL 60
 @	IN	SOA	usher.com.	hostmaster.usher.com.	(
-	2011062200	; Serial
+	2011062400	; Serial
 	3600		; Refresh after 1 hour
 	900		; Retry after 15 minutes
 	604800		; Expire after 1 day
@@ -14,6 +14,6 @@ $TTL 60
 	IN	MX	10	mailgate3.microstrategy.com.
 	IN	MX	10	mailgate4.microstrategy.com.
 
-	IN	A	209.133.33.40
-www	IN	A	209.133.33.40
-api	IN	A	209.133.33.41
+	IN	A	209.133.33.60
+www	IN	A	209.133.33.60
+api	IN	A	209.133.33.61
