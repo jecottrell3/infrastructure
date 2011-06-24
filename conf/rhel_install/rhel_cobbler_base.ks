@@ -49,13 +49,12 @@ reboot
 $SNIPPET('log_ks_pre')
 $kickstart_start
 # Build the RAID volumes if needed
-if [ -b /dev/sdb ] ; then
-	echo "No volumes needed"
-else
-  /usr/bin/wget -O /tmp/MegaCli64 http://install1-bdc.infra.wisdom.com/install/megacli/MegaCli64
-  /usr/bin/chmod 755 /tmp/MegaCli64
-  /usr/bin/wget -O /libsysfs.tar.gz http://install1-bdc.infra.wisdom.com/install/megacli/libsysfs.tar.gz
-  cd /; /usr/bin/tar zxvf /libsysfs.tar.gz
+/usr/bin/wget -O /tmp/MegaCli64 http://install1-bdc.infra.wisdom.com/install/megacli/MegaCli64
+/usr/bin/chmod 755 /tmp/MegaCli64
+/usr/bin/wget -O /libsysfs.tar.gz http://install1-bdc.infra.wisdom.com/install/megacli/libsysfs.tar.gz
+cd /; /usr/bin/tar zxvf /libsysfs.tar.gz
+VDCOUNT=`/tmp/MegaCli64 -CfgDsply -a0 | /usr/bin/grep "Number of VDs" | head -1 |  /usr/bin/awk '{print $4}'`
+if [ $VDCOUNT -ne 2 ] ; then
   DRIVECOUNT=`/tmp/MegaCli64 -EncInfo -a0 | /usr/bin/grep "Number of Physical Drives" | head -1 |  /usr/bin/awk '{print $6}'`
   if [ $DRIVECOUNT -eq 24 ] ; then
     /tmp/MegaCli64 -CfgClr -a0
