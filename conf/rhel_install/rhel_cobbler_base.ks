@@ -54,7 +54,7 @@ $kickstart_start
 /usr/bin/wget -O /libsysfs.tar.gz http://$http_server/install/megacli/libsysfs.tar.gz
 cd /; /usr/bin/tar zxvf /libsysfs.tar.gz
 BOOTVOLNAME=`/tmp/MegaCli64 -LDInfo -l0 -a0 | /usr/bin/grep "Name" | head -1 |  /usr/bin/cut -d: -f2`
-if [ $BOOTVOLNAME != "MSTRBoot" ] ; then
+if [ "$BOOTVOLNAME" != "MSTRBoot" ] ; then
   DRIVECOUNT=`/tmp/MegaCli64 -EncInfo -a0 | /usr/bin/grep "Number of Physical Drives" | head -1 |  /usr/bin/awk '{print $6}'`
   if [ $DRIVECOUNT -eq 24 ] ; then
     /tmp/MegaCli64 -CfgClr -a0
