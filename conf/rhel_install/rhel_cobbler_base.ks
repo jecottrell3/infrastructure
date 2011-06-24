@@ -53,13 +53,15 @@ $kickstart_start
 /usr/bin/chmod 755 /tmp/MegaCli64
 /usr/bin/wget -O /libsysfs.tar.gz http://$http_server/install/megacli/libsysfs.tar.gz
 cd /; /usr/bin/tar zxvf /libsysfs.tar.gz
-VDCOUNT=`/tmp/MegaCli64 -CfgDsply -a0 | /usr/bin/grep "Number of VDs" | head -1 |  /usr/bin/awk '{print $4}'`
-if [ $VDCOUNT -ne 2 ] ; then
+BOOTVOLNAME=`/tmp/MegaCli64 -LDInfo -l0 -a0 | /usr/bin/grep "Name" | head -1 |  /usr/bin/cut -d: -f2`
+if [ $BOOTVOLNAME != "MSTRBoot" ] ; then
   DRIVECOUNT=`/tmp/MegaCli64 -EncInfo -a0 | /usr/bin/grep "Number of Physical Drives" | head -1 |  /usr/bin/awk '{print $6}'`
   if [ $DRIVECOUNT -eq 24 ] ; then
     /tmp/MegaCli64 -CfgClr -a0
     /tmp/MegaCli64 -CfgSpanAdd -R10 -Array0[24:0,24:1,24:2,24:3] -Array1[24:4,24:5,24:6,24:7] -Array2[24:8,24:9,24:10,24:11] -Array3[24:12,24:13,24:14,24:15] -Array4[24:16,24:17,24:18,24:19] -Array5[24:20,24:21,24:22,24:23] -sz100 -a0
     /tmp/MegaCli64 -CfgSpanAdd -R10 -Array0[24:0,24:1,24:2,24:3] -Array1[24:4,24:5,24:6,24:7] -Array2[24:8,24:9,24:10,24:11] -Array3[24:12,24:13,24:14,24:15] -Array4[24:16,24:17,24:18,24:19] -Array5[24:20,24:21,24:22,24:23] -afterLd0 -a0
+    /tmp/MegaCli64 -LDSetProp -Name MSTRBoot -l0 -a0
+    /tmp/MegaCli64 -LDSetProp -Name MSTRData -l1 -a0
     /usr/bin/mknod /dev/sda b 8 0
     /usr/bin/mknod /dev/sdb b 8 16
     reboot
@@ -67,6 +69,8 @@ if [ $VDCOUNT -ne 2 ] ; then
     /tmp/MegaCli64 -CfgClr -a0
     /tmp/MegaCli64 -CfgLdAdd -R6[12:0,12:1,12:2,12:3,12:4,12:5,12:6,12:7,12:8,12:9,12:10,12:11] -sz100 -a0
     /tmp/MegaCli64 -CfgLdAdd -R6[12:0,12:1,12:2,12:3,12:4,12:5,12:6,12:7,12:8,12:9,12:10,12:11] -afterLd0 -a0
+    /tmp/MegaCli64 -LDSetProp -Name MSTRBoot -l0 -a0
+    /tmp/MegaCli64 -LDSetProp -Name MSTRData -l1 -a0
     /usr/bin/mknod /dev/sda b 8 0
     /usr/bin/mknod /dev/sdb b 8 16
     reboot
@@ -74,6 +78,8 @@ if [ $VDCOUNT -ne 2 ] ; then
     /tmp/MegaCli64 -CfgClr -a0
     /tmp/MegaCli64 -CfgSpanAdd -R10 -Array0[32:0,32:1] -Array1[32:2,32:3] -Array2[32:4,32:5] -Array3[32:6,32:7] -Array4[32:8,32:9] -Array5[32:10,32:11] -Array6[32:12,32:13] -Array7[32:14,32:15] -sz100 -a0
     /tmp/MegaCli64 -CfgSpanAdd -R10 -Array0[32:0,32:1] -Array1[32:2,32:3] -Array2[32:4,32:5] -Array3[32:6,32:7] -Array4[32:8,32:9] -Array5[32:10,32:11] -Array6[32:12,32:13] -Array7[32:14,32:15] -afterLd0 -a0
+    /tmp/MegaCli64 -LDSetProp -Name MSTRBoot -l0 -a0
+    /tmp/MegaCli64 -LDSetProp -Name MSTRData -l1 -a0
     /usr/bin/mknod /dev/sda b 8 0
     /usr/bin/mknod /dev/sdb b 8 16
     reboot
@@ -81,6 +87,8 @@ if [ $VDCOUNT -ne 2 ] ; then
     /tmp/MegaCli64 -CfgClr -a0
     /tmp/MegaCli64 -CfgSpanAdd -R10 -Array0[32:0,32:1] -Array1[32:2,32:3] -Array2[32:4,32:5] -sz100 -a0
     /tmp/MegaCli64 -CfgSpanAdd -R10 -Array0[32:0,32:1] -Array1[32:2,32:3] -Array2[32:4,32:5] -afterLd0 -a0
+    /tmp/MegaCli64 -LDSetProp -Name MSTRBoot -l0 -a0
+    /tmp/MegaCli64 -LDSetProp -Name MSTRData -l1 -a0
     /usr/bin/mknod /dev/sda b 8 0
     /usr/bin/mknod /dev/sdb b 8 16
     reboot
