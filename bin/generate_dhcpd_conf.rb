@@ -34,7 +34,7 @@ elsif datacenter.downcase == "bdc"
           "10.140.104",
           "10.140.105",
           ]
-  NAMESERVERS = ["10.140.101.5", "10.140.102.5"]
+  NAMESERVERS = ["10.140.101.5", "10.140.103.5"]
 else
   puts "Unknown datacenter #{datacenter}"
   exit 1
