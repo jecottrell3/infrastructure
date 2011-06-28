@@ -5,7 +5,7 @@
 require "net/ssh"
 require "net/sftp"
 
-if ARGV.size != 1
+if ARGV.size != 2
   puts "Generates and writes a new /etc/dhcpd.conf on the given server."
   puts ""
   puts "Usage: #{$0} <DHCP server> <Datacenter>"
@@ -29,10 +29,10 @@ elsif datacenter.downcase == "bdc"
   VLANS = [
           # BDC
           "10.140.101",
-          "10.140.102",
           "10.140.103",
-          "10.140.104",
           "10.140.105",
+          "10.140.107",
+          "10.140.109",
           ]
   NAMESERVERS = ["10.140.101.5", "10.140.103.5"]
 else
@@ -62,6 +62,7 @@ Net::SSH.start(host, "root") do |ssh|
   vlan = matches[2]
 
   dhcpd_conf += "next-server #{ip};\n\n"
+  dhcpd_conf += "# Local VLAN of the DHCP server must be listed first.\n\n"
   dhcpd_conf += subnet_stanza(vlan) + "\n"
   (VLANS - [vlan]).each { |x| dhcpd_conf += subnet_stanza(x) + "\n" }
 

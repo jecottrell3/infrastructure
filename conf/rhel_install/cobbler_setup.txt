@@ -17,7 +17,7 @@ yum -y install cobbler
 
 edit /etc/cobbler/settings:
   change the next_server: line to the IP address of that machine
-  change the server: line IP address to install.infra.wisdom.com
+  change the server: line IP address to install-(adc|bdc).infra.wisdom.com
 
 chkconfig httpd on
 service httpd start
@@ -37,20 +37,20 @@ service cobblerd start
 cobbler get-loaders
 
 copy the RHEL56 DVD contents to /MSTR/RHEL56/
-copy Infrastructure/trunk/conf/rhel_install/rhel_cobbler_base.ks to /var/lib/cobbler/kickstarts/
+copy Infrastructure/conf/rhel_install/rhel_cobbler_base.ks to /var/lib/cobbler/kickstarts/
 
 cobbler import --arch=x86_64 --name=RHEL56 --breed=redhat --kickstart=/var/lib/cobbler/kickstarts/rhel_cobbler_base.ks --path=/MSTR/RHEL56
 
 rm -Rf /MSTR/RHEL56
 
 (if there's already an install server, it'll be faster to copy the /MSTR/cobbler/extrawww/RHEL56-updates directory
- from it here first, before doing the yum command below.)
+ from it here first, before doing the reposync command below.)
 mkdir /MSTR/cobbler/extrawww/RHEL56-updates
-yum --disablerepo='*' --enablerepo=rhel-x86_64-server-5 list all | grep -v '^Loaded plugins:' | grep -v '^Installed Packages' | grep -v '^Available Packages' | awk '/^[A-Za-z0-9]/ {print $1}' | xargs -n100 yumdownloader --destdir=/MSTR/cobbler/extrawww/RHEL56-updates
+reposync -p /MSTR/cobbler/extrawww/RHEL56-updates/ --repoid=rhel-x86_64-server-5 -l
 createrepo /MSTR/cobbler/extrawww/RHEL56-updates
 
 (To update packages on a regular basis, repeat:
-  yum --disablerepo='*' --enablerepo=rhel-x86_64-server-5 list all | grep -v '^Loaded plugins:' | grep -v '^Installed Packages' | grep -v '^Available Packages' | awk '/^[A-Za-z0-9]/ {print $1}' | xargs -n100 yumdownloader --destdir=/MSTR/cobbler/extrawww/RHEL56-updates
+  reposync -p /MSTR/cobbler/extrawww/RHEL56-updates/ --repoid=rhel-x86_64-server-5 -l
   createrepo /MSTR/cobbler/extrawww/RHEL56-updates
 )
 
