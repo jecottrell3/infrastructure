@@ -1,15 +1,15 @@
 $TTL 60
 @	IN	SOA	usher.com.	hostmaster.usher.com.	(
-	2011062400	; Serial
+	2011062900	; Serial
 	3600		; Refresh after 1 hour
 	900		; Retry after 15 minutes
 	604800		; Expire after 1 day
 	15 )		; Minimum TTL of 15 seconds
 
-	IN	NS	ns1.wisdom.com.
-	IN	NS	ns2.wisdom.com.
-	IN	NS	ns3.wisdom.com.
-	IN	NS	ns4.wisdom.com.
+	IN	NS	ns1-adc.infra.wisdom.com.
+	IN	NS	ns2-adc.infra.wisdom.com.
+	IN	NS	ns1-bdc.infra.wisdom.com.
+	IN	NS	ns2-bdc.infra.wisdom.com.
 
 www1-adc                IN      CNAME   adcac05.machine.wisdom.com.
 www2-adc                IN      CNAME   adcae06.machine.wisdom.com.

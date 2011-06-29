@@ -1,28 +1,21 @@
 $TTL 3600
 @	IN	SOA	wisdom.com.	hostmaster.wisdom.com.	(
-	2011062300	; Serial
+	2011062900	; Serial
 	3600		; Refresh after 1 hour
 	900		; Retry after 15 minutes
 	604800		; Expire after 1 day
 	14400 )		; Minimum TTL of 4 hours
 
-	IN	NS	ns1.wisdom.com.
-	IN	NS	ns2.wisdom.com.
-	IN	NS	ns3.wisdom.com.
-	IN	NS	ns4.wisdom.com.
+	IN	NS	ns1-adc.infra.wisdom.com.
+	IN	NS	ns2-adc.infra.wisdom.com.
+	IN	NS	ns1-bdc.infra.wisdom.com.
+	IN	NS	ns2-bdc.infra.wisdom.com.
 
 	IN	MX	10	mailgate3.microstrategy.com.
 	IN	MX	10	mailgate4.microstrategy.com.
 
 	IN	A	209.133.33.20
 www	IN	A	209.133.33.20
-
-ns1	IN	A	10.20.103.3
-ns2	IN	A	10.20.101.3
-ns3	IN	A	10.140.101.5
-ns4	IN	A	10.140.103.5
-
-
 www1	IN	A	209.133.33.21
 www2	IN	A	209.133.33.22
 www3	IN	A	209.133.33.23

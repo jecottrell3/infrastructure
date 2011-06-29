@@ -1,19 +1,27 @@
 $TTL 60
 @	IN	SOA	wisdom.com.	hostmaster.wisdom.com.	(
-	2011061700	; Serial
+	2011062900	; Serial
 	3600		; Refresh after 1 hour
 	900		; Retry after 15 minutes
 	604800		; Expire after 1 day
 	14400 )		; Minimum TTL of 4 hours
 
-	IN	NS	ns1.wisdom.com.
-	IN	NS	ns2.wisdom.com.
-	IN	NS	ns3.wisdom.com.
-	IN	NS	ns4.wisdom.com.
+	IN	NS	ns1-adc.infra.wisdom.com.
+	IN	NS	ns2-adc.infra.wisdom.com.
+	IN	NS	ns1-bdc.infra.wisdom.com.
+	IN	NS	ns2-bdc.infra.wisdom.com.
 
+; Nameservers
+ns1-adc		IN	A	10.20.103.3
+ns2-adc		IN	A	10.20.101.3
+ns1-bdc		IN	A	10.140.101.5
+ns2-bdc		IN	A	10.140.103.5
+
+; Network Logging Servers
 nls1-adc	IN	CNAME	adcag03.machine.wisdom.com.
 nls2-adc	IN	CNAME	adcaa05.machine.wisdom.com.
 
+; Network Monitoring Servers
 nms		IN	CNAME	nms-adc.infra.wisdom.com.
 nms-adc		IN	CNAME	nms2-adc.infra.wisdom.com.
 nms1		IN	CNAME	nms1-adc.infra.wisdom.com.
@@ -26,6 +34,7 @@ nms-bdc		IN	CNAME	nms1-bdc.infra.wisdom.com.
 nms1-bdc	IN	CNAME	bdcaa06.machine.wisdom.com.
 nms2-bdc	IN	CNAME	bdcac06.machine.wisdom.com.
 
+; Install Servers
 install		IN	CNAME	install-adc
 install-adc	IN	CNAME	install2-adc
 install1-adc	IN	CNAME	adcac04.machine.wisdom.com.
