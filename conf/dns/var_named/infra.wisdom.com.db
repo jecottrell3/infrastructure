@@ -1,6 +1,6 @@
 $TTL 60
 @	IN	SOA	wisdom.com.	hostmaster.wisdom.com.	(
-	2011062900	; Serial
+	2011070600	; Serial
 	3600		; Refresh after 1 hour
 	900		; Retry after 15 minutes
 	604800		; Expire after 1 day
@@ -52,7 +52,7 @@ ntp2		IN	CNAME	adcaj-er2.infra.wisdom.com.
 
 wiki		IN	CNAME	adcaa04.machine.wisdom.com.
 
-; PDUs
+; ADC PDUs
 adcaa-pdu-a1	IN	A	10.20.101.201
 adcaa-pdu-a2	IN	A	10.20.101.202
 adcaa-pdu-b1	IN	A	10.20.101.203
@@ -73,15 +73,48 @@ adcag-pdu-a2	IN	A	10.20.107.202
 adcag-pdu-b1	IN	A	10.20.107.203
 adcag-pdu-b2	IN	A	10.20.107.204
 
-; PDUs in network/server rack
 adcaj-pdu-a1	IN	A	10.20.109.201
 adcaj-pdu-a2	IN	A	10.20.109.202
 adcaj-pdu-b1	IN	A	10.20.109.203
 adcaj-pdu-b2	IN	A	10.20.109.204
 
-; PDUs in network rack
 adcak-pdu-b1	IN	A	10.20.109.205
 adcak-pdu-b2	IN	A	10.20.109.206
+
+adcam-pdu-b1	IN	A	10.20.111.205
+adcam-pdu-b2	IN	A	10.20.111.206
+
+; BDC PDUs
+bdcaa-pdu-a1    IN      A       10.140.101.201
+bdcaa-pdu-a2    IN      A       10.140.101.202
+bdcaa-pdu-b1    IN      A       10.140.101.203
+bdcaa-pdu-b2    IN      A       10.140.101.204
+
+bdcac-pdu-a1    IN      A       10.140.103.201
+bdcac-pdu-a2    IN      A       10.140.103.202
+bdcac-pdu-b1    IN      A       10.140.103.203
+bdcac-pdu-b2    IN      A       10.140.103.204
+
+bdcae-pdu-a1    IN      A       10.140.105.201
+bdcae-pdu-a2    IN      A       10.140.105.202
+bdcae-pdu-b1    IN      A       10.140.105.203
+bdcae-pdu-b2    IN      A       10.140.105.204
+
+bdcag-pdu-a1    IN      A       10.140.107.201
+bdcag-pdu-a2    IN      A       10.140.107.202
+bdcag-pdu-b1    IN      A       10.140.107.203
+bdcag-pdu-b2    IN      A       10.140.107.204
+
+bdcaj-pdu-a1    IN      A       10.140.109.201
+bdcaj-pdu-a2    IN      A       10.140.109.202
+bdcaj-pdu-b1    IN      A       10.140.109.203
+bdcaj-pdu-b2    IN      A       10.140.109.204
+
+bdcak-pdu-a1    IN      A       10.140.111.201
+bdcak-pdu-a2    IN      A       10.140.111.202
+bdcak-pdu-b1    IN      A       10.140.111.203
+bdcak-pdu-b2    IN      A       10.140.111.204
+
 
 ; Network Gear
 
