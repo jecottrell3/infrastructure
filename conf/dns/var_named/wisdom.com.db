@@ -1,6 +1,6 @@
 $TTL 3600
 @	IN	SOA	wisdom.com.	hostmaster.wisdom.com.	(
-	2011062900	; Serial
+	2011070600	; Serial
 	3600		; Refresh after 1 hour
 	900		; Retry after 15 minutes
 	604800		; Expire after 1 day
@@ -21,3 +21,4 @@ www2	IN	A	209.133.33.22
 www3	IN	A	209.133.33.23
 www4	IN	A	209.133.33.24
 www5	IN	A	209.133.33.25
+nms	IN	A	209.133.33.18
