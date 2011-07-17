@@ -62,4 +62,4 @@ s1mstr1-bdc		IN		CNAME  		bdcaa01.machine.wisdom.com.
 s1mstr2-bdc		IN 		CNAME		bdcac01.machine.wisdom.com.
 
 s1wwwai1-bdc			IN		CNAME	bdcaa07.machine.wisdom.com.
-s1wwwai2-bdc			IN		CNAME	bdcaa08.machine.wisdom.com.
+s1wwwai2-bdc			IN		CNAME	bdcac07.machine.wisdom.com.
