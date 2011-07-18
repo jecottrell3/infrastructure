@@ -63,17 +63,14 @@ if [ "$BOOTVOLNAME" != "MSTRBoot" ] ; then
     /tmp/MegaCli64 -CfgSpanAdd -R10 -Array0[${ENCID}:0,${ENCID}:1,${ENCID}:2,${ENCID}:3] -Array1[${ENCID}:4,${ENCID}:5,${ENCID}:6,${ENCID}:7] -Array2[${ENCID}:8,${ENCID}:9,${ENCID}:10,${ENCID}:11] -Array3[${ENCID}:12,${ENCID}:13,${ENCID}:14,${ENCID}:15] -Array4[${ENCID}:16,${ENCID}:17,${ENCID}:18,${ENCID}:19] -Array5[${ENCID}:20,${ENCID}:21,${ENCID}:22,${ENCID}:23] -afterLd0 -a0
     /tmp/MegaCli64 -LDSetProp -Name MSTRBoot -l0 -a0
     /tmp/MegaCli64 -LDSetProp -Name MSTRData -l1 -a0
-    /usr/bin/mknod /dev/sda b 8 0
-    /usr/bin/mknod /dev/sdb b 8 16
     reboot
   elif [ $DRIVECOUNT -eq 12 ] ; then
     /tmp/MegaCli64 -CfgClr -a0
-    /tmp/MegaCli64 -CfgLdAdd -R6[${ENCID}:0,${ENCID}:1,${ENCID}:2,${ENCID}:3,${ENCID}:4,${ENCID}:5,${ENCID}:6,${ENCID}:7,${ENCID}:8,${ENCID}:9,${ENCID}:10,${ENCID}:11] -sz100 -a0
-    /tmp/MegaCli64 -CfgLdAdd -R6[${ENCID}:0,${ENCID}:1,${ENCID}:2,${ENCID}:3,${ENCID}:4,${ENCID}:5,${ENCID}:6,${ENCID}:7,${ENCID}:8,${ENCID}:9,${ENCID}:10,${ENCID}:11] -afterLd0 -a0
+    /tmp/MegaCli64 -CfgLdAdd -R1[${ENCID}:0,${ENCID}:1] -sz100 -a0
+    /tmp/MegaCli64 -CfgLdAdd -R1[${ENCID}:0,${ENCID}:1] -afterLd0 -a0
     /tmp/MegaCli64 -LDSetProp -Name MSTRBoot -l0 -a0
     /tmp/MegaCli64 -LDSetProp -Name MSTRData -l1 -a0
-    /usr/bin/mknod /dev/sda b 8 0
-    /usr/bin/mknod /dev/sdb b 8 16
+    /tmp/MegaCli64 -CfgEachDskRAID0 -a0
     reboot
   elif [ $DRIVECOUNT -eq 16 ] ; then
     /tmp/MegaCli64 -CfgClr -a0
@@ -81,8 +78,6 @@ if [ "$BOOTVOLNAME" != "MSTRBoot" ] ; then
     /tmp/MegaCli64 -CfgSpanAdd -R10 -Array0[${ENCID}:0,${ENCID}:1] -Array1[${ENCID}:2,${ENCID}:3] -Array2[${ENCID}:4,${ENCID}:5] -Array3[${ENCID}:6,${ENCID}:7] -Array4[${ENCID}:8,${ENCID}:9] -Array5[${ENCID}:10,${ENCID}:11] -Array6[${ENCID}:12,${ENCID}:13] -Array7[${ENCID}:14,${ENCID}:15] -afterLd0 -a0
     /tmp/MegaCli64 -LDSetProp -Name MSTRBoot -l0 -a0
     /tmp/MegaCli64 -LDSetProp -Name MSTRData -l1 -a0
-    /usr/bin/mknod /dev/sda b 8 0
-    /usr/bin/mknod /dev/sdb b 8 16
     reboot
   elif [ $DRIVECOUNT -eq 6 ] ; then
     /tmp/MegaCli64 -CfgClr -a0
@@ -90,8 +85,6 @@ if [ "$BOOTVOLNAME" != "MSTRBoot" ] ; then
     /tmp/MegaCli64 -CfgSpanAdd -R10 -Array0[${ENCID}:0,${ENCID}:1] -Array1[${ENCID}:2,${ENCID}:3] -Array2[${ENCID}:4,${ENCID}:5] -afterLd0 -a0
     /tmp/MegaCli64 -LDSetProp -Name MSTRBoot -l0 -a0
     /tmp/MegaCli64 -LDSetProp -Name MSTRData -l1 -a0
-    /usr/bin/mknod /dev/sda b 8 0
-    /usr/bin/mknod /dev/sdb b 8 16
     reboot
   fi
 fi
@@ -122,7 +115,22 @@ echo "network --bootproto=static --ip='$MSTRIP' --netmask=255.255.255.0 --gatewa
  
   
 # Determine Drive Configuration
-if [ -b /dev/sdb ] ; then
+if [ -b /dev/sdl ] ; then
+  echo "clearpart --drives=sda,sdb,sdc,sdd,sde,sdf,sdg,sdh,sdi,sdj,sdk,sdl --all --initlabel" > /tmp/diskpart
+  echo "part /boot --ondisk=sda --fstype=ext3 --size=1 --grow --asprimary" >> /tmp/diskpart
+  echo "part swap --ondisk=sdb --size=10240 --asprimary" >> /tmp/diskpart
+  echo "part / --ondisk=sdb --fstype=ext3 --size=5120 --asprimary" >> /tmp/diskpart
+  echo "part /dfs01 --ondisk=sdc --fstype=ext4 --size=1 --grow --asprimary" >> /tmp/diskpart
+  echo "part /dfs02 --ondisk=sdd --fstype=ext4 --size=1 --grow --asprimary" >> /tmp/diskpart
+  echo "part /dfs03 --ondisk=sde --fstype=ext4 --size=1 --grow --asprimary" >> /tmp/diskpart
+  echo "part /dfs04 --ondisk=sdf --fstype=ext4 --size=1 --grow --asprimary" >> /tmp/diskpart
+  echo "part /dfs05 --ondisk=sdg --fstype=ext4 --size=1 --grow --asprimary" >> /tmp/diskpart
+  echo "part /dfs06 --ondisk=sdh --fstype=ext4 --size=1 --grow --asprimary" >> /tmp/diskpart
+  echo "part /dfs07 --ondisk=sdi --fstype=ext4 --size=1 --grow --asprimary" >> /tmp/diskpart
+  echo "part /dfs08 --ondisk=sdj --fstype=ext4 --size=1 --grow --asprimary" >> /tmp/diskpart
+  echo "part /dfs09 --ondisk=sdk --fstype=ext4 --size=1 --grow --asprimary" >> /tmp/diskpart
+  echo "part /dfs10 --ondisk=sdl --fstype=ext4 --size=1 --grow --asprimary" >> /tmp/diskpart
+elif [ -b /dev/sdb ] ; then
   echo "clearpart --drives=sda,sdb --all --initlabel" > /tmp/diskpart
   echo "part /boot --ondisk=sda --fstype=ext3 --size=1 --grow --asprimary" >> /tmp/diskpart
   echo "part swap --ondisk=sdb --size=10240 --asprimary" >> /tmp/diskpart
@@ -151,6 +159,7 @@ pstack
 strace
 net-snmp
 screen
+e4fsprogs
 
 %post
 $SNIPPET('log_ks_post')
