@@ -1,6 +1,6 @@
 $TTL 60
 @	IN	SOA	wisdom.com.	hostmaster.wisdom.com.	(
-	2011071900	; Serial
+	2011071901	; Serial
 	3600		; Refresh after 1 hour
 	900		; Retry after 15 minutes
 	604800		; Expire after 1 day
@@ -52,6 +52,9 @@ ntp2		IN	CNAME	adcaj-er2.infra.wisdom.com.
 
 wiki		IN	CNAME	nms.infra.wisdom.com.
 redmine		IN	CNAME	nms.infra.wisdom.com.
+
+;Hadoop
+$INCLUDE "hadoop.infra.wisdom.com.db"
 
 ; ADC PDUs
 adcaa-pdu-a1	IN	A	10.20.101.201
@@ -130,4 +133,15 @@ adcam-lb2	IN	A	10.20.0.212
 adcam-esw2	IN	A	10.20.0.242
 adcam-fw2	IN	A	10.20.5.253
 nxvip		IN	A	10.20.0.254
+
+bdcaj-er1	IN	A	10.140.0.201
+bdcak-er2	IN	A	10.140.0.202
+bdcaj-esw1	IN	A	10.140.0.211
+bdcak-esw2	IN	A	10.140.0.212
+bdcaj-lb1	IN	A	10.140.0.231
+bdcak-lb2	IN	A	10.140.0.232
+bdcaj-fw1	IN	A	10.140.0.241
+bdcak-fw2	IN	A	10.140.0.242
+bdcaj-n5k-1	IN	A	10.140.0.251
+bdcak-n5k-2	IN	A	10.140.0.252
 
