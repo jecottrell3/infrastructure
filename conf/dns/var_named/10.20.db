@@ -1,6 +1,6 @@
 $TTL 1800
 @	IN	SOA	wisdom.com.	hostmaster.wisdom.com.	(
-	2011062900	; Serial
+	2011071900	; Serial
 	3600		; Refresh after 1 hour
 	900		; Retry after 15 minutes
 	604800		; Expire after 1 day
@@ -31,16 +31,16 @@ $GENERATE 10-50 $.109 IN PTR adcaj$.machine.wisdom.com.
 ; Network Gear Reverse Entries
 
 211.0	IN	PTR	adcak-lb1.infra.wisdom.com.
-212.0	IN	PTR	adcaj-lb2.infra.wisdom.com.
+212.0	IN	PTR	adcam-lb2.infra.wisdom.com.
 231.0	IN	PTR	adcak-er1.infra.wisdom.com.
-232.0	IN	PTR	adcaj-er2.infra.wisdom.com.
+232.0	IN	PTR	adcam-er2.infra.wisdom.com.
 241.0	IN	PTR	adcak-esw1.infra.wisdom.com.
-242.0	IN	PTR	adcaj-esw2.infra.wisdom.com.
+242.0	IN	PTR	adcam-esw2.infra.wisdom.com.
 251.0	IN	PTR	adcak-nx1.infra.wisdom.com.
-252.0	IN	PTR	adcaj-nx2.infra.wisdom.com.
+252.0	IN	PTR	adcam-nx2.infra.wisdom.com.
 254.0	IN	PTR	nxvip.infra.wisdom.com.
 254.5	IN	PTR	adcak-fw1.infra.wisdom.com.
-253.5	IN	PTR	adcaj-fw2.infra.wisdom.com.
+253.5	IN	PTR	adcam-fw2.infra.wisdom.com.
 
 ; Rack PDU Reverse Entries
 
@@ -108,3 +108,38 @@ $GENERATE 0-9 17$.109 IN PTR adcaj2$.drac.wisdom.com.
 $GENERATE 0-9 18$.109 IN PTR adcaj3$.drac.wisdom.com.
 $GENERATE 0-9 19$.109 IN PTR adcaj4$.drac.wisdom.com.
 200.109		IN	PTR	adcaj50.drac.wisdom.com.
+
+$GENERATE 1-9 15$.112 IN PTR adcan0$.drac.wisdom.com.
+$GENERATE 0-9 16$.112 IN PTR adcan1$.drac.wisdom.com.
+$GENERATE 0-9 17$.112 IN PTR adcan2$.drac.wisdom.com.
+$GENERATE 0-9 18$.112 IN PTR adcan3$.drac.wisdom.com.
+$GENERATE 0-9 19$.112 IN PTR adcan4$.drac.wisdom.com.
+200.112		IN	PTR	adcan50.drac.wisdom.com.
+
+$GENERATE 1-9 15$.114 IN PTR adcaq0$.drac.wisdom.com.
+$GENERATE 0-9 16$.114 IN PTR adcaq1$.drac.wisdom.com.
+$GENERATE 0-9 17$.114 IN PTR adcaq2$.drac.wisdom.com.
+$GENERATE 0-9 18$.114 IN PTR adcaq3$.drac.wisdom.com.
+$GENERATE 0-9 19$.114 IN PTR adcaq4$.drac.wisdom.com.
+200.114		IN	PTR	adcaq50.drac.wisdom.com.
+
+$GENERATE 1-9 15$.116 IN PTR adcas0$.drac.wisdom.com.
+$GENERATE 0-9 16$.116 IN PTR adcas1$.drac.wisdom.com.
+$GENERATE 0-9 17$.116 IN PTR adcas2$.drac.wisdom.com.
+$GENERATE 0-9 18$.116 IN PTR adcas3$.drac.wisdom.com.
+$GENERATE 0-9 19$.116 IN PTR adcas4$.drac.wisdom.com.
+200.116		IN	PTR	adcas50.drac.wisdom.com.
+
+$GENERATE 1-9 15$.118 IN PTR adcau0$.drac.wisdom.com.
+$GENERATE 0-9 16$.118 IN PTR adcau1$.drac.wisdom.com.
+$GENERATE 0-9 17$.118 IN PTR adcau2$.drac.wisdom.com.
+$GENERATE 0-9 18$.118 IN PTR adcau3$.drac.wisdom.com.
+$GENERATE 0-9 19$.118 IN PTR adcau4$.drac.wisdom.com.
+200.118		IN	PTR	adcau50.drac.wisdom.com.
+
+$GENERATE 1-9 15$.120 IN PTR adcaw0$.drac.wisdom.com.
+$GENERATE 0-9 16$.120 IN PTR adcaw1$.drac.wisdom.com.
+$GENERATE 0-9 17$.120 IN PTR adcaw2$.drac.wisdom.com.
+$GENERATE 0-9 18$.120 IN PTR adcaw3$.drac.wisdom.com.
+$GENERATE 0-9 19$.120 IN PTR adcaw4$.drac.wisdom.com.
+200.120		IN	PTR	adcaw50.drac.wisdom.com.
