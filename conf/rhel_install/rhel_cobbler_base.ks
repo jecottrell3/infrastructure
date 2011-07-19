@@ -120,6 +120,7 @@ if [ -b /dev/sdl ] ; then
   echo "part /boot --ondisk=sda --fstype=ext3 --size=1 --grow --asprimary" >> /tmp/diskpart
   echo "part swap --ondisk=sdb --size=10240 --asprimary" >> /tmp/diskpart
   echo "part / --ondisk=sdb --fstype=ext3 --size=5120 --asprimary" >> /tmp/diskpart
+  echo "part /MSTR --ondisk=sdb --fstype=ext3 --size=1 --grow --asprimary" >> /tmp/diskpart
   echo "part /dfs01 --ondisk=sdc --fstype=ext4 --size=1 --grow --asprimary" >> /tmp/diskpart
   echo "part /dfs02 --ondisk=sdd --fstype=ext4 --size=1 --grow --asprimary" >> /tmp/diskpart
   echo "part /dfs03 --ondisk=sde --fstype=ext4 --size=1 --grow --asprimary" >> /tmp/diskpart
