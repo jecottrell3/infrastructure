@@ -1,6 +1,6 @@
 $TTL 3600
 @	IN	SOA	wisdom.com.	hostmaster.wisdom.com.	(
-	2011071700	; Serial
+	2011071900	; Serial
 	3600		; Refresh after 1 hour
 	900		; Retry after 15 minutes
 	604800		; Expire after 1 day
@@ -36,6 +36,12 @@ $GENERATE 10-50 adcaq$ IN A 10.20.114.$
 
 $GENERATE 1-9 adcas0$ IN A 10.20.116.$
 $GENERATE 10-50 adcas$ IN A 10.20.116.$
+
+$GENERATE 1-9 adcau0$ IN A 10.20.118.$
+$GENERATE 10-50 adcau$ IN A 10.20.118.$
+
+$GENERATE 1-9 adcaw0$ IN A 10.20.120.$
+$GENERATE 10-50 adcaw$ IN A 10.20.120.$
 
 ; Datacenter BDC
 
