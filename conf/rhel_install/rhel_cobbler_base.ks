@@ -161,6 +161,7 @@ strace
 net-snmp
 screen
 e4fsprogs
+OpenIMPI-tools
 
 %post
 $SNIPPET('log_ks_post')
