@@ -79,6 +79,13 @@ if [ "$BOOTVOLNAME" != "MSTRBoot" ] ; then
     /tmp/MegaCli64 -LDSetProp -Name MSTRBoot -l0 -a0
     /tmp/MegaCli64 -LDSetProp -Name MSTRData -l1 -a0
     reboot
+  elif [ $DRIVECOUNT -eq 10 ] ; then
+    /tmp/MegaCli64 -CfgClr -a0
+    /tmp/MegaCli64 -CfgSpanAdd -R10 -Array0[${ENCID}:0,${ENCID}:1] -Array1[${ENCID}:2,${ENCID}:3] -Array2[${ENCID}:4,${ENCID}:5] -Array3[${ENCID}:6,${ENCID}:7] -Array4[${ENCID}:8,${ENCID}:9] -sz100 -a0
+    /tmp/MegaCli64 -CfgSpanAdd -R10 -Array0[${ENCID}:0,${ENCID}:1] -Array1[${ENCID}:2,${ENCID}:3] -Array2[${ENCID}:4,${ENCID}:5] -Array3[${ENCID}:6,${ENCID}:7] -Array4[${ENCID}:8,${ENCID}:9] -afterLd0 -a0
+    /tmp/MegaCli64 -LDSetProp -Name MSTRBoot -l0 -a0
+    /tmp/MegaCli64 -LDSetProp -Name MSTRData -l1 -a0
+    reboot
   elif [ $DRIVECOUNT -eq 6 ] ; then
     /tmp/MegaCli64 -CfgClr -a0
     /tmp/MegaCli64 -CfgSpanAdd -R10 -Array0[${ENCID}:0,${ENCID}:1] -Array1[${ENCID}:2,${ENCID}:3] -Array2[${ENCID}:4,${ENCID}:5] -sz100 -a0
