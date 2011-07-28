@@ -1,6 +1,3 @@
-namenode-adc	IN	CNAME	namenode1-adc.infra.wisdom.com.
-namenode1-adc	IN	CNAME	adcaa16.machine.wisdom.com.
-namenode2-adc	IN	CNAME	adcac16.machine.wisdom.com.
 datanode1-adc	IN	CNAME	adcac13.machine.wisdom.com.
 datanode2-adc	IN	CNAME	adcac14.machine.wisdom.com.
 datanode3-adc	IN	CNAME	adcac15.machine.wisdom.com.

@@ -1,6 +1,6 @@
 $TTL 60
 @	IN	SOA	wisdom.com.	hostmaster.wisdom.com.	(
-	2011072801	; Serial
+	2011072802	; Serial
 	3600		; Refresh after 1 hour
 	900		; Retry after 15 minutes
 	604800		; Expire after 1 day
@@ -56,7 +56,7 @@ ntp2		IN	CNAME	adcaj-er2.infra.wisdom.com.
 wiki		IN	CNAME	nms.infra.wisdom.com.
 redmine		IN	CNAME	nms.infra.wisdom.com.
 
-;Hadoop
+;Hadoop -- namenodes need to be specified
 $INCLUDE "hadoop.infra.wisdom.com.db"
 
 ; ADC PDUs
