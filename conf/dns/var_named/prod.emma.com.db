@@ -1,6 +1,6 @@
 $TTL 60
 @	IN	SOA	emma.com.	hostmaster.emma.com.	(
-	2011062900	; Serial
+	2011072800	; Serial
 	3600		; Refresh after 1 hour
 	900		; Retry after 15 minutes
 	604800		; Expire after 1 day
@@ -13,3 +13,19 @@ $TTL 60
 
 	IN	MX	10	mailgate3.microstrategy.com.
 	IN	MX	10	mailgate4.microstrategy.com.
+
+
+www1-adc		IN	CNAME	adcaa17.machine.wisdom.com.
+www2-adc		IN	CNAME	adcac17.machine.wisdom.com.
+www3-adc		IN	CNAME	adcae16.machine.wisdom.com.
+
+
+s1memcache-adc		IN	CNAME	adcaa17.machine.wisdom.com.
+s2memcache-adc		IN	CNAME	adcac17.machine.wisdom.com.
+s3memcache-adc		IN	CNAME	adcae16.machine.wisdom.com.
+
+
+s1db-master	60	IN	CNAME	adcac12.machine.wisdom.com.
+s1db-replica1-adc	IN	CNAME	adcag03.machine.wisdom.com.
+s2db-master	60	IN	CNAME	adcag12.machine.wisdom.com.
+s2db-replica1-adc	IN	CNAME	adcae03.machine.wisdom.com.
