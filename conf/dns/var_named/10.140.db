@@ -1,6 +1,6 @@
 $TTL 1800
 @	IN	SOA	wisdom.com.	hostmaster.wisdom.com.	(
-	2011071900	; Serial
+	2011072800	; Serial
 	3600		; Refresh after 1 hour
 	900		; Retry after 15 minutes
 	604800		; Expire after 1 day
@@ -16,11 +16,20 @@ $TTL 1800
 $GENERATE 1-9 $.101 IN PTR bdcaa0$.machine.wisdom.com.
 $GENERATE 10-50 $.101 IN PTR bdcaa$.machine.wisdom.com.
 
+$GENERATE 1-9 $.102 IN PTR bdcab0$.machine.wisdom.com.
+$GENERATE 10-50 $.102 IN PTR bdcab$.machine.wisdom.com.
+
 $GENERATE 1-9 $.103 IN PTR bdcac0$.machine.wisdom.com.
 $GENERATE 10-50 $.103 IN PTR bdcac$.machine.wisdom.com.
 
+$GENERATE 1-9 $.104 IN PTR bdcad0$.machine.wisdom.com.
+$GENERATE 10-50 $.104 IN PTR bdcad$.machine.wisdom.com.
+
 $GENERATE 1-9 $.105 IN PTR bdcae0$.machine.wisdom.com.
 $GENERATE 10-50 $.105 IN PTR bdcae$.machine.wisdom.com.
+
+$GENERATE 1-9 $.106 IN PTR bdcaf0$.machine.wisdom.com.
+$GENERATE 10-50 $.106 IN PTR bdcaf$.machine.wisdom.com.
 
 ; Network Gear Reverse Entries
 
