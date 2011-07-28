@@ -1,6 +1,6 @@
 $TTL 60
 @	IN	SOA	wisdom.com.	hostmaster.wisdom.com.	(
-	2011071901	; Serial
+	2011072800	; Serial
 	3600		; Refresh after 1 hour
 	900		; Retry after 15 minutes
 	604800		; Expire after 1 day
@@ -17,9 +17,12 @@ ns2-adc		IN	A	10.20.101.3
 ns1-bdc		IN	A	10.140.101.5
 ns2-bdc		IN	A	10.140.103.5
 
-; Network Logging Servers
+; Network Logging Servers (also gonna act as infra db hosts)
 nls1-adc	IN	CNAME	adcag03.machine.wisdom.com.
 nls2-adc	IN	CNAME	adcaa05.machine.wisdom.com.
+
+db-master	IN	CNAME	adcag03.machine.wisdom.com.
+db-replica1-adc	IN	CNAME	adcaa05.machine.wisdom.com.
 
 ; Network Monitoring Servers
 nms		IN	CNAME	nms-adc.infra.wisdom.com.
