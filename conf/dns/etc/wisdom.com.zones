@@ -23,6 +23,11 @@ zone "prod.wisdom.com" {
 	file "prod.wisdom.com.db";
 };
 
+zone "dev.wisdom.com" {
+	type master;
+	file "prod.wisdom.com.db";
+};
+
 zone "20.10.in-addr.arpa"{
 	type master;
 	file "10.20.db";
