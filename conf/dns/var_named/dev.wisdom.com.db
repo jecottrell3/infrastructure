@@ -24,4 +24,4 @@ s1mdb-master	60	IN	CNAME	adcaa05.machine.wisdom.com.
 ; Informatica
 gw1-infa	IN	A	10.26.9.16
 db1-infa	IN	CNAME	adcaa05.machine.wisdom.com.
-mdb1-infa	IN	A	10.26.9.17
+mdb1-infa	IN	CNAME	adcag09.machine.wisdom.com.
