@@ -1,6 +1,6 @@
 $TTL 60
 @	IN	SOA	wisdom.com.	hostmaster.wisdom.com.	(
-	2011072900	; Serial
+	2011080100	; Serial
 	3600		; Refresh after 1 hour
 	900		; Retry after 15 minutes
 	604800		; Expire after 1 day
@@ -17,7 +17,11 @@ s1www1-adc		IN	CNAME	adcae17.machine.wisdom.com.
 s1mstr1-adc		IN	CNAME	adcae17.machine.wisdom.com.
 
 
+; Databases
 s1db-master	60	IN	CNAME	adcaa05.machine.wisdom.com.
-
-
 s1mdb-master	60	IN	CNAME	adcaa05.machine.wisdom.com.
+
+; Informatica
+gw1-infa	IN	A	10.26.9.16
+db1-infa	IN	CNAME	adcaa05.machine.wisdom.com.
+mdb1-infa	IN	A	10.26.9.17
