@@ -124,32 +124,32 @@ echo "network --bootproto=static --ip='$MSTRIP' --netmask=255.255.255.0 --gatewa
 # Determine Drive Configuration
 if [ -b /dev/sdl ] ; then
   echo "clearpart --drives=sda,sdb,sdc,sdd,sde,sdf,sdg,sdh,sdi,sdj,sdk,sdl --all --initlabel" > /tmp/diskpart
-  echo "part /boot --ondisk=sda --fstype=ext3 --size=1 --grow --asprimary" >> /tmp/diskpart
-  echo "part swap --ondisk=sdb --size=10240 --asprimary" >> /tmp/diskpart
-  echo "part / --ondisk=sdb --fstype=ext3 --size=5120 --asprimary" >> /tmp/diskpart
-  echo "part /MSTR --ondisk=sdb --fstype=ext3 --size=1 --grow --asprimary" >> /tmp/diskpart
-  echo "part /dfs01 --ondisk=sdc --fstype=ext4 --size=1 --grow --asprimary" >> /tmp/diskpart
-  echo "part /dfs02 --ondisk=sdd --fstype=ext4 --size=1 --grow --asprimary" >> /tmp/diskpart
-  echo "part /dfs03 --ondisk=sde --fstype=ext4 --size=1 --grow --asprimary" >> /tmp/diskpart
-  echo "part /dfs04 --ondisk=sdf --fstype=ext4 --size=1 --grow --asprimary" >> /tmp/diskpart
-  echo "part /dfs05 --ondisk=sdg --fstype=ext4 --size=1 --grow --asprimary" >> /tmp/diskpart
-  echo "part /dfs06 --ondisk=sdh --fstype=ext4 --size=1 --grow --asprimary" >> /tmp/diskpart
-  echo "part /dfs07 --ondisk=sdi --fstype=ext4 --size=1 --grow --asprimary" >> /tmp/diskpart
-  echo "part /dfs08 --ondisk=sdj --fstype=ext4 --size=1 --grow --asprimary" >> /tmp/diskpart
-  echo "part /dfs09 --ondisk=sdk --fstype=ext4 --size=1 --grow --asprimary" >> /tmp/diskpart
-  echo "part /dfs10 --ondisk=sdl --fstype=ext4 --size=1 --grow --asprimary" >> /tmp/diskpart
+  echo "part /boot --ondisk=sda --fstype=ext3 --size=1 --grow --asprimary --fsoptions=noatime" >> /tmp/diskpart
+  echo "part swap --ondisk=sdb --size=10240 --asprimary --fsoptions=noatime" >> /tmp/diskpart
+  echo "part / --ondisk=sdb --fstype=ext3 --size=5120 --asprimary --fsoptions=noatime" >> /tmp/diskpart
+  echo "part /MSTR --ondisk=sdb --fstype=ext3 --size=1 --grow --asprimary --fsoptions=noatime" >> /tmp/diskpart
+  echo "part /dfs01 --ondisk=sdc --fstype=ext4 --size=1 --grow --asprimary --fsoptions=noatime" >> /tmp/diskpart
+  echo "part /dfs02 --ondisk=sdd --fstype=ext4 --size=1 --grow --asprimary --fsoptions=noatime" >> /tmp/diskpart
+  echo "part /dfs03 --ondisk=sde --fstype=ext4 --size=1 --grow --asprimary --fsoptions=noatime" >> /tmp/diskpart
+  echo "part /dfs04 --ondisk=sdf --fstype=ext4 --size=1 --grow --asprimary --fsoptions=noatime" >> /tmp/diskpart
+  echo "part /dfs05 --ondisk=sdg --fstype=ext4 --size=1 --grow --asprimary --fsoptions=noatime" >> /tmp/diskpart
+  echo "part /dfs06 --ondisk=sdh --fstype=ext4 --size=1 --grow --asprimary --fsoptions=noatime" >> /tmp/diskpart
+  echo "part /dfs07 --ondisk=sdi --fstype=ext4 --size=1 --grow --asprimary --fsoptions=noatime" >> /tmp/diskpart
+  echo "part /dfs08 --ondisk=sdj --fstype=ext4 --size=1 --grow --asprimary --fsoptions=noatime" >> /tmp/diskpart
+  echo "part /dfs09 --ondisk=sdk --fstype=ext4 --size=1 --grow --asprimary --fsoptions=noatime" >> /tmp/diskpart
+  echo "part /dfs10 --ondisk=sdl --fstype=ext4 --size=1 --grow --asprimary --fsoptions=noatime" >> /tmp/diskpart
 elif [ -b /dev/sdb ] ; then
   echo "clearpart --drives=sda,sdb --all --initlabel" > /tmp/diskpart
-  echo "part /boot --ondisk=sda --fstype=ext3 --size=1 --grow --asprimary" >> /tmp/diskpart
-  echo "part swap --ondisk=sdb --size=10240 --asprimary" >> /tmp/diskpart
-  echo "part / --ondisk=sdb --fstype=ext3 --size=5120 --asprimary" >> /tmp/diskpart
-  echo "part /MSTR --ondisk=sdb --fstype=ext3 --size=1 --grow --asprimary" >> /tmp/diskpart
+  echo "part /boot --ondisk=sda --fstype=ext3 --size=1 --grow --asprimary --fsoptions=noatime" >> /tmp/diskpart
+  echo "part swap --ondisk=sdb --size=10240 --asprimary --fsoptions=noatime" >> /tmp/diskpart
+  echo "part / --ondisk=sdb --fstype=ext3 --size=5120 --asprimary --fsoptions=noatime" >> /tmp/diskpart
+  echo "part /MSTR --ondisk=sdb --fstype=ext3 --size=1 --grow --asprimary --fsoptions=noatime" >> /tmp/diskpart
 else
   echo "clearpart --drives=sda --all --initlabel" > /tmp/diskpart
-  echo "part /boot --ondisk=sda --fstype=ext3 --size=100 --asprimary" >> /tmp/diskpart
-  echo "part swap --ondisk=sda --size=10240 --asprimary" >> /tmp/diskpart
-  echo "part / --ondisk=sda --fstype=ext3 --size=5120 --asprimary" >> /tmp/diskpart
-  echo "part /MSTR --ondisk=sda --fstype=ext3 --size=1 --grow --asprimary" >> /tmp/diskpart
+  echo "part /boot --ondisk=sda --fstype=ext3 --size=100 --asprimary --fsoptions=noatime" >> /tmp/diskpart
+  echo "part swap --ondisk=sda --size=10240 --asprimary --fsoptions=noatime" >> /tmp/diskpart
+  echo "part / --ondisk=sda --fstype=ext3 --size=5120 --asprimary --fsoptions=noatime" >> /tmp/diskpart
+  echo "part /MSTR --ondisk=sda --fstype=ext3 --size=1 --grow --asprimary --fsoptions=noatime" >> /tmp/diskpart
 fi
 
 # Enable installation monitoring
@@ -168,7 +168,7 @@ strace
 net-snmp
 screen
 e4fsprogs
-OpenIMPI-tools
+puppet
 
 %post
 $SNIPPET('log_ks_post')
@@ -224,6 +224,7 @@ sed -i -e 's/^HISTORY=.*/HISTORY=30/' /etc/sysconfig/sysstat
 mkdir /root/.ssh
 chmod 700 /root/.ssh
 wget -O /root/.ssh/authorized_keys http://$http_server/install/authorized_keys
+wget -O /etc/puppet/puppet.conf http://$http_server/install/puppet.conf
 wget -O /root/OM-SrvAdmin-Dell-Web-LX-6.5.0-2247.RHEL5.x86_64_A01.4.tar.gz http://$http_server/install/OpenManage/OM-SrvAdmin-Dell-Web-LX-6.5.0-2247.RHEL5.x86_64_A01.4.tar.gz
 mkdir /tmp/OpenManage
 tar zxf /root/OM-SrvAdmin-Dell-Web-LX-6.5.0-2247.RHEL5.x86_64_A01.4.tar.gz -C /tmp/OpenManage
@@ -244,4 +245,5 @@ chkconfig xfs off
 chkconfig ntpd on
 chkconfig ipmi on
 chkconfig snmpd on
+chkconfig puppet on
 
