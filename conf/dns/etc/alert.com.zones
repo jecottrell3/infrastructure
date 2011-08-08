@@ -8,3 +8,8 @@ zone "prod.alert.com" {
 	file "prod.alert.com.db";
 };
 
+zone "dev.alert.com" {
+	type master;
+	file "dev.alert.com.db";
+};
+

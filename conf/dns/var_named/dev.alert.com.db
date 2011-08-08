@@ -1,0 +1,15 @@
+$TTL 60
+@	IN	SOA	alert.com.	hostmaster.alert.com.	(
+	2011080800	; Serial
+	3600		; Refresh after 1 hour
+	900		; Retry after 15 minutes
+	604800		; Expire after 1 day
+	15 )		; Minimum TTL of 15 seconds
+
+	IN	NS	ns1-adc.infra.wisdom.com.
+	IN	NS	ns2-adc.infra.wisdom.com.
+	IN	NS	ns1-bdc.infra.wisdom.com.
+	IN	NS	ns2-bdc.infra.wisdom.com.
+
+stats1-adc	IN      A       10.26.9.18
+
