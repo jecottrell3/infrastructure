@@ -37,3 +37,8 @@ zone "140.10.in-addr.arpa"{
 	type master;
 	file "10.140.db";
 };
+
+zone "9.26.10.in-addr.arpa"{
+	type master;
+	file "10.26.9.db";
+};

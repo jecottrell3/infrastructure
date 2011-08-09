@@ -1,0 +1,18 @@
+$TTL 1800
+@	IN	SOA	wisdom.com.	hostmaster.wisdom.com.	(
+	2011080900	; Serial
+	3600		; Refresh after 1 hour
+	900		; Retry after 15 minutes
+	604800		; Expire after 1 day
+	14400 )		; Minimum TTL of 4 hours
+
+	IN	NS	ns1-adc.infra.wisdom.com.
+	IN	NS	ns2-adc.infra.wisdom.com.
+	IN	NS	ns1-bdc.infra.wisdom.com.
+	IN	NS	ns2-bdc.infra.wisdom.com.
+
+; Dev VM Reverse zone
+16	IN	PTR	gw1-infa.dev.wisdom.com.
+17	IN	PTR	mdb1-infa.dev.wisdom.com.
+18	IN	PTR	stats1-adc.dev.alert.com.
+19	IN	PTR	install1-adc.dev.wisdom.com.
