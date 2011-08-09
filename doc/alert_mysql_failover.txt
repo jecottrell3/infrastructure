@@ -1,0 +1,118 @@
+Failover procedure (not automated at this time):
+================================================
+
+1)
+Set up a replica to failover to ahead of time.
+
+For this procedure, assume that current master is abc1 and failover
+replica is def2, and we're failing over only port 3308.
+
+2)
+Use mysql_replica_status.rb to make sure that the replica is reasonably
+caught up with the master, and is replicating properly.
+
+3)
+ssh into abc1
+
+4)
+/MSTR/mysql3308/mysql/bin/mysql -uroot -p -h127.0.0.1 -P3308
+type in the root MySQL password
+
+DELETE FROM mysql.user WHERE user NOT IN ('root', 'mon', 'repl');
+FLUSH PRIVILEGES;
+
+At this point no new connections from users can be made to the master.
+It's DOWN as far as they are concerned.  Existing connections are still
+working.
+
+5)
+Exit the mysql shell, and restart mysql to kick off existing connections:
+/MSTR/mysql3308/mysql/bin/mysql.stop
+/MSTR/mysql3308/mysql/bin/mysql.start
+
+6)
+This also kicked off all the slaves, so we need to make sure they can
+reconnect.
+On your local machine, use mysql_replica_status.rb on the master and all
+its slaves to make sure the slaves reconnect.  It'll show
+  IO/SQL:Connecting/Yes
+while trying to reconnect for a little bit, then change to IO/SQL:Yes/Yes
+when it connects.  Rerun mysql_replica_status.rb until the slaves
+reconnect and are caught up.  Wait until all the slaves catch up.  At this
+point the position in the log file should not change, since nobody can
+update the master.  Run mysql_replica_status several times to make sure
+the position is not changing.
+
+7)
+ssh into abc1
+/MSTR/mysql3308/mysql/bin/mysql.stop
+The old master is dead.
+
+8)
+ssh into def2
+/MSTR/mysql3308/mysql/bin/mysql.stop
+cd /MSTR/mysql3308/mysql/data/
+rm -f master.* slave.* relay-log.*
+def2 is no longer a slave.
+
+9)
+On your local machine, make def2 a master:
+./make_mysql_master.rb def2 3308
+Run mysql_replica_status.rb to make sure def2 shows up as a master (it'll
+have its own master log file and position)
+Take note of the new master log file and position on def2.  It's probably
+something like master.000001:107 .  It should not be changing.  This is
+the log file and position to which we'll point the other slaves.
+
+10)
+ssh into def2
+/MSTR/mysql3308/mysql/bin/mysql -uroot -p -h127.0.0.1 -P3308
+Type in the root password for MySQL
+
+GRANT REPLICATION SLAVE on *.* TO 'repl'@'%' IDENTIFIED BY 'CURRENTREPLPASSWORD';
+
+def2 can now serve as a master for all the other slaves.  Long live the
+new master.
+
+11)
+You can now update DNS to point the master CNAME to def2.  Its TTL
+should've been 60 seconds, so it shouldn't take long.
+NOTE!!! Since there's only one DNS name for both 3308 and 3307, you
+shouldn't change it until after both servers have been failed over.
+Perhaps we should use different names for these in the future.
+
+12)
+Now you need to ssh into every other slave machine and tell it about its
+new master.  On every other slave machine:
+/MSTR/mysql3308/mysql/bin/mysql -uroot -p -h127.0.0.1 -P3308
+STOP SLAVE;
+CHANGE MASTER TO MASTER_HOST = 'def2', MASTER_PORT = 3308, MASTER_USER =
+'repl', MASTER_PASSWORD = 'CURRENTREPLPASSWORD', MASTER_LOG_FILE = 'master.000001',
+MASTER_LOG_POS = 107;
+START SLAVE;
+Replace the log file and position with the one that def2 has (see step 9)
+
+13)
+Run mysql_replica_status.rb on def2 and all the slaves - they should all
+match.  The replication tree is now reconstructed.
+
+14)
+On def2, recreate the accounts so users can connect and use it again.
+ssh into def2
+/MSTR/mysql3308/mysql/bin/mysql -uroot -p -h127.0.0.1 -P3308
+
+GRANT ALL ON alert.* TO 'alert'@'%' IDENTIFIED BY 'CURRENTALERTPASSWORD';
+
+Users should now be able to connect and use the master as normal.
+
+15)
+Run mysql_replica_status.rb to see the master log position incrementing
+and slaves should follow.
+
+NOTE)
+Instead of repeatedly running mysql_replica_status as requested above, you
+can open another window on your local machine and just leave this loop
+running:
+while true; do echo; echo; ./mysql_replica_status.rb 3308 abc1 def2
+other_slave3 other_slave4 ...; sleep 1; done
+
