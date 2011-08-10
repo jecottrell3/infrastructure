@@ -102,6 +102,8 @@ if [ -z "$MSTRHOSTNAME" ]; then
   echo >/dev/tty1
   echo >/dev/tty1
   echo >/dev/tty1
+  uname -a >>/dev/tty1
+  hostname >>/dev/tty1
   echo "===============================" >/dev/tty1
   echo >/dev/tty1
   echo -n "Enter hostname: " >/dev/tty1
