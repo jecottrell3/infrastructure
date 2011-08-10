@@ -1,6 +1,6 @@
 $TTL 60
 @	IN	SOA	wisdom.com.	hostmaster.wisdom.com.	(
-	2011081001	; Serial
+	2011081002	; Serial
 	3600		; Refresh after 1 hour
 	900		; Retry after 15 minutes
 	604800		; Expire after 1 day
@@ -31,8 +31,8 @@ mdb1-infa	IN	CNAME	adcag09.machine.wisdom.com.
 
 ; New VMs
 
-gw1-infa	IN	CNAME	avmaj16.machine.wisdom.com.
-mdb1-infa	IN	CNAME	avmaj17.machine.wisdom.com.
+;; gw1-infa	IN	CNAME	avmaj16.machine.wisdom.com.
+;; mdb1-infa	IN	CNAME	avmaj17.machine.wisdom.com.
 stats1-adc	IN	CNAME	avmaj18.machine.wisdom.com.
 
 install		IN	CNAME	avmaj19.machine.wisdom.com.
