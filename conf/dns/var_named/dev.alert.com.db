@@ -1,6 +1,6 @@
 $TTL 60
 @	IN	SOA	alert.com.	hostmaster.alert.com.	(
-	2011080800	; Serial
+	2011081000	; Serial
 	3600		; Refresh after 1 hour
 	900		; Retry after 15 minutes
 	604800		; Expire after 1 day
@@ -12,4 +12,7 @@ $TTL 60
 	IN	NS	ns2-bdc.infra.wisdom.com.
 
 stats1-adc	IN      A       10.26.9.18
-
+s1db-master-uat	IN	CNAME	avmaj22.machine.wisdom.com.
+s1db-replica1-uat	IN	CNAME	avmaj23.machine.wisdom.com.
+www1-uat	IN	CNAME	avmaj20.machine.wisdom.com.
+www2-uat	IN	CNAME	avmaj21.machine.wisdom.com.
