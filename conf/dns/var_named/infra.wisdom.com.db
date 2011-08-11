@@ -1,6 +1,6 @@
 $TTL 60
 @	IN	SOA	wisdom.com.	hostmaster.wisdom.com.	(
-	2011072802	; Serial
+	2011081101	; Serial
 	3600		; Refresh after 1 hour
 	900		; Retry after 15 minutes
 	604800		; Expire after 1 day
@@ -45,6 +45,8 @@ install2-adc	IN	CNAME	adcae05.machine.wisdom.com.
 install-bdc	IN	CNAME	install2-bdc
 install1-bdc	IN	CNAME	bdcaa09.machine.wisdom.com.
 install2-bdc	IN	CNAME	bdcac09.machine.wisdom.com.
+install-avm	IN	CNAME	install1-avm
+install1-avm	IN	CNAME	avmaj19.machine.wisdom.com.
 
 git	IN	CNAME	adcae05.machine.wisdom.com.
 git-backup	IN	CNAME	adcac04.machine.wisdom.com.
