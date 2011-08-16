@@ -10,7 +10,7 @@ Z=ns2-bdc.infra.wisdom.com
 
 D=/var/named/chroot/var/named
 
-all:	sync kick
+all:	push kick
 
 show:
 	rsync -van -c --exclude data . root@$W:$D
@@ -19,7 +19,10 @@ show:
 #	rsync -van -c --exclude data . root@$Y:$D
 	rsync -van -c --exclude data . root@$Z:$D
 
-sync:
+pull:
+	rsync -vax -c --exclude data -u root@$W:$D .
+
+push:
 	rsync -vax -c --exclude data . root@$W:$D
 	rsync -vax -c --exclude data . root@$X:$D
 #	ns1-bdc temporarily broken
