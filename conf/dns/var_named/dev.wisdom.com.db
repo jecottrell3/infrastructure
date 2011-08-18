@@ -18,14 +18,14 @@ bogus			IN	CNAME	avmaj44.machine.wisdom.com.
 
 s1www1-adc		IN	CNAME	adcae17.machine.wisdom.com.
 
-
 s1mstr1-adc		IN	CNAME	avmaj24.machine.wisdom.com.
 mstr1-infa		IN	CNAME	avmaj25.machine.wisdom.com.
-
+mstr1-ea		IN	CNAME	avmaj27.machine.wisdom.com.
 
 ; Databases
 s1db-master	60	IN	CNAME	adcaa05.machine.wisdom.com.
 s1mdb-master	60	IN	CNAME	adcaa05.machine.wisdom.com.
+db1-ea			IN	CNAME	avmaj26.machine.wisdom.com.
 
 ; Informatica
 
