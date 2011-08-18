@@ -15,8 +15,7 @@ all:	push kick
 show:
 	rsync -van -c --exclude data . root@$W:$D
 	rsync -van -c --exclude data . root@$X:$D
-#	ns1-bdc temporarily broken
-#	rsync -van -c --exclude data . root@$Y:$D
+	rsync -van -c --exclude data . root@$Y:$D
 	rsync -van -c --exclude data . root@$Z:$D
 
 pull:
@@ -25,13 +24,11 @@ pull:
 push:
 	rsync -vax -c --exclude data . root@$W:$D
 	rsync -vax -c --exclude data . root@$X:$D
-#	ns1-bdc temporarily broken
-#	rsync -vax -c --exclude data . root@$Y:$D
+	rsync -vax -c --exclude data . root@$Y:$D
 	rsync -vax -c --exclude data . root@$Z:$D
 
 kick:
 	ssh -A root@$W rndc reload
 	ssh -A root@$X rndc reload
-#	ns1-bdc temporarily broken
-#	ssh -A root@$Y rndc reload
+	ssh -A root@$Y rndc reload
 	ssh -A root@$Z rndc reload
