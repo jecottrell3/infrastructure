@@ -1,15 +1,15 @@
 $TTL 3600
 @	IN	SOA	wisdom.com.	hostmaster.wisdom.com.	(
-	2011072801	; Serial
+	2011081900	; Serial
 	3600		; Refresh after 1 hour
 	900		; Retry after 15 minutes
 	604800		; Expire after 1 day
 	14400 )		; Minimum TTL of 4 hours
 
-	IN	NS	ns1-adc.infra.wisdom.com.
-	IN	NS	ns2-adc.infra.wisdom.com.
-	IN	NS	ns1-bdc.infra.wisdom.com.
-	IN	NS	ns2-bdc.infra.wisdom.com.
+@	IN	NS	ns1-adc.infra.wisdom.com.
+@	IN	NS	ns2-adc.infra.wisdom.com.
+@	IN	NS	ns1-bdc.infra.wisdom.com.
+@	IN	NS	ns2-bdc.infra.wisdom.com.
 
 ; Datacenter ADC
 
@@ -67,4 +67,22 @@ $GENERATE 10-50 bdcaf$ IN A 10.140.106.$
 
 $GENERATE 1-9 avmaj0$ IN A 10.26.9.$
 $GENERATE 1-50 avmaj$ IN A 10.26.9.$
+
+$GENERATE 1-9 avmaa0$ IN A 10.26.240.$
+$GENERATE 1-50 avmaa$ IN A 10.26.240.$
+
+$GENERATE 1-9 avmab0$ IN A 10.26.241.$
+$GENERATE 1-50 avmab$ IN A 10.26.241.$
+
+$GENERATE 1-9 avmac0$ IN A 10.26.242.$
+$GENERATE 1-50 avmac$ IN A 10.26.242.$
+
+$GENERATE 1-9 avmad0$ IN A 10.26.243.$
+$GENERATE 1-50 avmad$ IN A 10.26.243.$
+
+$GENERATE 1-9 avmae0$ IN A 10.26.244.$
+$GENERATE 1-50 avmae$ IN A 10.26.244.$
+
+$GENERATE 1-9 avmaf0$ IN A 10.26.245.$
+$GENERATE 1-50 avmaf$ IN A 10.26.245.$
 

@@ -42,3 +42,33 @@ zone "9.26.10.in-addr.arpa"{
 	type master;
 	file "10.26.9.db";
 };
+
+zone "240.26.10.in-addr.arpa"{
+	type master;
+	file "10.26.240.db";
+};
+
+zone "241.26.10.in-addr.arpa"{
+	type master;
+	file "10.26.241.db";
+};
+
+zone "242.26.10.in-addr.arpa"{
+	type master;
+	file "10.26.242.db";
+};
+
+zone "243.26.10.in-addr.arpa"{
+	type master;
+	file "10.26.243.db";
+};
+
+zone "244.26.10.in-addr.arpa"{
+	type master;
+	file "10.26.244.db";
+};
+
+zone "245.26.10.in-addr.arpa"{
+	type master;
+	file "10.26.245.db";
+};
